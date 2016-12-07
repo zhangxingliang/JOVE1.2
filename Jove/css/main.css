@@ -1,0 +1,102 @@
+.fl{float: left;}
+.fr{float: right;}
+.clearfix{overflow:hidden;_zoom:1;}
+body{font-family: Microsoft YaHei;color:#cfd2d4;}
+html{background-color: #1b1b1b;height:100%}
+button, html input[type="button"], input[type="reset"], input[type="submit"] {-webkit-appearance: button;cursor: pointer;outline: none;}
+
+.left_container
+{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 272px;
+  width: 200px;
+  background: #222;
+}
+.left_container .logo_box
+{
+  height: 35px;
+  line-height: 35px;
+  background-color: #1b1b1b;
+  color: rgb(115,115,115);
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid #101010;
+}
+.left_container .folder_box
+{
+  border-right: 1px solid #101010;
+  height: calc(100% - 85px);
+}
+.right_container
+{
+  position: absolute;
+  left: 200px;
+  background-color: #1b1b1b;
+  top: 0;
+  bottom: 272px;
+  right: 0;
+}
+.right_container .toolbar_box
+{
+  height: 30px;
+  line-height: 30px;
+  border-bottom: #101010;
+}
+.right_container .top_box
+{
+  height:35px;
+  line-height: 35px;
+}
+.right_container .top_box .advance_search
+{
+	margin-left: 20px;
+	height: 25px;
+	color: #cfd2d4;
+	background-color: #292929;
+	width: 125px;
+  position: relative;
+}
+.right_container .top_box .advance_search:hover
+{
+	border: 1px solid #f5a623;
+}
+
+.right_container .top_box .advance_search:active
+{
+	background-color: #f5a623;
+}
+#editor
+{
+	height: 272px;
+  position: absolute;
+	bottom:0;
+}
+.totalDiskSpace
+{
+  border-top: 1px solid #101010;
+  position: absolute;
+  bottom: 0;
+}
+.materials_container
+{
+  position: absolute;
+  bottom: 0;
+  top: 35px;
+  left: 0;
+}
+.scrollbar_container
+{
+  overflow: auto;
+  height: calc(100% - 35px);
+}
+.theme-light .nice-bar-slider-y
+{
+  border-radius: 2px;
+}
+.divdiv
+{
+  width:20px;
+  height:20px;
+}

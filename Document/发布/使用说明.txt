@@ -1,0 +1,14 @@
+安装nodejs
+npm install gulp -g
+
+cmd进入项目发布目录上一级
+npm install gulp-clean-css gulp-uglify  gulp-asset-rev --save-dev
+npm install gulp-autoprefixer gulp-jshint gulp-strip-debug --save-dev
+拷贝index.js到发布目录下的node_modules\gulp-asset-rev
+拷贝出gulpfile.js 到发布目录（如需压缩需拷贝gulpfile - 含压缩.js到发布目录并重命名为gulpfile.js）
+
+每次发布 只需
+按住Shilft和右键  选择在当前目录打开命令行 执行gulp命令（或打开压缩.bat）
+
+
+

@@ -1,0 +1,7 @@
+E:\工作\Jove\GetInstalledFontCollection\bin\Debug\System.exe.config
+E:\工作\Jove\GetInstalledFontCollection\bin\Debug\System.exe
+E:\工作\Jove\GetInstalledFontCollection\bin\Debug\System.pdb
+E:\工作\Jove\GetInstalledFontCollection\obj\Debug\System.Form1.resources
+E:\工作\Jove\GetInstalledFontCollection\obj\Debug\SystemFontTools.csproj.GenerateResource.Cache
+E:\工作\Jove\GetInstalledFontCollection\obj\Debug\System.exe
+E:\工作\Jove\GetInstalledFontCollection\obj\Debug\System.pdb

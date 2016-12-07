@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jove", "Jove\Jove.csproj", "{2D4B9FFF-1A6C-4859-9981-C941579B585D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bin", "Bin", "{0C4CB97D-45FF-46F9-8055-BD4DE2B409D7}"
+	ProjectSection(SolutionItems) = preProject
+		Bin\Microsoft.Web.Infrastructure.dll = Bin\Microsoft.Web.Infrastructure.dll
+		Bin\Microsoft.Web.Infrastructure.xml = Bin\Microsoft.Web.Infrastructure.xml
+		Bin\Microsoft.Web.Mvc.FixedDisplayModes.dll = Bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+		Bin\Newtonsoft.Json.dll = Bin\Newtonsoft.Json.dll
+		Bin\Newtonsoft.Json.xml = Bin\Newtonsoft.Json.xml
+		Bin\Sobey.Core.dll = Bin\Sobey.Core.dll
+		Bin\Sobey.Core.pdb = Bin\Sobey.Core.pdb
+		Bin\Sobey.Core.XML = Bin\Sobey.Core.XML
+		Bin\System.Net.Http.dll = Bin\System.Net.Http.dll
+		Bin\System.Net.Http.Formatting.dll = Bin\System.Net.Http.Formatting.dll
+		Bin\System.Net.Http.Formatting.xml = Bin\System.Net.Http.Formatting.xml
+		Bin\System.Web.Helpers.dll = Bin\System.Web.Helpers.dll
+		Bin\System.Web.Helpers.xml = Bin\System.Web.Helpers.xml
+		Bin\System.Web.Http.dll = Bin\System.Web.Http.dll
+		Bin\System.Web.Http.xml = Bin\System.Web.Http.xml
+		Bin\System.Web.Mvc.dll = Bin\System.Web.Mvc.dll
+		Bin\System.Web.Mvc.xml = Bin\System.Web.Mvc.xml
+		Bin\System.Web.Razor.dll = Bin\System.Web.Razor.dll
+		Bin\System.Web.Razor.xml = Bin\System.Web.Razor.xml
+		Bin\System.Web.WebPages.Deployment.dll = Bin\System.Web.WebPages.Deployment.dll
+		Bin\System.Web.WebPages.Deployment.xml = Bin\System.Web.WebPages.Deployment.xml
+		Bin\System.Web.WebPages.dll = Bin\System.Web.WebPages.dll
+		Bin\System.Web.WebPages.Razor.dll = Bin\System.Web.WebPages.Razor.dll
+		Bin\System.Web.WebPages.Razor.xml = Bin\System.Web.WebPages.Razor.xml
+		Bin\System.Web.WebPages.xml = Bin\System.Web.WebPages.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiveENetSDK", "HiveENetSDK\HiveENetSDK.csproj", "{A9E199D4-A717-4A06-AE86-D0E3DE889018}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NunitCore", "NunitCore\NunitCore.csproj", "{62DB236B-61DF-4D0B-A13E-E916AB31979C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JoveNunitTest", "JoveNunitTest\JoveNunitTest.csproj", "{4BFA10B3-AA1D-4AF1-8B0E-54FE88720DB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SystemFontTools", "GetInstalledFontCollection\SystemFontTools.csproj", "{D0992479-9881-447E-A655-A6D52B744793}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://web-tfs-svr:8080/tfs/gent2
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = HiveENetSDK\\HiveENetSDK.csproj
+		SccProjectName1 = HiveENetSDK
+		SccLocalPath1 = HiveENetSDK
+		SccProjectUniqueName2 = Jove\\Jove.csproj
+		SccProjectName2 = Jove
+		SccLocalPath2 = Jove
+		SccProjectUniqueName3 = NunitCore\\NunitCore.csproj
+		SccProjectName3 = NunitCore
+		SccLocalPath3 = NunitCore
+		SccProjectUniqueName4 = JoveNunitTest\\JoveNunitTest.csproj
+		SccProjectName4 = JoveNunitTest
+		SccLocalPath4 = JoveNunitTest
+		SccProjectUniqueName5 = GetInstalledFontCollection\\SystemFontTools.csproj
+		SccProjectName5 = GetInstalledFontCollection
+		SccLocalPath5 = GetInstalledFontCollection
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D4B9FFF-1A6C-4859-9981-C941579B585D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D4B9FFF-1A6C-4859-9981-C941579B585D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D4B9FFF-1A6C-4859-9981-C941579B585D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D4B9FFF-1A6C-4859-9981-C941579B585D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E199D4-A717-4A06-AE86-D0E3DE889018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E199D4-A717-4A06-AE86-D0E3DE889018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E199D4-A717-4A06-AE86-D0E3DE889018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E199D4-A717-4A06-AE86-D0E3DE889018}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62DB236B-61DF-4D0B-A13E-E916AB31979C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62DB236B-61DF-4D0B-A13E-E916AB31979C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62DB236B-61DF-4D0B-A13E-E916AB31979C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62DB236B-61DF-4D0B-A13E-E916AB31979C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BFA10B3-AA1D-4AF1-8B0E-54FE88720DB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BFA10B3-AA1D-4AF1-8B0E-54FE88720DB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BFA10B3-AA1D-4AF1-8B0E-54FE88720DB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BFA10B3-AA1D-4AF1-8B0E-54FE88720DB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0992479-9881-447E-A655-A6D52B744793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0992479-9881-447E-A655-A6D52B744793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0992479-9881-447E-A655-A6D52B744793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0992479-9881-447E-A655-A6D52B744793}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+E:\工作\Jove\NunitCore\bin\Debug\NunitCore.dll
+E:\工作\Jove\NunitCore\bin\Debug\NunitCore.pdb
+E:\工作\Jove\NunitCore\bin\Debug\Newtonsoft.Json.dll
+E:\工作\Jove\NunitCore\obj\Debug\NunitCore.dll
+E:\工作\Jove\NunitCore\obj\Debug\NunitCore.pdb
+E:\工作\Jove\NunitCore\obj\Debug\NunitCore.csprojResolveAssemblyReference.cache

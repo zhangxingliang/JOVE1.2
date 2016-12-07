@@ -1,0 +1,43 @@
+﻿@{
+    Layout = null;
+}
+var _pageTitle = '@ViewBag.PageTitle';
+var _siteRoot = '@Url.Content("~")';
+var _userToken = '@ViewBag.UserToken';
+var _resourceUrl = '@ViewBag.ResourceUrl';
+var _rootPath = '@ViewBag.RootPath';
+var _curLang = '@ViewBag.GetET_LANGUAGE'|| 'en';
+var _language = {};
+var _previewUrl = '@ViewBag.PreviewPath';
+var _userCode = '@ViewBag.UserCode';
+var _tkUrl = '@ViewBag.TaskMonitorWebAddress';
+var _installedFontCollection = '@ViewBag.InstalledFontCollection';
+var _transCodeTemplate = '@ViewBag.transCodeTemplate';
+var FileStatus =
+{
+    ET_Obj_FS_Unknow: 0x00000000,
+    ET_Obj_FS_HV_ALL: 0x00000001,
+    ET_Obj_FS_HV_SEG: 0x00000002,
+    ET_Obj_FS_LV_ALL: 0x00000004,
+    ET_Obj_FS_LV_SEG: 0x00000008,
+    ET_Obj_FS_MV_ALL: 0x00000010,
+    ET_Obj_FS_MV_SEG: 0x00000020,
+    ET_Obj_FS_HA_ALL: 0x00000040,
+    ET_Obj_FS_HA_SEG: 0x00000100,
+    ET_Obj_FS_LA_ALL: 0x00000200,
+    ET_Obj_FS_LA_SEG: 0x00000400,
+    ET_Obj_FS_MA_ALL: 0x00000800,
+    ET_Obj_FS_MA_SEG: 0x00001000,
+    ET_Obj_FS_EDL: 0x00002000,
+    ET_Obj_FS_Pgm: 0x00004000,
+    ET_Obj_FS_Delete: 0x00008000,
+    ET_Obj_FS_Pgm_ReadOnly: 0x00010000,//只读方式打开节目支持
+    ET_Obj_FS_WA: 0x00200000, //表示还可以自动匹配的WA素材
+    ET_Obj_FS_TechCensor: 0x01000000, //素材技审标记
+    ET_Obj_FS_MFEDL: 0x10000000, //多格式EDL素材子类型
+    ET_Obj_FS_H264_Creating: 0x00020000,     //表示素材正在生成了H.264文件。
+    ET_Obj_FS_H264: 0x00040000    //表示素材已生成了H.264文件
+};
+var _svFlag = false;
+var _socketServer = '@ViewBag.SocketServer';
+var version = '?v=1.0.0.1';

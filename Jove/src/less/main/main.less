@@ -1,0 +1,144 @@
+﻿@import "var";
+@import "colors";
+@import "mixin";
+@import "dropdowns";
+@import "badge";
+@import "navbar";
+@import "footbar";
+@import "index";
+@import "page";
+@import "task";
+@import "jove";
+@import "wndmgr";
+
+.main{
+    .wrapper{
+        height:100%;
+        position: relative;
+    }
+
+    .appbar{
+        position: absolute;
+        height: @header-height;
+        left:0px;
+        width:100%;
+        top:0px;
+        z-index: @header-zindex;
+    }
+    
+    .footbar{
+        position: absolute;
+        height: @footer-height;
+        bottom: 0rem;
+        left:0rem;
+        width:100%;
+    }
+    
+    .page-container{
+        position: absolute;
+        top:@header-height;
+        bottom: 3rem;
+        width:100%;
+        left:0rem;
+        
+        
+    }
+    
+    .activebar{
+        width: 100%;
+        bottom: 6.5rem;
+        position: absolute;
+        height: 22px;
+        background-color: @page-background-color;
+        border-top: solid 1px @page-border-color;
+    }
+    .bg-page{
+        background-color: @page-background-color;
+    }
+    .wndToolbar{
+        position: absolute;
+        right: 1.5rem;
+        top: 5.2rem;
+       
+
+        z-index: @header-zindex+100;
+        
+        .btn{
+            padding: 0px 8px;
+            margin:0px;
+        }
+    }
+    
+    
+}
+
+@media (min-width:768px) {
+    .main{
+        .appbar{
+            margin-top:@header-margin-top ;
+        }
+        .footbar{
+            margin-bottom: @footer-margin-bottom;
+        }
+        .page-container{
+            top:@header-height  +　@header-margin-top + @page-container-margin-top;
+            bottom: @footer-height + @footer-margin-bottom + @page-container-margin-bottom;
+        }
+    }
+}
+
+@media (max-width:767px) {
+    .main{
+        .appbar{
+            background-color:@dark;
+            height: @header-height-xs;
+        }
+        
+        .page-container{
+            top: @header-height-xs;
+            bottom: @footer-height-xs;
+            
+            &.show-sidebar{
+                transition: 200ms;
+                
+                .page-cur{
+                    .left-sidebar{
+                        display:block;
+                        animation: 200ms slideInLeft;
+                    }
+                    .page-content{
+                        transform: translateX(16rem);
+                        transition: transform 200ms;
+                    }
+                }
+            }
+                
+                &.show-sidebar-add{
+                    .page-cur{
+                        .left-sidebar{
+                            animation: 200ms slideInLeft;
+                        }
+                        .page-content{
+                            transition: left 200ms;
+                        }
+                    }
+                }
+                &.show-sidebar-remove{
+                    .page-cur{
+                        .left-sidebar{
+                            display: block;
+                            animation: 200ms slideOutLeft;
+                        }
+                        .page-content{
+                            transition: left 200ms;
+                        }
+                    }
+                }
+        }
+        .footbar{
+            background-color:@grayLighter;
+            height: @footer-height-xs;
+        }
+        
+    }
+}

@@ -1,0 +1,6 @@
+﻿<Config>
+  <Path>global_sobey_defaultclass/MaterialList</Path>
+  <ServiceAddress>http://172.16.173.16:8999/CMApi/api/</ServiceAddress>
+  <UserToken>i0l7/w8fa8MFfYxyO7GadPArh1s=</UserToken>
+  <Name>wfg</Name>
+</Config>

@@ -1,0 +1,265 @@
+﻿<script type="text/ng-template" id="nodes_renderer.html">
+  <div data-ng-click="showClips(node,true)" data-ng-dblclick = "openFolder(node)" select ="{{node.isSelected}}"   class= "{{getStyle2(node)}} treenode" >
+     <nobr><div ng-style="getStyle(node)">
+    <span  data-ng-click = "openFolder(node)"   style="z-index:3; top:3px;"
+        class="glyphicon"
+        ng-class="{
+          'glyphicon-triangle-right': !(node.nodes)||(node.nodes.length <1) ,
+          'glyphicon-triangle-bottom': node.nodes && node.nodes.length > 0
+        }"></span>
+    <img draggable="false" src="{{getSrc(node)}}"  />
+    <span  style="position: relative;"  title="{{node.realname||node.name}}">{{node.realname||node.name}}</span>
+    </div>
+     </nobr>
+  </div>
+  <ul  data-ng-model="node.nodes" data-ng-class="{hidden: collapsed}">
+    <li ng-repeat="node in node.nodes|orderBy:treeTitleSort track by $index " ng-include="'nodes_renderer.html'"  data-guid="{{node.guid}}">
+    </li>
+  </ul>
+</script>
+<script type="text/ng-template" id="nodes_renderer2.html">
+  <div  data-ng-click = "selectPath(node)" data-ng-dblclick = "openFolder2(node)" select ="{{node.isSelected}}"  class= "{{getStyle2(node)}} treenode" >
+   <nobr>
+      <div ng-style="getStyle(node)">
+    <span  data-ng-click = "openFolder2(node)"
+        class="glyphicon "
+    style="top:2px;"
+        ng-class="{
+          'glyphicon-triangle-right': !(node.nodes)||(node.nodes.length <1) ,
+          'glyphicon-triangle-bottom': node.nodes && node.nodes.length > 0
+        }"></span>
+    <img draggable="false" src="{{getSrc(node)}}" />
+    <span style="position: relative;" title="{{node.realname||node.name}}">{{node.realname||node.name}}</span>
+    </div>
+     </nobr>
+  </div>
+  <ul  ng-model="node.nodes" ng-class="{hidden: collapsed}">
+    <li ng-repeat="node in node.nodes"  ng-include="'nodes_renderer2.html'"  data-guid="{{node.guid}}">
+    </li>
+  </ul>
+</script>
+<div class="full wrapper jove">
+    <div class="title2">
+         <div class="userInfo"> {{userInfo.loginName}}!
+            <div class="usermeniu">
+                <ul>
+                    <li style="height:32px; border-bottom:1px solid #777;line-height: 32px;" data-ng-click="Logout()"> <a style = "font-size:13px;text-decoration:none;cursor: pointer;">{{lang.logout}}</a> </li> 
+                    <li style="height:32px;line-height: 32px;"><a   style="font-size:13px;text-decoration:none;cursor: pointer;">{{lang.help}}</a> </li>
+                    </ul>
+            </div>
+        </div>
+            <span class="hello">{{lang.welcome}},</span>
+         <input type="button" class="taskmonitor" value="{{lang.taskmonitor}}" data-ng-click="showTaskMonitor()"/>
+        <span class="title2fontstyle" data-ng-bind="lang.pageTitle"/>
+        
+    </div>
+    <div id="stage-wrapper">
+        <div id="resourceList">
+            <div id="clipList">
+                <div class="saveplugin">
+                  <span class="dir" style="position: relative;width: 85px;text-align: left;top: 63px;left:10px; color: #cfd2d4;">Directory</span>
+
+                    <input type="text"  data-ng-model="savePath"  class="mp-input path" style="opacity:0;"/>
+                
+                <div class="input-text-wrapper3">
+                    <div class="treediv4">
+                    <div data-ng-scrollbar data-scrollbar-x="false" data-scrollbar-y="true" data-scrollbar-config="{show:false, autoResize: true, dragSpeed: 1.2}" class="folderlist2">
+                        <ul>
+                            <li data-ng-repeat="node in folderTree2" data-ng-include="'nodes_renderer2.html'" data-guid="{{node.guid}}" ></li>
+                        </ul>
+                    </div>
+                </div>
+                </div>
+                        </div>
+                <div class="treediv1" data-ng-style="treeDivWidth">
+                     <div id="handle" data-ng-mousedown="resizeTree($event)"></div>
+                  <div class="functionbar1 ">
+                     <!-- <span class="glyphicon glyphicon-search tempicon "data-ng-click="switchLanguge('en')"  ></span>
+                    <span class="glyphicon glyphicon-list tempicon" data-ng-click="switchLanguge('cn')" ></span>
+                    <ul class="navul"><li data-ng-click="showContent()" class="navli"><a class="nava  {{aactive}}" href="javascript:void(0)">Content</a></li><li data-ng-click="showEffect()" class="navli"  style="border-right:none;"><a  class="nava {{bactive}}" href="javascript:void(0)">Effect</a></li></ul -->
+                </div>
+                    <div data-ng-scrollbar  class="folderlist">
+                        <ul>
+                            <li data-ng-repeat="node in folderTree" data-ng-include="'nodes_renderer.html'" data-guid="{{node.guid}}"></li>
+                        </ul>
+                    </div>
+
+                    <div class="sleft_foot">
+                        
+                        <div class="totalDiskSpace" id ="userStorage">
+                           
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="treediv2" >
+                     <div class="functionbar2" >
+                          <div class="arrowleft arrow " data-ng-click="rightMove()" data-ng-show ="toolBarSeek"></div>
+                    <!--div class="searchdiv" >
+                        <input class="searchinput" data-ng-model="searchKeyword" placeholder="{{lang.search}}" />
+                        <span class="glyphicon glyphicon-search searchicon" data-ng-click="FulltextSearch()"></span>
+                    </div-->
+                         <div id="toolbarcontainer" style="z-index: 3;background: #222;position: relative;display: inline-block;width:100%;" data-ng-style="{ 'left': (-toolBarLeft[toolBarSeek]) + 'px' }">
+                    <div id="div_fullTextSearch" class="fullSearchDiv" style="display:inline-block;"></div>
+                    <input type="button" class="advancesearch" value="{{lang.advancesearch}}" data-ng-click="AdvanceSearch()"/>
+                     <div class="sort" data-ng-click="IsShowSortMenu = !IsShowSortMenu"><span>{{lang.sort}}</span><span class="glyphicon glyphicon-triangle-bottom" style="float: right;top: 7px;"></span>
+                    </div>
+                         <div class="sortmenu" data-ng-mouseleave="IsShowSortMenu=false" data-ng-show="IsShowSortMenu">
+                         <ul>
+                            <li class="sortmenuli" data-ng-click="OrderBy('name')"> <a href="">{{lang.title}}</a> <span  class="glyphicon glyphicon-sort-by-alphabet" style="float: right;top: 7px;"></span></li> 
+                            <li class="sortmenuli" data-ng-click="OrderBy('-name')"> <a href="">{{lang.title}}</a> <span  class="glyphicon glyphicon-sort-by-alphabet-alt" style="float: right;top: 7px;"></span></li> 
+                            <li class="sortmenuli"  data-ng-click="OrderBy('-createdate')"><a href="">{{lang.time}}</a><span  class="glyphicon glyphicon-arrow-down" style="float: right;top: 7px;"></span> </li>
+                             <li class="sortmenuli"  data-ng-click="OrderBy('createdate')"><a href="">{{lang.time}}</a><span class="glyphicon glyphicon-arrow-up" style="float: right;top: 7px;"></span> </li>
+                            <li class="sortmenuli" style="border-bottom:none;"  data-ng-click="OrderBy(typeFlag)"><a href="">{{lang.type}}</a><span data-ng-class="{'glyphicon-sort-by-attributes-alt':!typeFlag.flag , 'glyphicon-sort-by-attributes':typeFlag.flag }"  class="glyphicon" style="float: right;top: 7px;"></span> </li>
+                         </ul>
+                             </div>
+                    <div class ="toolbar" style="padding: 0 2px;">
+                      <span class="glyphicon glyphicon-list spanicon"  data-ng-click ="switchToList()"  ></span>
+                      <span class="glyphicon glyphicon-th-large  spanlisticon" data-ng-click ="switch()"></span>
+                      <span class="glyphicon glyphicon-refresh refreshicon" data-ng-click="refresh()" style="margin: 10px 10px;position: relative; cursor: default;"></span>
+                    </div>
+                 </div>
+                         <div class="arrow arrowright" data-ng-click="leftMove()" data-ng-show ="isShowArrowRight"></div>
+                              </div>
+                    <div class="navdiv" >
+                        <img draggable="false" src="/app/images/arrow1_left.png" class="backupicon" data-ng-click="backUp()" ></img>
+                        <div class="navPanel">
+                        <ul class="breadcrumb" style="background-color:transparent;">
+                            <li data-ng-click="showClips(f)" data-ng-repeat="f in pathHistory"><a href="javascript:void(0)" title="{{f.realname||f.name}}">{{f.realname||f.name}}</a></li>
+                            
+                        </ul>
+                    </div>
+                        <span style="  position: relative; float: right; margin: 0 10px;line-height: 30px;">Total:{{clipList.length}}</span>
+                    </div> 
+                    <div class="treediv3" ng-scrollbar scrollbar-x="false" data-scrollbar-y="true" data-scrollbar-config="{show:false, autoResize: true, dragSpeed: 1.2}" id="clipListPanel" class="listPanel" style="overflow: hidden; width: 100%; border-right: none; margin-bottom: 25px;">
+                        <div  class="full wrapper">
+                            <div data-ng-if="isShowMark" style="height:100%;" >
+                        <ul style="height:calc(100% - 57px);"  ng-scrollbar scrollbar-x="false" data-scrollbar-y="true" data-scrollbar-config="{show:false, autoResize: true, dragSpeed: 1.2}" >
+                              <li data-ng-repeat="marker in clipList" data-ng-dblclick="reverseSearch(marker)" style="padding-right:3px;margin-bottom:3px;" >
+                                  <div class="markercontainer">
+                                      <div class="markericon" >
+                                            <div class="markercolor" data-ng-style="marker.bgcolor"></div>
+                                                <div style="height: 52px;line-height: 52px;">
+                                                    <img draggable="false" class="markerimg" src="{{marker.iconfilename}}"/>
+                                                </div>
+                                             <span style="display:block;margin: 0px 10px;height: 15px;font-size: 14px;">{{marker.typeName}}</span>
+                                      </div>
+                                      <div class="markerpos" style="	display: none;">
+                                          <ul data-ng-show="marker.isSMarker">
+                                              <li><span class="timeCodeSpan">{{lang.in}}</span><input  class="markTimeCode" readonly="readonly" type="text"  value="{{marker.inPoint}}"></li>
+                                              <li><span class="timeCodeSpan">{{lang.out}}</span><input  class="markTimeCode" readonly="readonly" type="text"  value="{{marker.outPoint}}"></li>
+                                          </ul>
+                                          <ul data-ng-show="!marker.isSMarker">
+                                                <li><span class="timeCodeSpan">POS</span><input class="markTimeCode" readonly="readonly" type="text" value="{{marker.pos}}"></li>
+                                                <li style="visibility: hidden;"><span class="timeCodeSpan">{{lang.pos}}</span><input class="markTimeCode" readonly="readonly" type="text" value="{{marker.pos}}"></li>
+                                          </ul>
+                                      </div>
+                                      <textarea readonly="readonly" title="{{marker.note}}" class="markercomment" style="width: calc(100% - 111px);     margin-bottom: 2px;">{{marker.note}}</textarea></div>
+                              </li>
+                          </ul></div>
+                            <div class="listview list-type-icons" data-ng-if="!isShowMark">
+                                <div class="listitem {{clipShowWay}} {{clip.type}} {{clip.dragType}} {{clip.selected}}"  data-channel="{{clip.channel}}"
+                                    data-from="0"
+                                    data-duration="{{clip.duration}}"
+                                    data-audio="{{clip.isAudio}}"
+                                    data-type="{{clip.type}}"
+                                    data-id="{{clip.guid}}"
+                                    data-id2="{{clip.id}}"
+                                    data-name="{{clip.name}}"
+                                    data-icon="{{clip.iconfilename}}"
+                                    data-url="{{clip.folderpath}}"
+                                    data-ng-dblclick="dblClick(clip)"
+                                    data-source-id="{{clip.typetemp}}"
+                                    data-createdate ="{{clip.formatDate}}"    
+                                    data-ng-repeat="clip in clipList|orderBy:sortKeyword track by clip.guid">
+                                    <div class="objstatus"  data-ng-if ="clip.hasItem">
+                                        <div class="statusitem clipWA" data-ng-if="clip.WA"></div>
+                                        <div class="statusitem clipHQ" data-ng-if="clip.HQ"></div>
+                                        <div class="statusitem clipLQ" data-ng-if="clip.LQ"></div>
+                                        <!--div class="statusitem cliping" data-ng-if="clip.cliping"></div-->
+                                        <div class="statusitem clipDolby" data-ng-if="clip.DB"></div>
+                                        <div class="statusitem clipProgress" data-ng-if="clip.P" title="{{clip.Ptitle}}"></div>
+                                        <div class="statusitem clipInterlace" data-ng-if="clip.I" title="{{clip.Ititle}}"></div>
+                                    </div>
+                                     <div class="objoperation" data-ng-if="clip.isMarker" ><div class="showclip" data-ng-click="positionToFolder(clip)"></div></div>
+                                    <div data-ng-class="{'ingest':clip.cliping}" class="iconcontainer" style="text-align:center;">
+                                    <img draggable="{{clip.type == 'video' ||clip.type == 'image'||false}}" data-ng-if="clip.iconfilename&&clip.type!='h5pgm'" class="list-icon {{clipShowWay}}" data-ng-src="{{clip.iconfilename}}" onerror="this.src='/app/images/nostamp.png';"/>
+                                    <span draggable="{{clip.type == 'video' ||clip.type == 'image'||false}}" data-ng-if="!(clip.iconfilename&&clip.type!='h5pgm')" class="list-icon {{clipShowWay}} {{clip.temptype}}" style="display:inline-block;"></span>
+                                     </div>
+                                        <span class="list-title {{clipShowWay}}" title="{{clip.realname || clip.name}}" data-ng-bind="clip.realname || clip.name"></span>
+                                    <span class="list-createdate" data-ng-bind="clip.createdate"></span>
+                                </div>
+                        </div>
+
+                    </div>
+           </div>
+                </div>
+                 </div>
+                </div>
+            <!--div class ="treediv5 {{IsShowEffect}}">
+                    <div class="listview list-type-icons">
+                    <div class="listitem transition" data-transition="FADEINOUT"     draggable="true">                
+                                                <span class="list-icon icon effect2" ></span>                
+                                                <span class="list-title" data-ng-bind="lang.fade"></span>     
+                                            </div>
+                                            <div class="listitem transition" data-transition="FLASHLIGHT"     draggable="true">                
+                                                <span class="list-icon icon effect2" ></span>                
+                                                <span class="list-title" data-ng-bind="lang.flashWhite"></span>     
+                                            </div>
+                                            <div class="listitem transition" data-transition="FLASHDARK"    draggable="true">                
+                                                <span class="list-icon icon effect2" ></span>                
+                                                <span class="list-title" data-ng-bind="lang.flashBlack"></span>     
+                                            </div>
+                        </div>
+            </div-->
+        <div id="player">
+          <div class="mvsv"  data-ng-style="overresize">
+                    <ul class="svmvnav">
+                    <li class="mvsvli" id="mv" data-ng-click="showMV()" ><a class="nava" data-ng-class="{'':IsShowSV,'mvsvactive':!IsShowSV}" href="">{{lang.mv}}</a> </li> 
+                    <li class="mvsvli" id="sv" data-ng-click="showSV()" ><a id="svItem" class="nava" data-ng-class="{'mvsvactive':IsShowSV,'':!IsShowSV}" href="">{{lang.sv}}</a> </li>
+                    </ul>
+                  <div class="svdiv {{IsShowSV}}">
+                      <div class="svcontainer" data-ng-style ="{width: 'calc(100% - ' + markerWidth + 'px)',
+	right: markerWidth + 'px'}">
+                      <div class="hoverifm"></div>
+                  <iframe id="previewifm" class="svwindow"></iframe>
+                     </div>  
+                  <div class="markerlist"  data-ng-style="{'width':markerWidth + 'px'}"  ng-scrollbar scrollbar-x="true" data-scrollbar-y="false" data-scrollbar-config="{show:false, autoResize: true, dragSpeed: 1.2}" >
+                      <span class="markerlistitle">Mark List</span>
+                       <div id="handle2" data-ng-mousedown="resizeMarkerList($event)"></div>
+                      <div id="MarkParentDiv"><ul id="MarkNav">
+                          <li data-ng-class="{markSelected: markerType.emarker,markUnselected: !markerType.emarker}" data-ng-click="switchMarkerStatus('emarker')">{{lang.emark}}</li>
+                          <li data-ng-class="{markSelected: markerType.smarker,markUnselected: !markerType.smarker}" data-ng-click="switchMarkerStatus('smarker')">{{lang.smark}}</li>
+                          <li data-ng-class="{markSelected: markerType.cmarker,markUnselected: !markerType.cmarker}" data-ng-click="switchMarkerStatus('cmarker')">{{lang.cmark}}</li></ul>
+                          <ul id="MarkInfo"style="height:calc(100% - 57px);"  ng-scrollbar scrollbar-x="false" data-scrollbar-y="true" data-scrollbar-config="{show:false, autoResize: true, dragSpeed: 1.2}" >
+                              <li data-ng-repeat="marker in markerList |filter:markerFilter" data-ng-dblclick="openMarker(marker)" style="padding-right:3px;margin-bottom:3px;" >
+                                  <div class="markercontainer">
+                                      <div class="markericon" >
+                                            <div class="markercolor" data-ng-style="marker.bgcolor"></div>
+                                          <div style="height: 52px;line-height: 52px;">
+                                                <img draggable="false" class="markerimg" src="{{marker.iconfilename}}" />
+                                                </div>
+                                             <span style="display:block;">{{marker.typeName}}</span>
+                                      </div>
+                                      <div class="markerpos">
+                                          <ul data-ng-show="marker.isSMarker">
+                                              <li><span class="timeCodeSpan">{{lang.in}}</span><input  class="markTimeCode" readonly="readonly" type="text"  value="{{marker.inPoint}}"></li>
+                                              <li><span class="timeCodeSpan">{{lang.out}}</span><input  class="markTimeCode" readonly="readonly" type="text"  value="{{marker.outPoint}}"></li>
+                                          </ul>
+                                          <ul data-ng-show="!marker.isSMarker">
+                                                <li><span class="timeCodeSpan">{{lang.pos}}</span><input class="markTimeCode" readonly="readonly" type="text" value="{{marker.pos}}"></li>
+                                                <li style="visibility: hidden;"><span class="timeCodeSpan">POS</span><input class="markTimeCode" readonly="readonly" type="text" value="{{marker.pos}}"></li>
+                                          </ul>
+                                      </div>
+                                      <textarea readonly="readonly" class="markercomment" title="{{marker.note}}">{{marker.note}}</textarea></div>
+                              </li>
+                          </ul></div>
+                           </div>
+              </div>
+              </div>
+        </div>
+    </div>
+    <div id="editor" data-ng-click="showMV()" class="h5editor ani"></div>
+     <iframe class="taskmonitorifm" ></iframe>
+</div>

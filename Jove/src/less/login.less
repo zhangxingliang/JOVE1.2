@@ -1,0 +1,418 @@
+﻿.login {
+    position: relative;
+
+    .topbar {
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        height: 4rem;
+        line-height: 4rem;
+
+        .logoWrapper {
+            width: 6.5rem;
+            height: 4rem;
+            float: left;
+            position: relative;
+            left: 3rem;
+
+            img {
+                width: 100%;
+                opacity:0.7;
+            }
+        }
+
+        .navRight {
+            float: right;
+            margin-right: 15px;
+
+            .btn {
+                &.active {
+                    background-color: rgba(0, 0, 0, 0.5);
+                    color: rgba(255,255,255,0.5);
+                }
+            }
+        }
+    }
+
+    .content {
+        position: absolute;
+        top: 4rem;
+        bottom: 4rem;
+        width: 100%;
+
+        .formPanel {
+            position: relative;
+            height: 100%;
+            width: 100%;
+
+            .formWrapper {
+                position: absolute;
+                width: 100%;
+                bottom: 0px;
+
+                .formContent {
+                    margin-left: auto;
+                    margin-right: auto;
+                    -webkit-overflow-scrolling : touch;
+                }
+
+                .title {
+                    height: 4rem;
+                    line-height: 4rem;
+                    position: relative;
+
+
+                    .logo {
+                        width: 3.5rem;
+                        position: absolute;
+                        top: 0.3rem;
+                        left: 0.5rem;
+                    }
+
+                    & > span {
+                        font-size: 2rem;
+                        padding-left: 4.5rem;
+                        color: rgba(255,255,255,0.9);
+                    }
+                }
+
+                .panel {
+                    margin-top: 2rem;
+                    border-radius: 0.5rem;
+
+                    .firstInput {
+                        padding-top: 0.4rem;
+                    }
+
+                    .form-group {
+                        margin-bottom: 0rem;
+                        margin-top: 0rem;
+                        padding: 0rem;
+
+                        .help-block {
+                            display: inherit;
+                            top: 0.2rem;
+                            left: 3.5rem;
+                            font-size: 0.8rem;
+                        }
+
+                        .input-group {
+                            height: 100%;
+                        }
+
+                        .form-control {
+                            margin-bottom: 0px;
+                        }
+
+                        &.has-error {
+                            span.input-group-addon {
+                                color: red;
+                            }
+                        }
+                    }
+
+                    span.input-group-addon {
+                        border-radius: 0px;
+                        border: none;
+                        font-size: 1.3rem;
+                        background-color: transparent;
+                        color: #aaaaaa;
+
+                        &.lastInput {
+                            border: none;
+                        }
+                    }
+
+                    input {
+                        border: none;
+                        border-radius: 0px;
+                        box-shadow: none;
+                        font-size: 1.5rem;
+                        padding: 0.5rem;
+                        height: 3.5rem;
+
+                        .placeholder {
+                            font-size: 1rem;
+                            vertical-align: middle;
+                            padding: 0.5rem;
+                        }
+
+                        &::-webkit-input-placeholder {
+                            .placeholder;
+                        }
+
+                        &::-moz-placeholder {
+                            .placeholder;
+                        }
+
+                        &:-ms-input-placeholder {
+                            .placeholder;
+                        }
+
+                        &:-moz-placeholder {
+                            .placeholder;
+                        }
+
+                        &:-webkit-autofill {
+                            background-color: transparent;
+                        }
+                    }
+
+                    .lastInput {
+                        .input-group {
+                            padding-bottom: 0.4rem;
+                            border: none;
+                        }
+
+                        .form-control, .input-group-addon {
+                            background-size: 0% 0px, 0% 0px;
+                        }
+
+                        &.is-focused {
+                            .form-control, .input-group-addon {
+                                background-size: 100% 2px, 100% 1px;
+                            }
+                        }
+                    }
+                }
+
+                .bottom {
+                    .form-group {
+                        margin-top: 2rem;
+                    }
+
+                    .btn {
+                        padding: 0rem;
+                        font-size: 1.5rem;
+                        line-height: 3.5rem;
+                        height: 3.5rem;
+                        border-radius: 0.5rem;
+                        width: 100%;
+
+                        &[disabled][disabled] {
+                            background-color: #4ea04e;
+                        }
+                    }
+                }
+            }
+        }
+
+        
+
+        &.ng-enter {
+            animation: 1s mainEnter;
+
+            .title {
+                animation: 0.5s fadeInDown;
+                animation-delay: 0.3s;
+            }
+
+            .panel {
+                animation: 0.5s fadeIn;
+                animation-delay: 0.3s;
+            }
+
+            .bottom {
+                animation: 0.5s fadeInUp;
+                animation-delay: 0.3s;
+            }
+        }
+
+
+
+        &.ng-leave {
+            animation: 0.5s;
+
+            .title {
+                animation: 0.5s fadeOutUp;
+            }
+
+            .panel {
+                animation: 0.5s fadeOut;
+            }
+
+            .bottom {
+                animation: 0.5s fadeOutDown;
+            }
+        }
+    }
+
+    .foot {
+        position: absolute;
+        width: 100%;
+        height: 4rem;
+        bottom: 0px;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 4rem;
+        color: #4ea04e;
+        font-size: 1rem;
+    }
+
+    @media (min-width:992px) and (min-height:722px) {
+
+        .content {
+            .formPanel {
+                .formWrapper {
+                    top: 7rem;
+
+                    .formContent {
+                        width: 40rem;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (min-width:992px) and (max-height:721px) {
+        .content {
+            .formPanel {
+                .formWrapper {
+                    top: 3rem;
+
+                    .formContent {
+                        width: 40rem;
+                    }
+                }
+
+                &.reg {
+                    .formWrapper {
+                        top: 1rem;
+
+                        .formContent {
+                            width: 40rem;
+                        }
+
+                        .title {
+                            height: 3rem;
+                            line-height: 3rem;
+
+
+                            .logo {
+                                width: 2.63rem;
+                                top: 0.2rem;
+                                left: 0.4rem;
+                            }
+
+                            & > span {
+                                font-size: 1.5rem;
+                                padding-left: 4rem;
+                            }
+                        }
+
+                        .panel {
+                            margin-top: 1rem;
+                            border-radius: 0.5rem;
+
+                            .firstInput {
+                                padding-top: 0.4rem;
+                            }
+
+                            .form-group {
+
+                                .help-block {
+                                    top: 0.1rem;
+                                    left: 3.5rem;
+                                    font-size: 0.7rem;
+                                }
+
+                               
+                            }
+
+                            span.input-group-addon {
+                                font-size: 1.3rem;
+                                background-position: bottom;
+                            }
+
+                            input {
+                                font-size: 1.3rem;
+                                padding: 0.5rem;
+                                height: 3.0rem;
+
+                                .placeholder {
+                                    font-size: 1rem;
+                                    padding: 0.5rem;
+                                }
+
+                            }
+
+                            .lastInput {
+                                .input-group {
+                                    padding-bottom: 0.4rem;
+                                }
+
+                                
+                            }
+                        }
+
+                        .bottom {
+                            .form-group {
+                                margin-top: 1rem;
+                            }
+
+                            .btn {
+                                font-size: 1.3rem;
+                                line-height: 3rem;
+                                height: 3rem;
+                                border-radius: 0.5rem;
+                                margin:0rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (min-width:768px) and (max-width:991px) {
+        .content {
+
+
+            .formPanel {
+
+                .formWrapper {
+                    top: 5rem;
+
+                    .formContent {
+                        width: 30rem;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width:767px) and (min-width: 322px) {
+        .content {
+
+
+            .formPanel {
+
+                .formWrapper {
+                    top: 3rem;
+
+                    .formContent {
+                        width: 30rem;
+                    }
+                }
+            }
+        }
+    }
+
+    /*iphone 5*/
+    @media (max-width:321px)  {
+        .content {
+
+
+            .formPanel {
+
+                .formWrapper {
+                    top: 3rem;
+
+                    .formContent {
+                        width: 25rem;
+                    }
+                }
+            }
+        }
+    }
+}

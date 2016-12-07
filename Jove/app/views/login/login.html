@@ -1,0 +1,53 @@
+﻿<div class="formPanel">
+    <div class="formWrapper" ng-scrollbar scrollbar-x="false" scrollbar-y="true" scrollbar-config="{show:true, autoResize: true, dragSpeed: 1.2}">
+
+        <div class="formContent">
+            <div class="title">
+                <img class="logo" data-ng-src="{{getImageUrl('lmc.png')}}" />
+                <span data-ng-bind="settings.loginTitle"></span>
+            </div>
+            <form name="loginForm" data-ng-submit="login(loginForm.$valid)" novalidate>
+                <div class="panel">
+
+                    <div class="form-group" data-focus-class="is-focused" data-ng-class="{ 'has-error' : loginForm.userName.$invalid && loginForm.userName.$dirty }">
+                        <div class="input-group firstInput">
+                            <span class="input-group-addon  icon icon-user"></span>
+                            <input name="userName" 
+                                data-ng-model="loginModel.userName" required 
+                                type="text" 
+                                class="form-control" 
+                                placeholder="请输入账号">
+                            <span data-ng-messages="loginForm.userName.$error" data-ng-show="loginForm.userName.$invalid && loginForm.userName.$dirty" class="help-block">
+                                <span data-ng-message="required">请输入账号</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group lastInput" data-focus-class="is-focused" data-ng-class="{ 'has-error' : loginForm.password.$invalid && loginForm.password.$dirty }">
+                        <div class="input-group">
+                            <span class="input-group-addon  icon icon-lock"></span>
+                            <input name="password" 
+                                data-ng-model="loginModel.password" 
+                                required type="password" 
+                                class="form-control" 
+                                placeholder="请输入密码">
+                            <span data-ng-messages="loginForm.password.$error" data-ng-show="loginForm.password.$invalid && loginForm.password.$dirty" class="help-block">
+                                <span data-ng-message="required">请输入密码</span>
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="bottom">
+                    <div class="form-group">
+
+                        <a class="btn btn-raised btn-success" data-ng-ripples data-ng-click="login(loginForm.$valid)" data-ng-disabled="loginForm.$invalid">登录
+                        
+                        </a>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

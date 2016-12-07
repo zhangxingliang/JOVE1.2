@@ -1,0 +1,15 @@
+E:\工作\Jove\JoveNunitTest\bin\Debug\Config.xml
+E:\工作\Jove\JoveNunitTest\bin\Debug\JoveNunitTest.dll
+E:\工作\Jove\JoveNunitTest\bin\Debug\JoveNunitTest.pdb
+E:\工作\Jove\JoveNunitTest\bin\Debug\HiveENetSDK.dll
+E:\工作\Jove\JoveNunitTest\bin\Debug\nunit.framework.dll
+E:\工作\Jove\JoveNunitTest\bin\Debug\NunitCore.dll
+E:\工作\Jove\JoveNunitTest\bin\Debug\Sobey.Core.dll
+E:\工作\Jove\JoveNunitTest\bin\Debug\Newtonsoft.Json.dll
+E:\工作\Jove\JoveNunitTest\bin\Debug\HiveENetSDK.pdb
+E:\工作\Jove\JoveNunitTest\bin\Debug\NunitCore.pdb
+E:\工作\Jove\JoveNunitTest\bin\Debug\Sobey.Core.pdb
+E:\工作\Jove\JoveNunitTest\bin\Debug\Sobey.Core.xml
+E:\工作\Jove\JoveNunitTest\obj\Debug\JoveNunitTest.csprojResolveAssemblyReference.cache
+E:\工作\Jove\JoveNunitTest\obj\Debug\JoveNunitTest.dll
+E:\工作\Jove\JoveNunitTest\obj\Debug\JoveNunitTest.pdb

@@ -1,0 +1,614 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2D4B9FFF-1A6C-4859-9981-C941579B585D}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Jove</RootNamespace>
+    <AssemblyName>Jove</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sobey.Core">
+      <HintPath>..\Bin\Sobey.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Bin\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.20710.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="appApiContext.cs" />
+    <Compile Include="ConfigeHelper.cs" />
+    <Compile Include="Controllers\CmController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="app\css\images\arrow_down.png" />
+    <Content Include="app\css\images\arrow_right.png" />
+    <Content Include="app\css\images\file.gif" />
+    <Content Include="app\css\images\folder-closed.png" />
+    <Content Include="app\css\images\folder.png" />
+    <Content Include="app\css\images\minus.gif" />
+    <Content Include="app\css\images\nodedate.gif" />
+    <Content Include="app\css\images\PlaylistRoot.gif" />
+    <Content Include="app\css\images\plus.gif" />
+    <Content Include="app\css\images\rundown.gif" />
+    <Content Include="app\css\images\searchresult.png" />
+    <Content Include="app\css\images\studio.gif" />
+    <Content Include="app\css\images\trash.png" />
+    <Content Include="app\css\images\treeview-black-line.gif" />
+    <Content Include="app\css\images\treeview-black.gif" />
+    <Content Include="app\css\images\treeview-default-line.gif" />
+    <Content Include="app\css\images\treeview-default.gif" />
+    <Content Include="app\css\images\treeview-famfamfam-line.gif" />
+    <Content Include="app\css\images\treeview-famfamfam.gif" />
+    <Content Include="app\css\images\treeview-gray-line.gif" />
+    <Content Include="app\css\images\treeview-gray.gif" />
+    <Content Include="app\css\images\treeview-icon.png" />
+    <Content Include="app\css\images\treeview-red-line.gif" />
+    <Content Include="app\css\images\treeview-red.gif" />
+    <Content Include="app\css\images\treeview_custom.png" />
+    <Content Include="app\css\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="app\css\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="app\css\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="app\css\images\ui-bg_glass_100_f6f6f6_12x64.png" />
+    <Content Include="app\css\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="app\css\images\ui-bg_glass_100_f6f6f6_80x29.png" />
+    <Content Include="app\css\images\ui-bg_glass_100_f6f6f6_8x29.png" />
+    <Content Include="app\css\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="app\css\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="app\css\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="app\css\images\ui-bg_gloss-wave_35_f6a828_5x20.png" />
+    <Content Include="app\css\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="app\css\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="app\css\images\ui-Icon-define.png" />
+    <Content Include="app\css\images\ui-icons_222222_256x240.png" />
+    <Content Include="app\css\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="app\css\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="app\css\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="app\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="app\css\images\ui-icons_hover.png" />
+    <Content Include="app\css\images\ui-tabs_leftarrow.png" />
+    <Content Include="app\css\images\ui-tabs_rightarrow.png" />
+    <Content Include="app\css\jove.css" />
+    <Content Include="app\css\jquery-ui.custom.css" />
+    <Content Include="app\css\jquery.treeview.css" />
+    <Content Include="app\app.js" />
+    <Content Include="app\bootstrap.js" />
+    <Content Include="app\controllers\joveController.js" />
+    <Content Include="app\controllers\rootController.js" />
+    <Content Include="app\css\bootstrap.css" />
+    <Content Include="app\css\bootstrap.min.css" />
+    <Content Include="css\H5Editor.css" />
+    <Content Include="app\css\main.css" />
+    <Content Include="app\css\main.min.css" />
+    <Content Include="app\directives\ngGestures.js" />
+    <Content Include="app\directives\ngScrollbar.js" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
+    <Content Include="fonts\fontawesome-webfont2.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\metro.svg" />
+    <Content Include="fonts\Simple-Line-Icons.svg" />
+    <Content Include="app\h5\saveplugin.js" />
+    <Content Include="app\h5\template\saveWindow.js" />
+    <Content Include="app\images\7zip.png" />
+    <Content Include="app\images\A.png" />
+    <Content Include="app\images\arrow1_left.png" />
+    <Content Include="app\images\arrow_left.png" />
+    <Content Include="app\images\arrow_right.png" />
+    <Content Include="app\images\audio.png" />
+    <Content Include="app\images\D.png" />
+    <Content Include="app\images\display_mark.png" />
+    <Content Include="app\images\edl.png" />
+    <Content Include="app\images\excel.png" />
+    <Content Include="app\images\folder.png" />
+    <Content Include="app\images\H.png" />
+    <Content Include="app\images\ingest.png" />
+    <Content Include="app\images\Interlace.png" />
+    <Content Include="app\images\L.png" />
+    <Content Include="app\images\lmc.png" />
+    <Content Include="app\images\LOGO.png" />
+    <Content Include="app\images\normal_folder.png" />
+    <Content Include="app\images\normal_folder1.png" />
+    <Content Include="app\images\normal_folder3.png" />
+    <Content Include="app\images\nostamp.png" />
+    <Content Include="app\images\other.png" />
+    <Content Include="app\images\pdf.png" />
+    <Content Include="app\images\ppt.png" />
+    <Content Include="app\images\Progress.png" />
+    <Content Include="app\images\rar.png" />
+    <Content Include="app\images\seek_left.jpg" />
+    <Content Include="app\images\seek_right.jpg" />
+    <Content Include="app\images\Sequence.png" />
+    <Content Include="app\images\txt.png" />
+    <Content Include="app\images\WA.png" />
+    <Content Include="app\images\word.png" />
+    <Content Include="app\img\marker.png" />
+    <Content Include="app\img\mask.png" />
+    <Content Include="app\img\no.png" />
+    <Content Include="app\img\wheel.png" />
+    <Content Include="app\img\yes.png" />
+    <Content Include="app\img\gantan.png" />
+    <Content Include="app\img\why.png" />
+    <Content Include="app\lib\js\angular-route.js" />
+    <Content Include="app\lib\js\angular-route.min.js" />
+    <Content Include="app\lib\js\angular-route.min.js.map" />
+    <Content Include="app\lib\js\angular-ui-router.js" />
+    <Content Include="app\lib\js\angular-ui-router.min.js" />
+    <Content Include="app\lib\js\angular.js" />
+    <Content Include="app\lib\js\angular.min.js" />
+    <Content Include="app\lib\js\angular.min.js.map" />
+    <Content Include="app\lib\js\ct-ui-router-extras.js" />
+    <Content Include="app\lib\js\ct-ui-router-extras.min.js" />
+    <Content Include="images\h5pgm.png" />
+    <Content Include="images\nostamp.png" />
+    <Content Include="images\txtfile.png" />
+    <Content Include="js\config\golbalSettings.js" />
+    <Content Include="js\lib\axios.js" />
+    <Content Include="js\lib\h5editor.js" />
+    <Content Include="app\lib\js\html2canvas.js" />
+    <Content Include="app\lib\js\html2canvas.svg.js" />
+    <Content Include="app\lib\js\jquery-2.2.0.min.js" />
+    <Content Include="app\lib\js\jquery-ui.js" />
+    <Content Include="app\lib\js\jquery.blockUI.js" />
+    <Content Include="app\lib\js\NotifyPlugin.js" />
+    <Content Include="app\lib\js\ocLazyLoad.js" />
+    <Content Include="app\lib\js\ocLazyLoad.min.js" />
+    <Content Include="app\lib\js\ocLazyLoad.require.js" />
+    <Content Include="app\lib\js\ocLazyLoad.require.min.js" />
+    <Content Include="app\lib\js\require.js" />
+    <Content Include="app\lib\js\require.min.js" />
+    <Content Include="app\services\navService.js" />
+    <Content Include="css\components.css" />
+    <Content Include="css\main.css" />
+    <Content Include="css\rest.css" />
+    <Content Include="images\7zip.png" />
+    <Content Include="images\arrow_left.png" />
+    <Content Include="images\audio.png" />
+    <Content Include="images\excel.png" />
+    <Content Include="images\folder.png" />
+    <Content Include="images\normal_folder.png" />
+    <Content Include="images\normal_folder_selected.png" />
+    <Content Include="images\other.png" />
+    <Content Include="images\pdf.png" />
+    <Content Include="images\ppt.png" />
+    <Content Include="images\rar.png" />
+    <Content Include="images\Sequence.png" />
+    <Content Include="images\word.png" />
+    <Content Include="index.html" />
+    <Content Include="ipconf.xml" />
+    <Content Include="app\main.js" />
+    <Content Include="app\routes.js" />
+    <Content Include="app\services\cmService.js" />
+    <Content Include="app\services\dialogService.js" />
+    <Content Include="app\services\utilsService.js" />
+    <Content Include="app\views\jove.html" />
+    <Content Include="Global.asax" />
+    <Content Include="Gruntfile.js" />
+    <Content Include="js\app.js" />
+    <Content Include="js\components\material_ctrl.js" />
+    <Content Include="js\components\navPath_ctrl.js" />
+    <Content Include="js\components\tree_ctrl.js" />
+    <Content Include="js\lib\scrollbar.js" />
+    <Content Include="js\lib\util.js" />
+    <Content Include="js\lib\vue-router.js" />
+    <Content Include="js\lib\vue.js" />
+    <Content Include="js\lib\vuex.js" />
+    <Content Include="js\plugins\notifyPlugin.js" />
+    <Content Include="js\plugins\savePlugin.js" />
+    <Content Include="js\store\actions.js" />
+    <Content Include="js\store\getters.js" />
+    <Content Include="js\store\index.js" />
+    <Content Include="js\store\mutations.js" />
+    <Content Include="js\store\mutationTypes.js" />
+    <Content Include="js\store\state.js" />
+    <Content Include="lang.html" />
+    <Content Include="src\fonts\metro.svg" />
+    <Content Include="src\js\metro\global.js" />
+    <Content Include="src\js\metro\initiator.js" />
+    <Content Include="src\js\metro\requirements.js" />
+    <Content Include="src\js\metro\utils\easing.js" />
+    <Content Include="src\js\metro\utils\hotkeys.js" />
+    <Content Include="src\js\metro\utils\mousewheel.js" />
+    <Content Include="src\js\metro\utils\pre-code.js" />
+    <Content Include="src\js\metro\utils\touch-handler.js" />
+    <Content Include="src\js\metro\widget.js" />
+    <Content Include="src\js\metro\widgets\accordion.js" />
+    <Content Include="src\js\metro\widgets\appbar.js" />
+    <Content Include="src\js\metro\widgets\button-groups.js" />
+    <Content Include="src\js\metro\widgets\calendar.js" />
+    <Content Include="src\js\metro\widgets\carousel.js" />
+    <Content Include="src\js\metro\widgets\charm.js" />
+    <Content Include="src\js\metro\widgets\clock.js" />
+    <Content Include="src\js\metro\widgets\countdown.js" />
+    <Content Include="src\js\metro\widgets\datatable.js" />
+    <Content Include="src\js\metro\widgets\datepicker.js" />
+    <Content Include="src\js\metro\widgets\dialog.js" />
+    <Content Include="src\js\metro\widgets\draggable.js" />
+    <Content Include="src\js\metro\widgets\dropdown.js" />
+    <Content Include="src\js\metro\widgets\fit-image.js" />
+    <Content Include="src\js\metro\widgets\fluentmenu.js" />
+    <Content Include="src\js\metro\widgets\grid.js" />
+    <Content Include="src\js\metro\widgets\hint.js" />
+    <Content Include="src\js\metro\widgets\inputs.js" />
+    <Content Include="src\js\metro\widgets\keypad.js" />
+    <Content Include="src\js\metro\widgets\listview.js" />
+    <Content Include="src\js\metro\widgets\notify.js" />
+    <Content Include="src\js\metro\widgets\panel.js" />
+    <Content Include="src\js\metro\widgets\plugin.js" />
+    <Content Include="src\js\metro\widgets\popovers.js" />
+    <Content Include="src\js\metro\widgets\preloaders.js" />
+    <Content Include="src\js\metro\widgets\presenter.js" />
+    <Content Include="src\js\metro\widgets\progressbar.js" />
+    <Content Include="src\js\metro\widgets\rating.js" />
+    <Content Include="src\js\metro\widgets\select.js" />
+    <Content Include="src\js\metro\widgets\slider.js" />
+    <Content Include="src\js\metro\widgets\stepper.js" />
+    <Content Include="src\js\metro\widgets\streamer.js" />
+    <Content Include="src\js\metro\widgets\tabcontrol.js" />
+    <Content Include="src\js\metro\widgets\tile.js" />
+    <Content Include="src\js\metro\widgets\treeview.js" />
+    <Content Include="src\js\metro\widgets\validator.js" />
+    <Content Include="src\js\metro\widgets\window.js" />
+    <Content Include="src\js\metro\widgets\wizard.js" />
+    <Content Include="src\js\metro\widgets\wizard2.js" />
+    <Content Include="src\js\ui-bootstrap-tpls-1.1.0.js" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont2.eot" />
+    <Content Include="fonts\fontawesome-webfont2.otf" />
+    <Content Include="fonts\fontawesome-webfont2.ttf" />
+    <Content Include="fonts\fontawesome-webfont2.woff" />
+    <Content Include="fonts\fontawesome-webfont2.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\metro.eot" />
+    <Content Include="fonts\metro.ttf" />
+    <Content Include="fonts\metro.woff" />
+    <Content Include="fonts\selection.json" />
+    <Content Include="fonts\Simple-Line-Icons.eot" />
+    <Content Include="fonts\Simple-Line-Icons.ttf" />
+    <Content Include="fonts\Simple-Line-Icons.woff" />
+    <Content Include="fonts\Simple-Line-Icons.woff2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Par.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="src\fonts\metro.eot" />
+    <Content Include="src\fonts\metro.ttf" />
+    <Content Include="src\fonts\metro.woff" />
+    <Content Include="src\fonts\selection.json" />
+    <Content Include="src\less\animate.less" />
+    <Content Include="src\less\bootstrap\.csscomb.json" />
+    <Content Include="src\less\bootstrap\.csslintrc" />
+    <Content Include="src\less\bootstrap\alerts.less" />
+    <Content Include="src\less\bootstrap\badges.less" />
+    <Content Include="src\less\bootstrap\bootstrap.less" />
+    <Content Include="src\less\bootstrap\breadcrumbs.less" />
+    <Content Include="src\less\bootstrap\button-groups.less" />
+    <Content Include="src\less\bootstrap\buttons.less" />
+    <Content Include="src\less\bootstrap\carousel.less" />
+    <Content Include="src\less\bootstrap\close.less" />
+    <Content Include="src\less\bootstrap\code.less" />
+    <Content Include="src\less\bootstrap\component-animations.less" />
+    <Content Include="src\less\bootstrap\dropdowns.less" />
+    <Content Include="src\less\bootstrap\font-awesome\animated.less" />
+    <Content Include="src\less\bootstrap\font-awesome\bordered-pulled.less" />
+    <Content Include="src\less\bootstrap\font-awesome\core.less" />
+    <Content Include="src\less\bootstrap\font-awesome\fixed-width.less" />
+    <Content Include="src\less\bootstrap\font-awesome\font-awesome.less" />
+    <Content Include="src\less\bootstrap\font-awesome\icons.less" />
+    <Content Include="src\less\bootstrap\font-awesome\larger.less" />
+    <Content Include="src\less\bootstrap\font-awesome\list.less" />
+    <Content Include="src\less\bootstrap\font-awesome\mixins.less" />
+    <Content Include="src\less\bootstrap\font-awesome\path.less" />
+    <Content Include="src\less\bootstrap\font-awesome\rotated-flipped.less" />
+    <Content Include="src\less\bootstrap\font-awesome\stacked.less" />
+    <Content Include="src\less\bootstrap\font-awesome\variables.less" />
+    <Content Include="src\less\bootstrap\forms.less" />
+    <Content Include="src\less\bootstrap\glyphicons.less" />
+    <Content Include="src\less\bootstrap\grid.less" />
+    <Content Include="src\less\bootstrap\input-groups.less" />
+    <Content Include="src\less\bootstrap\jumbotron.less" />
+    <Content Include="src\less\bootstrap\labels.less" />
+    <Content Include="src\less\bootstrap\list-group.less" />
+    <Content Include="src\less\bootstrap\material-design\.csslintrc" />
+    <Content Include="src\less\bootstrap\material-design\bootstrap-material-design.less" />
+    <Content Include="src\less\bootstrap\material-design\plugins\_plugin-dropdownjs.less" />
+    <Content Include="src\less\bootstrap\material-design\plugins\_plugin-nouislider.less" />
+    <Content Include="src\less\bootstrap\material-design\plugins\_plugin-selectize.less" />
+    <Content Include="src\less\bootstrap\material-design\plugins\_plugin-snackbarjs.less" />
+    <Content Include="src\less\bootstrap\material-design\ripples.less" />
+    <Content Include="src\less\bootstrap\material-design\_alerts.less" />
+    <Content Include="src\less\bootstrap\material-design\_buttons.less" />
+    <Content Include="src\less\bootstrap\material-design\_cards.less" />
+    <Content Include="src\less\bootstrap\material-design\_checkboxes.less" />
+    <Content Include="src\less\bootstrap\material-design\_colors.less" />
+    <Content Include="src\less\bootstrap\material-design\_core.less" />
+    <Content Include="src\less\bootstrap\material-design\_dialogs.less" />
+    <Content Include="src\less\bootstrap\material-design\_dividers.less" />
+    <Content Include="src\less\bootstrap\material-design\_form.less" />
+    <Content Include="src\less\bootstrap\material-design\_import-bs-less.less" />
+    <Content Include="src\less\bootstrap\material-design\_import-bs-sass.less" />
+    <Content Include="src\less\bootstrap\material-design\_inputs-size.less" />
+    <Content Include="src\less\bootstrap\material-design\_inputs.less" />
+    <Content Include="src\less\bootstrap\material-design\_lists.less" />
+    <Content Include="src\less\bootstrap\material-design\_mixins.less" />
+    <Content Include="src\less\bootstrap\material-design\_navbar.less" />
+    <Content Include="src\less\bootstrap\material-design\_panels.less" />
+    <Content Include="src\less\bootstrap\material-design\_plugins.less" />
+    <Content Include="src\less\bootstrap\material-design\_popups.less" />
+    <Content Include="src\less\bootstrap\material-design\_progress.less" />
+    <Content Include="src\less\bootstrap\material-design\_radios.less" />
+    <Content Include="src\less\bootstrap\material-design\_shadows.less" />
+    <Content Include="src\less\bootstrap\material-design\_tabs.less" />
+    <Content Include="src\less\bootstrap\material-design\_themes.less" />
+    <Content Include="src\less\bootstrap\material-design\_togglebutton.less" />
+    <Content Include="src\less\bootstrap\material-design\_typography.less" />
+    <Content Include="src\less\bootstrap\material-design\_variables.less" />
+    <Content Include="src\less\bootstrap\material-design\_welljumbo.less" />
+    <Content Include="src\less\bootstrap\media.less" />
+    <Content Include="src\less\bootstrap\mixins.less" />
+    <Content Include="src\less\bootstrap\mixins\alerts.less" />
+    <Content Include="src\less\bootstrap\mixins\background-variant.less" />
+    <Content Include="src\less\bootstrap\mixins\border-radius.less" />
+    <Content Include="src\less\bootstrap\mixins\buttons.less" />
+    <Content Include="src\less\bootstrap\mixins\center-block.less" />
+    <Content Include="src\less\bootstrap\mixins\clearfix.less" />
+    <Content Include="src\less\bootstrap\mixins\forms.less" />
+    <Content Include="src\less\bootstrap\mixins\gradients.less" />
+    <Content Include="src\less\bootstrap\mixins\grid-framework.less" />
+    <Content Include="src\less\bootstrap\mixins\grid.less" />
+    <Content Include="src\less\bootstrap\mixins\hide-text.less" />
+    <Content Include="src\less\bootstrap\mixins\image.less" />
+    <Content Include="src\less\bootstrap\mixins\labels.less" />
+    <Content Include="src\less\bootstrap\mixins\list-group.less" />
+    <Content Include="src\less\bootstrap\mixins\nav-divider.less" />
+    <Content Include="src\less\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="src\less\bootstrap\mixins\opacity.less" />
+    <Content Include="src\less\bootstrap\mixins\pagination.less" />
+    <Content Include="src\less\bootstrap\mixins\panels.less" />
+    <Content Include="src\less\bootstrap\mixins\progress-bar.less" />
+    <Content Include="src\less\bootstrap\mixins\reset-filter.less" />
+    <Content Include="src\less\bootstrap\mixins\reset-text.less" />
+    <Content Include="src\less\bootstrap\mixins\resize.less" />
+    <Content Include="src\less\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="src\less\bootstrap\mixins\size.less" />
+    <Content Include="src\less\bootstrap\mixins\tab-focus.less" />
+    <Content Include="src\less\bootstrap\mixins\table-row.less" />
+    <Content Include="src\less\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="src\less\bootstrap\mixins\text-overflow.less" />
+    <Content Include="src\less\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="src\less\bootstrap\modals.less" />
+    <Content Include="src\less\bootstrap\navbar.less" />
+    <Content Include="src\less\bootstrap\navs.less" />
+    <Content Include="src\less\bootstrap\normalize.less" />
+    <Content Include="src\less\bootstrap\pager.less" />
+    <Content Include="src\less\bootstrap\pagination.less" />
+    <Content Include="src\less\bootstrap\panels.less" />
+    <Content Include="src\less\bootstrap\popovers.less" />
+    <Content Include="src\less\bootstrap\print.less" />
+    <Content Include="src\less\bootstrap\progress-bars.less" />
+    <Content Include="src\less\bootstrap\responsive-embed.less" />
+    <Content Include="src\less\bootstrap\responsive-utilities.less" />
+    <Content Include="src\less\bootstrap\scaffolding.less" />
+    <Content Include="src\less\bootstrap\simple-line-icons\simple-line-icons.less" />
+    <Content Include="src\less\bootstrap\tables.less" />
+    <Content Include="src\less\bootstrap\theme.less" />
+    <Content Include="src\less\bootstrap\thumbnails.less" />
+    <Content Include="src\less\bootstrap\tooltip.less" />
+    <Content Include="src\less\bootstrap\type.less" />
+    <Content Include="src\less\bootstrap\utilities.less" />
+    <Content Include="src\less\bootstrap\variables.less" />
+    <Content Include="src\less\bootstrap\wells.less" />
+    <Content Include="src\less\bootswatch.less" />
+    <Content Include="src\less\compoments\compoments.less" />
+    <Content Include="src\less\compoments\splitter.less" />
+    <Content Include="src\less\basic.less" />
+    <Content Include="src\less\login.less" />
+    <Content Include="src\less\main\badge.less" />
+    <Content Include="src\less\main\colors.less" />
+    <Content Include="src\less\main\dropdowns.less" />
+    <Content Include="src\less\main\footbar.less" />
+    <Content Include="src\less\main\index.less" />
+    <Content Include="src\less\main\jove.less" />
+    <Content Include="src\less\main\main.less" />
+    <Content Include="src\less\main\mdBase.less" />
+    <Content Include="src\less\main\mixin.less" />
+    <Content Include="src\less\main\navbar.less" />
+    <Content Include="src\less\main\page.less" />
+    <Content Include="src\less\main\task.less" />
+    <Content Include="src\less\main\theme.less" />
+    <Content Include="src\less\main\var.less" />
+    <Content Include="src\less\main\wndmgr.less" />
+    <Content Include="src\less\my_bootstrap.less" />
+    <Content Include="src\less\variables.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="rungrunt.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="package.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HiveENetSDK\HiveENetSDK.csproj">
+      <Project>{a9e199d4-a717-4a06-ae86-d0e3de889018}</Project>
+      <Name>HiveENetSDK</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\jove.pubxml" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:14309/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <script src="angular.js" type="text/javascript"></script>
+</head>
+<body ng-app="app" ng-controller="MainCtrl">
+  <input maxlength="20" type="text" focus  ng-model="user.name" />
+  <button ng-click="greet()">
+    Click here!</button>
+  <h3>
+    {{ message }}</h3>
+  <script>
+    var app = angular.module('app', []);
+    app.controller('MainCtrl', function ($scope) {
+      $scope.greet = function () {
+        $scope.message = "Hello, " + $scope.user.name;
+      }
+    });
+    app.directive('focus', function () {
+      return {
+        link: function (scope, element, attrs) {
+          element[0].focus();
+        }
+      };
+    });
+  </script>
+</body>
+</html>

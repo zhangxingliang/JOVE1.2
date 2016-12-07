@@ -1,0 +1,877 @@
+[2016-12-02 17:44:41.3797][DEBUG][ApiClient] 请求：http://172.16.168.205:9023/CMApi/api/entity/object/getchildobjects
+[2016-12-02 17:44:41.5927][DEBUG][ApiClient] 应答：
+{
+  "code": "0",
+  "ext": [
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 1,
+        "guid": "dd65d862701442bb9f5a7af921367eb6",
+        "name": "Public Material",
+        "type": 16,
+        "subtype": 1,
+        "folderpath": "global_sobey_defaultclass/MaterialList",
+        "cdid": "",
+        "creator": "admin",
+        "createdate": "2016-07-13 18:21:56",
+        "rights": "",
+        "journallist": "",
+        "note": ""
+      },
+      "fileformatinfo": {
+        "video": [],
+        "audio": []
+      }
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 88926,
+        "guid": "748ad55686054a54b554dd17496e8cdd",
+        "name": "global_sobey_column",
+        "type": 16,
+        "folderpath": "global_sobey_defaultclass/MaterialList",
+        "cdid": "",
+        "creator": "admin",
+        "modifier": "admin",
+        "createdate": "2016-09-20 15:22:33",
+        "modifydate": "2016-09-20 15:22:33",
+        "rights": "",
+        "journallist": "",
+        "note": ""
+      },
+      "fileformatinfo": {
+        "video": [],
+        "audio": []
+      }
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 86820,
+        "guid": "9ef80a32ade94c8d9234c1fa27e0020a",
+        "name": "333 (2)",
+        "type": 32,
+        "subtype": 32,
+        "folderpath": "global_sobey_defaultclass/MaterialList",
+        "cdid": "",
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_picture/2016/09/19/0f01a74931c9311b61fb25deec7f92bc_220_124_0.jpg",
+        "creator": "a2cf8a1bf1b345db96b6d9ffa6359af7",
+        "modifier": "803e4070e6e94b9494886db026a2fcf2",
+        "createdate": "2016-09-19 11:30:42",
+        "modifydate": "2016-11-21 15:44:09",
+        "status": 0,
+        "rights": "",
+        "journallist": "",
+        "note": "vvv",
+        "modifyterminal": "172.16.173.2",
+        "item": {
+          "trimin": 0,
+          "trimout": 4000000,
+          "length": 4000000,
+          "videostandard": 16,
+          "filestatus": 1,
+          "mediachannel": "V",
+          "capturestatus": 0,
+          "version": 1551783403874942976,
+          "itemname": "",
+          "category": "",
+          "programname": "",
+          "clipfile": [],
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 86823,
+        "guid": "e691966e9b81475894d125e2223a80cd",
+        "name": "333",
+        "type": 32,
+        "subtype": 32,
+        "folderpath": "global_sobey_defaultclass/MaterialList",
+        "cdid": "",
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_picture/2016/09/19/e72fa82685ab20d27f3809ecb7cf8d61_220_124_0.jpg",
+        "creator": "a2cf8a1bf1b345db96b6d9ffa6359af7",
+        "modifier": "803e4070e6e94b9494886db026a2fcf2",
+        "createdate": "2016-09-19 11:31:51",
+        "modifydate": "2016-11-21 15:43:54",
+        "status": 0,
+        "rights": "",
+        "journallist": "",
+        "note": "vvv",
+        "modifyterminal": "172.16.173.2",
+        "item": {
+          "trimin": 0,
+          "trimout": 4000000,
+          "length": 4000000,
+          "videostandard": 16,
+          "filestatus": 1,
+          "mediachannel": "V",
+          "capturestatus": 0,
+          "version": 1551783403879137280,
+          "itemname": "",
+          "category": "",
+          "programname": "",
+          "clipfile": [],
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 174168,
+        "guid": "98a666fc0b1c4a0faead222c0c5bf947",
+        "name": "uuuuuuuuu",
+        "type": 16,
+        "folderpath": "global_sobey_defaultclass/MaterialList",
+        "cdid": "",
+        "creator": "admin",
+        "modifier": "70e32e02f19643f88ebd27bb786bf18d",
+        "createdate": "2016-10-24 16:15:05",
+        "modifydate": "2016-11-23 18:21:59",
+        "rights": "",
+        "journallist": "",
+        "note": ""
+      },
+      "fileformatinfo": {
+        "video": [],
+        "audio": []
+      }
+    }
+  ]
+}
+[2016-12-02 17:44:43.2008][DEBUG][ApiClient] 请求：http://172.16.168.205:9023/CMApi/api/entity/folder/getsimplefolderinfo
+[2016-12-02 17:44:43.2568][DEBUG][ApiClient] 应答：
+{
+  "code": "0",
+  "msg": "Query result is empty. ",
+  "ext": []
+}
+[2016-12-02 17:44:43.4908][DEBUG][ApiClient] 请求：http://172.16.168.205:9023/CMApi/api/entity/object/getchildobjects
+[2016-12-02 17:44:43.5638][DEBUG][ApiClient] 应答：
+{
+  "code": "0",
+  "ext": [
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 92082,
+        "guid": "c9df3d42d93245e298e5a5e3139f3c34",
+        "name": "Unnamed_5\\\\\\]\\]\\./,m",
+        "type": 64,
+        "subtype": 3,
+        "folderpath": "global_sobey_defaultclass/MaterialList/global_sobey_column",
+        "cdid": "0",
+        "keyword": "",
+        "creator": "7db2e9c96b604ae6a7709eda2bd63db9",
+        "modifier": "7db2e9c96b604ae6a7709eda2bd63db9",
+        "createdate": "2016-09-21 19:41:44",
+        "modifydate": "2016-09-21 19:41:50",
+        "accessdate": "2016-09-21 11:41:20",
+        "deletedate": "2016-09-21 11:41:20",
+        "status": 0,
+        "rights": "",
+        "journallist": "",
+        "note": "",
+        "editterminal": "",
+        "modifyterminal": "",
+        "deviceid": "00000000000000000000000000000000",
+        "item": {
+          "trimin": 0,
+          "trimout": 100000000
+        }
+      },
+      "fileformatinfo": {
+        "video": [],
+        "audio": []
+      }
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 92094,
+        "guid": "78494f63b4f6475daba806c4eeb4f5ec",
+        "name": "Unnamed??||>,.",
+        "type": 64,
+        "subtype": 3,
+        "folderpath": "global_sobey_defaultclass/MaterialList/global_sobey_column",
+        "cdid": "0",
+        "keyword": "",
+        "creator": "7db2e9c96b604ae6a7709eda2bd63db9",
+        "modifier": "7db2e9c96b604ae6a7709eda2bd63db9",
+        "createdate": "2016-09-21 19:43:24",
+        "modifydate": "2016-09-21 19:43:30",
+        "accessdate": "2016-09-21 11:43:02",
+        "deletedate": "2016-09-21 11:43:02",
+        "status": 0,
+        "rights": "",
+        "journallist": "",
+        "note": "",
+        "editterminal": "",
+        "modifyterminal": "",
+        "deviceid": "00000000000000000000000000000000",
+        "item": {
+          "trimin": 0,
+          "trimout": 100000000
+        }
+      },
+      "fileformatinfo": {
+        "video": [],
+        "audio": []
+      }
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 92070,
+        "guid": "a11da1fbddd14d97923e9a63032e97fe",
+        "name": "Unnamed、、】、/][\\.,",
+        "type": 64,
+        "subtype": 3,
+        "folderpath": "global_sobey_defaultclass/MaterialList/global_sobey_column",
+        "cdid": "0",
+        "keyword": "",
+        "creator": "admin",
+        "modifier": "395e1014ac3f4329b048db8c91a15060",
+        "createdate": "2016-09-21 19:40:53",
+        "modifydate": "2016-10-24 11:51:01",
+        "accessdate": "2016-10-24 03:50:57",
+        "deletedate": "2016-10-24 03:50:57",
+        "status": 0,
+        "rights": "",
+        "journallist": "",
+        "note": "",
+        "editterminal": "",
+        "modifyterminal": "",
+        "deviceid": "00000000000000000000000000000000",
+        "item": {
+          "trimin": 0,
+          "trimout": 750000000
+        }
+      },
+      "fileformatinfo": {
+        "video": [],
+        "audio": []
+      }
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "id": 152605,
+        "guid": "46aedfd481754714bc432c38ee157cae",
+        "name": "Unnamed",
+        "type": 64,
+        "subtype": 3,
+        "folderid": 0,
+        "folderpath": "global_sobey_defaultclass/MaterialList/global_sobey_column",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "creator": "06dba44f8e8840beb04a9e1c8111b4ba",
+        "modifier": "ee530b719cd34d60874607609bfc4020",
+        "createdate": "2016-10-25 11:35:40",
+        "modifydate": "2016-11-28 10:10:44",
+        "accessdate": "2016-11-28 02:10:42",
+        "deletedate": "2016-11-28 02:10:42",
+        "status": 0,
+        "rights": "",
+        "journallist": "",
+        "note": "",
+        "editterminal": "",
+        "modifyterminal": "",
+        "deviceid": "00000000000000000000000000000000",
+        "item": {
+          "trimin": 0,
+          "trimout": 113600000
+        }
+      },
+      "fileformatinfo": {
+        "video": [],
+        "audio": []
+      }
+    }
+  ]
+}
+[2016-12-02 17:44:44.1408][DEBUG][ApiClient] 请求：http://172.16.168.205:9023/CMApi/api/entity/folder/getsimplefolderinfo
+[2016-12-02 17:44:44.1908][DEBUG][ApiClient] 应答：
+{
+  "code": "0",
+  "msg": "Query result is empty. ",
+  "ext": []
+}
+[2016-12-02 17:44:44.4759][DEBUG][ApiClient] 请求：http://172.16.168.205:9023/CMApi/api/entity/object/getchildobjects
+[2016-12-02 17:44:44.5609][DEBUG][ApiClient] 应答：
+{
+  "code": "0",
+  "ext": [
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 0,
+        "id": 87045,
+        "guid": "0a23ca4f5c29479d945f5c361b1c5e6c",
+        "name": "Fileimport Planning-NewProgram88 - Copy",
+        "type": 32,
+        "subtype": 1024,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_video/2016/09/19/1292680f9bc77d700030331e917e816c_320_180_0.jpg",
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "bc7faf130595436691330196275eea56",
+        "createdate": "2016-09-19 13:39:06",
+        "modifydate": "2016-09-19 13:50:15",
+        "accessdate": "2016-09-19 13:42:06",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "785655005ad011e69e00008017732cbe",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 97200000,
+          "length": 97200000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 1094783106,
+          "filestatus": 581,
+          "mediachannel": "VAAAAAAAA",
+          "capturestatus": 0,
+          "imagetype": 4,
+          "tobearchivestate": 0,
+          "version": 1551783400500625408,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 1,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 2,
+        "id": 87012,
+        "guid": "16b22fb03af747029cf51e21acf70fa8",
+        "name": "Fileimport Planning-720P090401_003 - Copy",
+        "type": 32,
+        "subtype": 1,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_video/2016/09/19/9097c5682f78b02846b91704c2eddec8_320_180_0.jpg",
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "bc7faf130595436691330196275eea56",
+        "createdate": "2016-09-19 13:26:14",
+        "modifydate": "2016-09-19 13:36:03",
+        "accessdate": "2016-09-19 13:32:22",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "00000000000000000000000000000000",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 48048000,
+          "length": 48048000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 32768,
+          "filestatus": 581,
+          "mediachannel": "VAAAAAAAA",
+          "capturestatus": 0,
+          "imagetype": 0,
+          "tobearchivestate": 0,
+          "version": 1551783403887525888,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 0,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 0,
+        "id": 87057,
+        "guid": "c58bbbe83f614b6d856bb4610dff6117",
+        "name": "Fileimport Planning-NewProgram88 - Copy (2)",
+        "type": 32,
+        "subtype": 1024,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "admin",
+        "createdate": "2016-09-19 13:43:44",
+        "modifydate": "2016-09-19 13:50:35",
+        "accessdate": "2016-09-19 13:49:09",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "785655005ad011e69e00008017732cbe",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 97200000,
+          "length": 97200000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 1094783106,
+          "filestatus": 581,
+          "mediachannel": "VAAAAAAAA",
+          "capturestatus": 1,
+          "imagetype": 4,
+          "tobearchivestate": 0,
+          "version": 1551783403899060224,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 1,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 0,
+        "id": 87006,
+        "guid": "95ad7dc992934a69af6fe314a72e47d1",
+        "name": "Fileimport Planning-0c53031f-4e5b-457 - Copy (2)",
+        "type": 32,
+        "subtype": 1024,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_video/2016/09/19/dcb75fffbd700b0fbdcc77ce5cb115cb_320_256_0.jpg",
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "bc7faf130595436691330196275eea56",
+        "createdate": "2016-09-19 12:57:08",
+        "modifydate": "2016-09-19 12:59:05",
+        "accessdate": "2016-09-19 12:56:48",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "785655005ad011e69e00008017732cbe",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 50000000,
+          "length": 50000000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 1,
+          "filestatus": 581,
+          "mediachannel": "VAAAA",
+          "capturestatus": 0,
+          "imagetype": 2,
+          "tobearchivestate": 0,
+          "version": 1551783403880185856,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 1,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 0,
+        "id": 86895,
+        "guid": "7f65f7966d194876ab55b64d1c4da6a6",
+        "name": "Fileimport Planning-lrx002_00128 - Copy - Copy",
+        "type": 32,
+        "subtype": 1024,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "admin",
+        "createdate": "2016-09-19 12:14:26",
+        "modifydate": "2016-09-19 12:15:09",
+        "accessdate": "2016-09-19 12:13:39",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "785655005ad011e69e00008017732cbe",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 62400000,
+          "length": 62400000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 65536,
+          "filestatus": 516,
+          "mediachannel": "VAAAA",
+          "capturestatus": 1,
+          "imagetype": 4,
+          "tobearchivestate": 0,
+          "version": 1551783403885428736,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 1,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 2,
+        "id": 87015,
+        "guid": "9ace94469d10416dbec73ddde11ccba3",
+        "name": "Fileimport Planning-720P090401_003 - Copy (2)",
+        "type": 32,
+        "subtype": 1,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_video/2016/09/19/5d454c5ce6a2528335a99531c20352f2_320_180_0.jpg",
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "bc7faf130595436691330196275eea56",
+        "createdate": "2016-09-19 13:26:31",
+        "modifydate": "2016-09-19 13:33:59",
+        "accessdate": "2016-09-19 13:30:15",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "00000000000000000000000000000000",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 48048000,
+          "length": 48048000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 32768,
+          "filestatus": 581,
+          "mediachannel": "VAAAAAAAA",
+          "capturestatus": 0,
+          "imagetype": 0,
+          "tobearchivestate": 0,
+          "version": 1551783403893817345,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 0,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 0,
+        "id": 86883,
+        "guid": "8d16905034b24b8c841482239e500def",
+        "name": "Fileimport Planning-lrx002_00128 - Copy (2)",
+        "type": 32,
+        "subtype": 1024,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_video/2016/09/19/bd510f490e6375b218e994acd6b4aab5_320_180_0.jpg",
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "bc7faf130595436691330196275eea56",
+        "createdate": "2016-09-19 12:01:56",
+        "modifydate": "2016-09-19 12:15:25",
+        "accessdate": "2016-09-19 12:12:55",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "785655005ad011e69e00008017732cbe",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 62400000,
+          "length": 62400000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 65536,
+          "filestatus": 581,
+          "mediachannel": "VAAAA",
+          "capturestatus": 0,
+          "imagetype": 4,
+          "tobearchivestate": 0,
+          "version": 1551783404126601216,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 1,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 0,
+        "id": 87000,
+        "guid": "88d32215c69243ce807e056f8003bf16",
+        "name": "Fileimport Planning-0c53031f-4e5b-457 - Copy",
+        "type": 32,
+        "subtype": 1024,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_video/2016/09/19/76484acfcdf6087ad5a6d9a95298c7a5_320_256_0.jpg",
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "bc7faf130595436691330196275eea56",
+        "createdate": "2016-09-19 12:56:20",
+        "modifydate": "2016-09-19 12:58:05",
+        "accessdate": "2016-09-19 12:55:40",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "785655005ad011e69e00008017732cbe",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 50000000,
+          "length": 50000000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 1,
+          "filestatus": 581,
+          "mediachannel": "VAAAA",
+          "capturestatus": 0,
+          "imagetype": 2,
+          "tobearchivestate": 0,
+          "version": 1551783404127649792,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 1,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    },
+    {
+      "entity": {
+        "privilege": "public_S1",
+        "deleteflag": 2,
+        "id": 87018,
+        "guid": "59fff4f91069428d9bcc2fef98e4f0f2",
+        "name": "720 5994p -MOV",
+        "type": 32,
+        "subtype": 1,
+        "folderid": 86880,
+        "folderpath": "global_sobey_defaultclass/MaterialList/Public Material/sd  fileimport test",
+        "cdid": "0",
+        "keyword": "",
+        "iconframe": 0,
+        "iconfilename": "http://172.16.168.205:86/bucket-k/keyframes/biz_sobey_video/2016/09/19/b75a64d5fd9b9a5b28fc60de70ebe047_320_180_0.jpg",
+        "creator": "bc7faf130595436691330196275eea56",
+        "modifier": "0c26afab9fdc4e9e815e80ead9ec5bef",
+        "createdate": "2016-09-19 13:26:44",
+        "modifydate": "2016-09-22 11:39:49",
+        "accessdate": "2016-09-19 13:28:18",
+        "rights": "Fileimport Planning",
+        "journallist": "Fileimport Planning",
+        "note": "Fileimport Planning",
+        "editterminal": "",
+        "modifyterminal": "Qiao-PC",
+        "deviceid": "00000000000000000000000000000000",
+        "mosid": "",
+        "item": {
+          "trimin": 0,
+          "trimout": 48048000,
+          "length": 48048000,
+          "archiveuser": "",
+          "archivedate": "1899-12-30 00:00:00",
+          "videostandard": 32768,
+          "filestatus": 581,
+          "mediachannel": "VAAAAAAAA",
+          "capturestatus": 0,
+          "imagetype": 0,
+          "tobearchivestate": 0,
+          "version": 1551783404131844096,
+          "itemname": "Fileimport Planning",
+          "category": "Fileimport Planning",
+          "programname": "Fileimport Planning",
+          "clipfile": [],
+          "archiveflag": 0,
+          "dbestreamchannel": 0,
+          "ntsctcmode": 0,
+          "storyid": "",
+          "signalsourcetype": 0
+        }
+      },
+      "metadata": {
+        "ingesttask": {
+          "process": 0,
+          "sourcetapeid": "",
+          "backtapid": "",
+          "sourcetapebarcode": ""
+        }
+      },
+      "fileformatinfo": {}
+    }
+  ]
+}

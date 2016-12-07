@@ -1,0 +1,153 @@
+﻿@import "animate";
+
+body, html {
+    height: 100%;
+    overflow: hidden;
+}
+
+.rootview {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    font-family: "Microsoft YaHei","Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-font-smothing: antialiased;
+    line-height: 1.42857143;
+    color: #58666e;
+    background-color: transparent;
+    overflow-x: hidden;
+}
+
+.full {
+    height: 100%;
+}
+
+.main-bg {
+    background-color: rgb(0,38,0);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.page-spinner-bar {
+    position: fixed;
+    z-index: 1000;
+    width: 100px;
+    top: 40%;
+    left: 50%;
+    margin-left: -55px;
+    text-align: center;
+
+    > div {
+        margin: 0 5px;
+        width: 18px;
+        height: 18px;
+        background: rgba(0, 100, 0, 0.89);
+        border-radius: 100% !important;
+        display: inline-block;
+        -webkit-animation: bounceDelay 1.4s infinite ease-in-out;
+        animation: bounceDelay 1.4s infinite ease-in-out;
+        /* Prevent first frame from flickering when animation starts */
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+
+    .bounce1 {
+        -webkit-animation-delay: -0.32s;
+        animation-delay: -0.32s;
+    }
+
+    .bounce2 {
+        -webkit-animation-delay: -0.16s;
+        animation-delay: -0.16s;
+    }
+}
+
+.popover{
+    &.fade{
+        &.in{
+            animation: 200ms pulse2;
+        }
+       
+    }
+}
+
+@-webkit-keyframes mainEnter {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.01;
+    }
+
+    51% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes mainEnter {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.01;
+    }
+
+    51% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.viewContainer {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0rem;
+    top: 0rem;
+
+    &.ng-enter {
+        animation: 0.8s mainEnter;
+
+        > .full {
+            animation: 0.5s fadeIn;
+            animation-delay: 0.3s;
+        }
+    }
+
+    &.ng-leave {
+        animation: 0.3s fadeOut;
+    }
+}
+
+
+@media (min-width:992px) {
+    html {
+        font-size: 90%;
+    }
+}
+
+@media (min-width:768px) and (max-width:991px) {
+    html {
+        font-size: 62.5%;
+    }
+}
+
+@media (max-width:767px) {
+    html {
+        font-size: 62.5%;
+    }
+}

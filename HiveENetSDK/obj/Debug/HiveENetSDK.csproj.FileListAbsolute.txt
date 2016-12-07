@@ -1,0 +1,9 @@
+E:\工作\Jove\HiveENetSDK\bin\Debug\HiveENetSDK.dll
+E:\工作\Jove\HiveENetSDK\bin\Debug\HiveENetSDK.pdb
+E:\工作\Jove\HiveENetSDK\bin\Debug\Newtonsoft.Json.dll
+E:\工作\Jove\HiveENetSDK\bin\Debug\Sobey.Core.dll
+E:\工作\Jove\HiveENetSDK\bin\Debug\Sobey.Core.pdb
+E:\工作\Jove\HiveENetSDK\bin\Debug\Sobey.Core.xml
+E:\工作\Jove\HiveENetSDK\obj\Debug\HiveENetSDK.dll
+E:\工作\Jove\HiveENetSDK\obj\Debug\HiveENetSDK.pdb
+E:\工作\Jove\HiveENetSDK\obj\Debug\HiveENetSDK.csprojResolveAssemblyReference.cache

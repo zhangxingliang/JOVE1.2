@@ -1,0 +1,513 @@
+﻿@import '../bootstrap/material-design/_shadows.less';
+@import '../bootstrap/material-design/_colors.less';
+.index{
+    .panel{
+        position: relative;
+        background-color: transparent;
+        box-shadow: none;
+        margin:0rem;
+        .panel-heading{
+            height: 2rem;
+            line-height: 2rem;
+            padding: 0rem;
+            margin: 0rem;
+            
+            .title{
+                padding-left: 3rem;
+                color: white;
+                line-height: 2rem;
+                font-size: 1.1rem;
+                
+            }
+            .addTask
+            {
+                margin-right: 4rem;
+                color: white;
+                font-size: 2rem;
+                cursor: pointer;
+                position: relative;
+            }
+            .switch{
+                font-size:1rem;
+                cursor: pointer;
+                margin-right:4rem;
+            }
+        }
+        .panel-body{
+            background-color:transparent;
+            position:absolute;
+            top:2rem;
+            bottom:0rem;
+            width:100%;
+            padding:0rem;
+        }
+    }
+    
+    .listBox{
+        position: absolute;
+        left:3rem;
+        right:2rem;
+        height:100%;         
+        
+        ul{
+            height: 100%;
+            margin: 0rem;
+            padding: 0rem;
+            list-style: none;
+            white-space: nowrap;
+            padding-right: 10px;
+            padding-left: 10px;
+            position: relative;
+    
+            >li{
+                display:inline-block;
+                height:100%;
+                position: relative; 
+                
+                .item-panel{
+                    transition: all 300ms;
+                    position: absolute;
+                    right: 1rem;
+                    bottom: 0rem;
+                    left: 0rem;
+                    background-color:rgba(255,255,255,0.95);
+                }
+            }
+        }
+    }
+    .task{
+        height: 65%;
+        margin-top: 0%;
+        
+        > .panel-heading{
+            background-color: transparent;
+        }
+        .listBox{
+            ul{
+        
+                >li{                 
+                    width:19%;
+                    padding-top:2rem;
+                    
+                    &.active-add{
+                        transition: all 300ms;                                      
+                    }
+                    &.active-remove{
+                        transition: all 300ms;
+                    }
+                    
+                    
+                    
+                    .item-panel{
+                        top: 12%;        
+                              
+                        
+                        .head{
+                            color: white;
+                            height: 2.5rem;
+                            line-height: 2.5rem;
+                            position: relative;
+                            .s-t{
+                                position: absolute;
+                                right: 1.5rem;
+                                top: 0rem;
+                            }
+                            
+                            .seq{
+                                position: absolute;
+                                left: 0.5rem;
+                                top: -0.3rem;
+                                background-color: white;
+                                bottom: 0rem;
+                                width: 3rem;
+                                text-align: center;
+                                line-height: 3.0rem;
+                                font-weight: 400;
+                            }
+                            
+                            &.s-0{
+                                background-color:#7997f7;
+                                .s-icon:before{
+                                   content: "\f017";
+                                }
+                                .seq{
+                                    color:#7997f7;
+                                }
+                            }
+                            &.s-1{
+                                background-color:#ed7326;
+                                .s-icon:before{
+                                   content: "\f252";
+                                }
+                                .seq{
+                                    color:#ed7326;
+                                }
+                            }
+                            &.s-2{
+                                background-color:#04a584;
+                                .s-icon:before{
+                                   content: "\f00c";
+                                }
+                                .seq{
+                                    color:#04a584;
+                                }
+                            }
+                            &.s-4{
+                                background-color:#ea4f4d;
+                                .s-icon:before{
+                                   content: "\f112";
+                                }
+                                .seq{
+                                    color:#ea4f4d;
+                                }
+                            }
+                        }
+                        
+                        .body{
+                            position: absolute;
+                            top: 2.5rem;
+                            bottom: 0rem;
+                            left: 0rem;
+                            right: 0rem;
+                            padding: 0.5rem;
+                            overflow:hidden;   
+                            
+                            .line{
+                                position: relative;
+                                .line-label{
+                                    width:4rem;
+                                    text-align: right;                                    
+                                    vertical-align: top;  
+                                    display: inline-block;                                  
+                                }
+                                .line-content{
+                                    display: inline-block;
+                                    word-wrap: normal;
+                                    white-space: normal;
+                                    padding-right: 4rem;
+                                    overflow: hidden;
+                                    line-height: 1.5rem;
+                                    font-size: 1.0rem;
+                                    &.task-title{
+                                        max-height:4.5rem;
+                                    }
+                                    
+                                    &.task-subject{
+                                        font-size:0.7rem;
+                                    }
+                                }
+                            }
+                            .imgLine{
+                                position:absolute;
+                                bottom: 0rem;
+                                max-height: 40%;
+                                left:0rem;
+                                right:0.5rem;
+                                
+                                >.wrapper{
+                                    text-align:center;
+                                }
+                                
+                                
+                                .task-image-item{
+                                    width:33.33%;
+                                    display:inline-block;
+                                    padding-left:0.2rem;
+                                    padding-right:0.2rem;
+                                    >img{
+                                        width:100%;
+                                    }
+                                }
+                            }
+                        }
+         
+                    }
+                    
+                    &.active{
+                        width:24%;
+                        padding-top:0rem;
+                        .item-panel{
+                            top:1rem;
+                            background-color:rgba(255,255,255,1);
+                            
+                            .task-title{
+                                font-weight: 400;
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    .recommend{
+        height:32%;
+        margin-top:1%;
+        > .panel-heading{
+            background-color: transparent;
+        }
+        
+        .listBox{
+            top:0rem;
+
+            ul{
+                >li{
+                    width:16.6666667%;
+                    
+                    .item-panel{
+                        top: 0rem;     
+                        padding:0.2rem;  
+                        
+                         .icon-file{
+                            height: 100%;
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            transition: background-size 200ms ;
+                            
+                            &:hover{
+                                &.bg-normal{
+                                    background-size: 140% auto;
+                                }
+                                &.bg-wide{
+                                    background-size:  auto 140% ;
+                                }
+                            }
+                         }  
+                         .caption{
+                             position: absolute;
+                                bottom: 0rem;
+                                left: 0.2rem;
+                                text-align: center;
+                                color: white;
+                                background-color: rgba(0,0,0,0.5);
+                                line-height: 2rem;
+                                right: 0.2rem;
+                                bottom: 0.2rem;
+                                font-size: 0.8rem;
+                            }          
+                    }
+                }
+            }
+        }
+        .panel-body{
+                top:3rem;
+            }
+    }
+    
+    .taskboxBtn{
+       position: absolute;
+        top: 50%;
+        color: #307430;
+        margin-top: -25px;
+        display: block;
+        width: 30px;
+        height: 59px;
+        opacity: .5;
+         display: block;
+         cursor:pointer;
+         padding: 0rem;
+        &:hover{
+            opacity:1;
+        }
+        &:disabled{
+            opacity:0.1;
+            &:hover{
+                opacity:0.1;
+            }
+        }
+        
+        
+        &.prev{
+            background: url(../images/arrow_left.png) no-repeat;
+           left:10px;
+        }
+        &.next{
+            background: url(../images/arrow_right.png) no-repeat;
+            right:10px;
+        }
+    }
+    
+    
+}
+
+/*宽屏*/
+ @media (min-width:992px) and (max-height:721px) {
+     .index{
+         .panel{
+             .panel-heading{
+                 .addTask, .switch{
+                     margin-right: 4rem;
+                 }
+             }
+         }
+         .listBox{
+             right: 2rem;
+         }
+         .task{
+            .listBox{
+                ul{       
+                    >li{                 
+                        .item-panel{
+                            top: 20%;                 
+                        }                                     
+                    }
+                }
+            }
+        }
+        .recommend{
+            height:32%;
+            .listBox{
+                top:0rem;
+            }
+            .panel-body{
+                top:3rem;
+            }
+        }
+     }
+ }
+ 
+ /*iphone 5*/
+@media (max-width:767px)  {
+    .index {
+        overflow:auto;
+        .task {
+            height: auto;
+            > .panel-heading{
+                background-color: fade(@green-900,80%);
+            }
+            .listBox{
+                ul {
+                 > li{
+                     width:100%;
+                     padding-top:0rem;
+                     .item-panel{
+                         top:0rem;
+                        .head{
+                            .seq{
+                                height:2.5rem;
+                                top:1px;
+                            }
+                        }
+                        .body{
+                            position:relative;
+                            top:0rem;
+                            .line{
+                                .line-content{
+                                    padding-right:0rem;
+                                    font-size:1.5rem;
+                                    &.task-subject{
+                                        max-height: 5*1.5rem;
+                                        font-size:1.2rem;
+                                        text-indent: 2rem;
+                                    }
+                                }
+                            }
+                            
+                            .imgLine{
+                                position:relative;
+                                padding-bottom: 0.5rem;
+                                padding-top: 0.5rem;
+                            }
+                        }
+                     }
+                     
+                     &.active{
+                         width:100%;
+                         .item-panel{
+                             top:0rem;
+                         }
+                     }
+                 }   
+                }
+            } 
+        }
+        .recommend{
+            height: auto;
+            margin-top: 0rem;
+            > .panel-heading{
+                background-color: fade(@orange-900,80%);
+                a{
+                    color: fade(white, 80%);
+                }
+            }
+            .listBox{
+                top:0rem;
+                ul{
+                    >li{
+                        width:100%;
+                        
+                        .item-panel{
+                            height: 5rem;
+                            border-bottom: solid 1px rgba(0, 0, 0, 0.12);
+                            .icon-file{
+                                width: 8rem;
+                                float: right;
+                                margin-right: 1rem;
+                                height:80%;
+                                margin-top:0.5rem;
+                            }
+                            .caption{
+                                position: relative;
+                                left: 1rem;
+                                margin-top: 0.8rem;
+                                padding-left: 0rem;
+                                text-align: left;
+                                font-size: 1.3rem;
+                                padding-right: 11rem;
+                                line-height: 1.5rem;
+                                max-height: 3rem;
+                                white-space: normal;
+                                overflow: hidden;
+                                display: inline-block;
+                                font-size:1.5rem;
+                                background-color: transparent;
+                                color: rgba(0,0,0,0.9);
+                                text-overflow: ellipsis;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        .panel{
+             .panel-heading{
+                height: @panel-heading-height-xs;
+                line-height: @panel-heading-height-xs;
+                .shadow-z-1;
+                
+                .title{
+                    padding-left: @panel-heading-padding;
+                    line-height: @panel-heading-height-xs;
+                    font-size: @panel-heading-height-xs / 2;
+                    
+                }
+                .addTask, .switch{
+                    margin-right: @panel-heading-padding;
+                }
+             }
+             .panel-body{
+                 position: relative;
+                 top:0rem;
+             }
+        }
+        
+        .listBox{
+            position: relative;
+            left: 0rem;
+            right: 0rem;
+            height: auto;
+            ul{
+                padding:0rem;
+                >li{
+                    display:block;
+                    width:100%;
+                    margin:0rem;   
+                    .item-panel{
+                        position: relative;
+                    }
+                }
+            }
+        }
+    }
+}

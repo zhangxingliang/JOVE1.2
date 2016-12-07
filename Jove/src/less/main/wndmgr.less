@@ -1,0 +1,78 @@
+﻿.wndmgr{
+    padding:1rem;
+    
+    .wndItem{
+        padding-bottom:3rem;
+        
+        .thumbnail{
+            height:100%;
+            margin-bottom:0rem;
+            padding-bottom:0rem;
+            background-color: rgba(2, 60, 2, 0.87);
+        }
+        .caption{
+            position: absolute;
+            top: 1px;
+            padding-left: 1rem;
+            line-height: 3rem;
+            font-size: 1.5rem;
+            right: 16px;
+            left: 16px;
+            background-color: rgba(0, 0, 0, 0.84);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.84);
+            .shadow-z-1;
+        }
+    }
+}
+
+@media (min-width: 992px){
+    .wndmgr{
+                background:white;
+    }
+    .make-row-md(@num){
+        .row-md-@{num}{
+            height: percentage(@num / 12);
+        }
+    }
+    
+    .loopingClass(@index) when (@index > 0) {
+        .make-row-md(@index);
+        
+        .loopingClass(@index - 1);
+    }
+
+   .loopingClass(12);
+   
+   
+}
+@media(max-width:767px){
+    .wndmgr{
+        overflow-y: auto;
+        overflow-x: hidden;
+        .wndItem{
+            padding-bottom: 0rem;
+            height: 7rem;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.32);
+            .thumbnail{
+                width: 7rem;
+                border: none;
+                padding: 0.5rem;
+                background-color:transparent;
+            }
+            .caption{
+                position: absolute;
+                left: 9rem;
+                bottom: 1rem;
+                top: 1rem;
+                background-color: transparent;
+                color: rgba(0, 0, 0, 0.75);
+                box-shadow: none;
+                font-size: 3rem;
+                line-height: 4rem;
+            }
+        }
+    }
+}
