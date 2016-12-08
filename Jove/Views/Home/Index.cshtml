@@ -22,23 +22,24 @@
     <script src="~/js/store/actions.js"></script>
     <script src="~/js/store/state.js"></script>
     <script src="~/js/store/getters.js"></script>
+    <script src="~/js/plugins/notifyPlugin.js"></script>
+    <script src="~/js/plugins/searchPlugin.js"></script>
     <script src="~/js/store/index.js"></script>
     <script src="~/js/components/tree_ctrl.js"></script>
     <script src="~/js/components/navPath_ctrl.js"></script>
     <script src="~/js/components/material_ctrl.js"></script>
-    <script src="~/js/plugins/notifyPlugin.js"></script>
     <script src="~/js/plugins/savePlugin.js"></script>
 </head>
-<body>
+<body style="background:#1b1b1b;">
   <template id="tree_ctrl">
     <li>
-      <div :title="node.name" class="folder_container" :class="{folder_selected : node.selected, folder_hover : dragOver}" v-on:click="click" v-on:dblclick="dblclick" :style="{paddingLeft:20 * node.floor + 'px'}">
+      <div :title="node.name" class="folder_container" :class="{folder_selected : node.selected, folder_hover : dragOver}" v-on:click="click" v-on:dblclick="dblclick" :style="{paddingLeft:12 * node.floor + 'px'}">
         <span class="triangle_icon glyphicon" :class="node.nodes ? 'glyphicon-triangle-right' : 'glyphicon-triangle-right'" v-on:click="nodeToggle(node)"></span>
         <span :class="node.icon" class="folder_icon"> </span>
         <span class="folder_name">{{node.name}}</span>
       </div>
       <ul v-show="node.open">
-        <tree-ctrl :data="n" v-for="n in node.children.filter(item=>item.type == 'folder').sort()"></tree-ctrl>
+        <tree-ctrl :data="n" v-for="n in node.children.filter(item=>item.type == 'folder')"></tree-ctrl>
       </ul>
     </li>
   </template>
@@ -90,7 +91,7 @@
          </ul>
        </div>
     </div>
-    <div class="left_container">
+    <div class="left_container" :style="{width:folderBlockStatus?200:0+'px'}">
       <div class="logo_box">
         <span>Web Quick Editing</span>
       </div>
@@ -104,18 +105,20 @@
       <div class="totalDiskSpace" id ="userStorage">
       </div>
     </div>
-    <div id="stage_wrapper" class="right_container">
+    <div id="stage_wrapper" class="right_container" :style="{left:folderBlockStatus?200:0+'px'}">
       <div class="top_box">
         <div id="div_fullTextSearch"></div>
         <input type="button" class="advance_search" value="Advance Search" v-on:click="advanceSearch"/>
         <input type="button" class="task_monitor" value="Task Monitor" v-on:click="taskMonitor"/>
         <div class="materials_count fr">
-          <span class="sort_icon">s</span>
-          <span class="refresh_icon">f</span>
-          <span class="list_icon">l</span>
-          <span class="thumb_icon">t</span>
-          <span >duanxin</span>
-          <span class="xx_icon">V</span>
+            <div class="hidden_bar">
+                <span class="xx_icon fr"></span>
+                <span class="username_show">duanxin</span>
+                <span class="timeline_icon mt15"></span>
+                <span class="info_icon mt15"></span>
+                <span class="list_top_icon mt15"></span>
+                <span class="tree_icon mt15" v-on:click="folderBlockStatus = !folderBlockStatus"></span>
+            </div>
         </div>
       </div>
       <div>
@@ -123,12 +126,12 @@
         <div class="toolbar_box">
           <nav-path-ctrl></nav-path-ctrl>
           <div class="materials_count fr">
-            <span class="sort_icon">s</span>
-            <span class="refresh_icon">f</span>
-            <span class="list_icon">l</span>
-            <span class="thumb_icon">t</span>
-            <span class="text_nomarl">Total:</span>
-            <span class="text_strong">{{materialsCount}}</span>
+              <span class="text_nomarl">Items</span>
+              <span class="text_strong">{{materialsCount}}</span>
+              <span class="list_icon"></span>
+              <span class="thumbnail_icon"></span>
+            <span class="sortby_icon"></span>
+            <span class="refresh_icon"></span>
           </div>
         </div>
         <vue-nice-scrollbar class="scrollbar_container" :speed="150">

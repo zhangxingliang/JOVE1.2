@@ -393,7 +393,7 @@ define(["app", "services/utilsService"], function (app) {
                 _iconfilename = iconfilename.replace(/\\/g, '/');
                 _iconfilename = _iconfilename.replace(":", "").split("\\").join("/");
                 if (_iconfilename.indexOf("bucket-") >= 0) {
-                    if (_iconfilename.indexOf("bucket-") != _iconfilename.lastIndexOf("bucket-")) {//如果有两个bucket
+                    if (_iconfilename.indexOf("bucket-") != _iconfilename.lastIndexOf("bucket-")) {
                         _iconfilename = _iconfilename.substring(_iconfilename.lastIndexOf("bucket-") + 7);
                     }
                     else {

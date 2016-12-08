@@ -1,6 +1,12 @@
 const mutations = {
   [types.SET_MATERIALS](state, payload){
-    payload.target.children = payload.data
+    if(payload.target.guid === 1 || payload.target.guid === 2){
+      payload.target.searchResult = payload.data
+    }
+    else{
+      payload.target.children = payload.data
+    }
+
   },
   [types.TOGGLE_FOLDER](state, payload){
     payload.target.open = !payload.target.open
@@ -37,5 +43,19 @@ const mutations = {
   },
   [types.SET_EDITOR](state, payload){
     state.editor = payload.data
+  },
+  [types.GET_SEARCHMODEL](state, payload){
+    var newArr = []
+    payload.data.forEach(item=>{
+      item.guid = 2
+      item.searchResult = []
+      item.floor = payload.target.floor + 1
+      item.father = payload.target
+      item.type = 'folder'
+      item.selected = false
+      item.children = []
+      newArr.push(item)
+    })
+    payload.target.children = newArr
   }
 }

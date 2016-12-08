@@ -108,8 +108,66 @@ const actions = {
       })
     })
   },
-  [types.LOCATE_FOLDER](context, payload){
-
+  [types.GET_SEARCHMODEL](context, payload){
+    var URL = util.getUrl(golbalSetting.CM + "/Handler/MaterialList.ashx")
+    return new Promise((resolve, reject)=>{
+      $.ajax({
+        type: "post",
+        url: URL,
+        data: { OperationType: "GetSearchResult", usertoken: _userToken, loginname: context.state.userInfo.loginName },
+        dataType: "json",
+        async: true,
+        complete: function () { },
+        success: function (data) {
+          if (data.R) {
+            context.commit({
+                type : types.GET_SEARCHMODEL,
+                target : payload.source,
+                data : data.R
+              })
+            resolve()
+          }
+        }
+      })
+    })
+  },
+  [types.GET_SEARCHRESULT](context, payload){
+    var URL = util.getUrl(golbalSetting.CM + "/Handler/MaterialList.ashx")
+    var data = {
+      OperationType : 'GetSearchResult',
+      usertoken : _userToken,
+      username : context.state.userInfo.userName,
+    }
+    return new Promise((resolve, reject)=>{
+      axios.post(URL, data).then(res=>{
+        resolve(res)
+      })
+    })
+  },
+  [types.GET_SEARCHRESULT](context, payload){
+    var URL = util.getUrl(golbalSetting.CM + "/Handler/MaterialList.ashx")
+    var model = JSON.parse(decodeURIComponent($.base64.decode(payload.source.data)));
+    return new Promise((resolve, reject)=>{
+      $.ajax({
+        type: "post",
+        url: URL,
+        data: model,
+        dataType: "json",
+        async: true,
+        complete: function () { },
+        success: function (data) {
+          if (data.R) {
+            var data = JSON.parse(data.R);
+            context.commit({
+                type : types.SET_MATERIALS,
+                target : payload.source,
+                data : util.parseData(data.ext, payload.source, model.searchType)
+              })
+            resolve()
+          }
+        }
+      })
+    })
   },
   [types.CLIP_MATERIALS](context, payload){
 

@@ -8,7 +8,7 @@ var t = [
               path: _rootPath + '/MaterialList',
               floor: 1,
               type : "folder",
-              children:[]
+              children: []
             },
             {
               name: 'Search Result',
@@ -19,7 +19,8 @@ var t = [
               path: _rootPath + '/Search Result',
               floor: 1,
               type : "folder",
-              children:[]
+              children: [],
+              searchResult: []
             }
           ];
 const state = {

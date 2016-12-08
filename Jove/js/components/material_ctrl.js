@@ -60,6 +60,18 @@ const material_ctrl = {
           util.alert(this.editor.Controls.Dialog, _language[_curLang].tip, _language[_curLang].loadTimelineFailed, 'warn', 'OK')
         })
       }
+      else if(this.material.type === 'marker') {
+        this.$store.dispatch({
+          type : types.GET_OBJECT_INFO,
+          data : {
+            clipid : this.material.objectguid,
+            sourceid : '32'
+          }
+        }).then(res=>{
+          var pathList = res.data.Ext.entity.folderpath.split('/')
+          util.locateFolder(this.$store, pathList.slice(1), {children : this.$store.getters.folderTree})
+        })
+      }
     }
   },
   computed: {

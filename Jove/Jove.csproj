@@ -196,9 +196,6 @@
     <Content Include="app\directives\ngScrollbar.js" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontawesome-webfont2.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="fonts\metro.svg" />
-    <Content Include="fonts\Simple-Line-Icons.svg" />
     <Content Include="app\h5\saveplugin.js" />
     <Content Include="app\h5\template\saveWindow.js" />
     <Content Include="app\images\7zip.png" />
@@ -250,9 +247,40 @@
     <Content Include="app\lib\js\angular.min.js.map" />
     <Content Include="app\lib\js\ct-ui-router-extras.js" />
     <Content Include="app\lib\js\ct-ui-router-extras.min.js" />
+    <Content Include="images\edl.png" />
     <Content Include="images\h5pgm.png" />
+    <Content Include="images\information_se.jpg" />
+    <Content Include="images\information_unse.jpg" />
+    <Content Include="images\list_dis.jpg" />
+    <Content Include="images\list_down.jpg" />
+    <Content Include="images\list_normal.jpg" />
+    <Content Include="images\list_over.jpg" />
+    <Content Include="images\list_se.jpg" />
+    <Content Include="images\list_unse.jpg" />
     <Content Include="images\nostamp.png" />
+    <Content Include="images\refresh_dis.jpg" />
+    <Content Include="images\refresh_down.jpg" />
+    <Content Include="images\refresh_normal.jpg" />
+    <Content Include="images\refresh_over.jpg" />
+    <Content Include="images\shrink_folder_down.png" />
+    <Content Include="images\sortby_dis.jpg" />
+    <Content Include="images\sortby_down.jpg" />
+    <Content Include="images\sortby_normal.jpg" />
+    <Content Include="images\sortby_over.jpg" />
+    <Content Include="images\thumbnail_dis.jpg" />
+    <Content Include="images\thumbnail_down.jpg" />
+    <Content Include="images\thumbnail_normal.jpg" />
+    <Content Include="images\thumbnail_over.jpg" />
+    <Content Include="images\timeline_se.jpg" />
+    <Content Include="images\timeline_unse.jpg" />
+    <Content Include="images\tree_se.jpg" />
+    <Content Include="images\tree_unse.jpg" />
     <Content Include="images\txtfile.png" />
+    <Content Include="images\user_ope_dispng.png" />
+    <Content Include="images\user_ope_down.png" />
+    <Content Include="images\user_ope_normal.png" />
+    <Content Include="images\user_ope_over.png" />
+    <Content Include="images\zip.png" />
     <Content Include="js\config\golbalSettings.js" />
     <Content Include="js\lib\axios.js" />
     <Content Include="js\lib\h5editor.js" />
@@ -306,6 +334,7 @@
     <Content Include="js\lib\vuex.js" />
     <Content Include="js\plugins\notifyPlugin.js" />
     <Content Include="js\plugins\savePlugin.js" />
+    <Content Include="js\plugins\searchPlugin.js" />
     <Content Include="js\store\actions.js" />
     <Content Include="js\store\getters.js" />
     <Content Include="js\store\index.js" />
@@ -391,18 +420,6 @@
     <Content Include="fonts\fontawesome-webfont2.woff" />
     <Content Include="fonts\fontawesome-webfont2.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\metro.eot" />
-    <Content Include="fonts\metro.ttf" />
-    <Content Include="fonts\metro.woff" />
-    <Content Include="fonts\selection.json" />
-    <Content Include="fonts\Simple-Line-Icons.eot" />
-    <Content Include="fonts\Simple-Line-Icons.ttf" />
-    <Content Include="fonts\Simple-Line-Icons.woff" />
-    <Content Include="fonts\Simple-Line-Icons.woff2" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Home\Par.cshtml" />
@@ -571,6 +588,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="fonts\pro2.ttf" />
+    <Content Include="fonts\Square.ttf" />
     <None Include="Properties\PublishProfiles\jove.pubxml" />
   </ItemGroup>
   <PropertyGroup>

@@ -13,10 +13,7 @@ const tree_ctrl =
     },
     methods: {
         click: function () {
-          this.$store.dispatch({
-            type : types.GET_MATERIALS,
-            source : this.node
-          }).then(()=>{
+          if(this.node.guid === 1){
             this.$store.commit({
               type : types.GET_NAVPATH,
               target :  this.node,
@@ -25,13 +22,48 @@ const tree_ctrl =
             Vue.nextTick(()=>{
               editor.initDrag()
             })
-          })
+          }
+          else if(this.node.guid === 2)
+          {
+            this.$store.dispatch({
+              type : types.GET_SEARCHRESULT,
+              source : this.node
+            }).then(()=>{
+              this.$store.commit({
+                type : types.GET_NAVPATH,
+                target :  this.node,
+                data : []
+              })
+              Vue.nextTick(()=>{
+                editor.initDrag()
+              })
+            })
+          }
+          else{
+            // normal folder
+            this.$store.dispatch({
+              type : types.GET_MATERIALS,
+              source : this.node
+            }).then(()=>{
+              this.$store.commit({
+                type : types.GET_NAVPATH,
+                target :  this.node,
+                data : []
+              })
+              Vue.nextTick(()=>{
+                editor.initDrag()
+              })
+            })
+          }
         },
         dblclick: function (node) {
-          this.$store.dispatch({
-            type : types.GET_MATERIALS,
-            source : this.node
-          })
+          if(this.node.guid === 1){
+            this.$store.dispatch({
+              type : types.GET_SEARCHMODEL,
+              source : this.node
+            }).then(()=>{
+            })
+          }
           this.$store.dispatch({
             type : types.TOGGLE_FOLDER,
             source : this.node

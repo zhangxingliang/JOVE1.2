@@ -2,7 +2,8 @@
 const app = new Vue({
   store,
   data: {
-    previewUrl : ''
+    previewUrl : '',
+    folderBlockStatus : true,
   },
   components: {
     'tree-ctrl' : tree_ctrl,
@@ -19,7 +20,12 @@ const app = new Vue({
       return this.$store.getters.savePathTree.sort()
     },
     materials(){
-      return this.$store.getters.currentNode.children.sort((a, b)=>a.name.localeCompare(b.name))
+      if(this.$store.getters.currentNode.guid === 1 || this.$store.getters.currentNode.guid === 2){
+        return this.$store.getters.currentNode.searchResult.sort((a, b)=>a.name.localeCompare(b.name))
+      }
+      else{
+        return this.$store.getters.currentNode.children.sort((a, b)=>a.name.localeCompare(b.name))
+      }
     },
     materialsCount(){
       return this.materials.length
@@ -32,11 +38,41 @@ const app = new Vue({
     },
     Dialog(){
       return this.editor.Controls.Dialog
+    },
+    folderStyle(){
+        return {
+            width : this.folderBlockStatus ? 200 : 0 + 'px'
+        }
+    },
+    rightSideStyle(){
+        return {
+            left : folderBlockStatus ? 200 : 0 + 'px'
+        }
     }
   },
   methods: {
     advanceSearch(){
-
+        try {
+            var _this = this
+            var template = "[{\"tabName\":\"Clip\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\note\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\creator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\createdate\"},{\"fieldName\":\"Modified by\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifier\"},{\"fieldName\":\"Modified Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifydate\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Journalist\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\journallist\"},{\"fieldName\":\"Item Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Category\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\category\"},{\"fieldName\":\"Program Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\programname\"}]},{\"tabName\":\"Folder\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"PGM\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"PGMCreator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"Marker\",\"type\":\"Mark\",\"field\":[{\"fieldName\":\"Comments\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Member\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Action\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"LMCreator\"}]}]";
+            $.fn.advancedSearch.defaults.usertoken = _userToken;
+            $.fn.advancedSearch.defaults.loginname = _this.$store.state.userInfo.loginName;
+            $.fn.advancedSearch.defaults.template = template;
+            $.fn.advancedSearch.defaults.callback = function (type, data) {
+                _this.$store.commit({
+                    type : types.SET_MATERIALS,
+                    target : _this.$store.getters.searchResult,
+                    data : util.parseData(data, _this.$store.getters.searchResult, type)
+                })
+                _this.$store.commit({
+                    type : types.GET_NAVPATH,
+                    target :  _this.$store.getters.searchResult,
+                    data : []
+                })
+            }
+            $(this).advancedSearch();
+        }
+        catch (e) { }
     },
     taskMonitor(){
 
@@ -101,7 +137,7 @@ const app = new Vue({
         useCros: true,
         logger: new TimelinePlayer.Logger("debug"),
         panelOptions: {
-            minWidth: 700,
+            minWidth: 860,
             initWidth: 450,
             playerPanel: {
                 minWidth: 250
@@ -131,7 +167,7 @@ const app = new Vue({
         if(res.data.Code === '0'){
           var  entity = res.data.Ext
           if (!entity.streammedia || !entity.streammedia[0] || !entity.entity.item.clipfile.length) {
-            util.alert(this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
+            util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
           }
           else {
             // pic
@@ -150,7 +186,7 @@ const app = new Vue({
           }
         }
         else {
-        util.alert(this.Dialog, _language[_curLang].tip, _language[_curLang].getClipInfoFailed, 'warn', 'OK')
+        util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].getClipInfoFailed, 'warn', 'OK')
         callback(false, null)
       }
     }, ()=>{
@@ -169,29 +205,31 @@ const app = new Vue({
           if (res.data.Ext.VideoStandard ) {
             framerate = ETGetVideoFrameRate(res.data.Ext.VideoStandard).nTimeRate
           }
-          res.data.Ext.Markers.forEach((item, index)=>{
-            item.time = item.keyframe / framerate
-            item.text = item.note
-            item.name = item.note
-            item.intime = item.keyframe / framerate
-            item.outtime = item.endkeyframe / framerate
-            item.duration = item.outtime - item.intime
-            if (item.type == '4') {
-              item.color = 'rgb(208,208,208)'
-            }
-            else if(item.type == '8'){
-              item.color = 'rgb(244,112,104)'
-            }
-            else if (item.type == '65536') {
-              item.color = 'rgb(243,178,102)'
-            }
-            else if (item.type == '131072') {
-              item.color = 'rgb(239,239,97)'
-            }
-            else {
-              item.color = 'rgb(129,233,154)'
-            }
-          });
+          if(res.data.Ext.Markers){
+            res.data.Ext.Markers.forEach((item, index)=>{
+              item.time = item.keyframe / framerate
+              item.text = item.note
+              item.name = item.note
+              item.intime = item.keyframe / framerate
+              item.outtime = item.endkeyframe / framerate
+              item.duration = item.outtime - item.intime
+              if (item.type == '4') {
+                item.color = 'rgb(208,208,208)'
+              }
+              else if(item.type == '8'){
+                item.color = 'rgb(244,112,104)'
+              }
+              else if (item.type == '65536') {
+                item.color = 'rgb(243,178,102)'
+              }
+              else if (item.type == '131072') {
+                item.color = 'rgb(239,239,97)'
+              }
+              else {
+                item.color = 'rgb(129,233,154)'
+              }
+            });
+          }
           if (data.in != undefined) {
             res.data.Ext.Length = (data.out - data.in) * 10000000
             res.data.Ext.TrimIn = data.in * 10000000
@@ -226,7 +264,7 @@ const app = new Vue({
             }
         }
         else {
-            util.alert(this.Dialog, _language[_curLang].tip, _language[_curLang].timeLineIsEmpty, 'warn', 'OK')
+            util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].timeLineIsEmpty, 'warn', 'OK')
         }
     };
     _this.$store.commit({

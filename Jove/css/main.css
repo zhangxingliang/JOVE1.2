@@ -1,7 +1,12 @@
+@font-face {
+    font-family: 'pro_text'; /*������˵������������������*/
+    src:url(../fonts/pro2.ttf) format('truetype');
+}
+
 .fl{float: left;}
 .fr{float: right;}
 .clearfix{overflow:hidden;_zoom:1;}
-body{font-family: Microsoft YaHei;color:#cfd2d4;}
+body{font-family:"pro_text","Microsoft YaHei";color:#cfd2d4;}
 html{background-color: #1b1b1b;height:100%}
 button, html input[type="button"], input[type="reset"], input[type="submit"] {-webkit-appearance: button;cursor: pointer;outline: none;}
 
@@ -13,21 +18,31 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   bottom: 272px;
   width: 200px;
   background: #222;
+  transition: all .2s;
+  transition-delay: .1s;
 }
 .left_container .logo_box
 {
-  height: 35px;
-  line-height: 35px;
+  overflow: hidden;
+  height: 49px;
+  line-height: 50px;
   background-color: #1b1b1b;
   color: rgb(115,115,115);
   font-weight: bold;
   text-align: center;
-  border-bottom: 1px solid #101010;
+  border-bottom: 1px solid #000;
+  font-size:16px;
+  font-family:Arial;
 }
 .left_container .folder_box
 {
-  border-right: 1px solid #101010;
+  border-right: 1px solid #000;
   height: calc(100% - 85px);
+  background:#222222;
+  border-top:1px #1b1b1b solid;
+  font-size:15px;
+  line-height:30px;
+  padding-top:10px;
 }
 .right_container
 {
@@ -37,19 +52,25 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   top: 0;
   bottom: 272px;
   right: 0;
+  transition: all .2s;
+  transition-delay: .1s;
 }
 .right_container .toolbar_box
 {
-  height: 30px;
-  line-height: 30px;
-  border-bottom: #101010;
+  height: 40px;
+  line-height: 40px;
+  background:#1f1f1f;
+  border-bottom:1px #000 solid;
+  border-top:1px #1a1a1a solid;
 }
 .right_container .top_box
 {
-  height:35px;
-  line-height: 35px;
+  height:49px;
+  line-height: 50px;
+  border-bottom:1px #000 solid;
+  background:#141414;
 }
-.right_container .top_box .advance_search
+/*.right_container .top_box .advance_search
 {
 	margin-left: 20px;
 	height: 25px;
@@ -66,10 +87,10 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 .right_container .top_box .advance_search:active
 {
 	background-color: #f5a623;
-}
+}*/
 #editor
 {
-	height: 272px;
+	height: 370px;
   position: absolute;
 	bottom:0;
 }
@@ -83,20 +104,220 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 {
   position: absolute;
   bottom: 0;
-  top: 35px;
+  top: 50px;
   left: 0;
 }
 .scrollbar_container
 {
   overflow: auto;
-  height: calc(100% - 35px);
+  height: calc(100% - 42px);
 }
-.theme-light .nice-bar-slider-y
+.task_monitor {
+    background: #272727;
+    height: 30px;
+    font-size: 13px;
+    color: #999;
+    border-radius: 3px;
+    padding: 0px 10px;
+    border: 1px #272727 solid;
+}
+
+    .task_monitor:hover {
+        border: 1px #ff9400 solid;
+    }
+
+    .task_monitor:active {
+        border: 1px #ff9400 solid;
+    }
+.advance_search {
+    background: #272727;
+    height: 30px;
+    font-size: 13px;
+    color: #999;
+    margin: 0px 5px;
+    border-radius: 3px;
+    padding: 0px 10px;
+    border: 1px #272727 solid;
+}
+
+    .advance_search:hover {
+        border: 1px #ff9400 solid;
+    }
+
+    .advance_search:active {
+        border: 1px #ff9400 solid;
+    }
+.hidden_bar {
+}
+.mt15 {
+    margin-top:15px;
+}
+.tree_icon {
+    background:url(../images/tree_se.jpg);
+    width:40px;
+    height:25px;
+    float:right;
+    margin-right:5px;
+    cursor:pointer;
+}
+    .tree_icon:focus {
+        background: url(../images/tree_unse.jpg);
+        width: 40px;
+        height: 25px;
+    }
+.list_top_icon {
+    background:url(../images/list_se.jpg);
+    width:40px;
+    height:25px;
+    float:right;
+    margin-right:5px;
+    cursor:pointer;
+}
+.list_top_icon:focus {
+    background:url(../images/list_unse.jpg);
+    width:40px;
+    height:25px;
+}
+.info_icon {
+    background:url(../images/information_se.jpg);
+    width:40px;
+    height:25px;
+    float:right;
+    margin-right:5px;
+    cursor:pointer;
+}
+.info_icon:focus {
+    background:url(../images/information_unse.jpg);
+    width:40px;
+    height:25px;
+}
+.timeline_icon {
+    background:url(../images/timeline_se.jpg);
+    width:40px;
+    height:25px;
+    float:right;
+    margin-right:5px;
+    cursor:pointer;
+}
+
+.timeline_icon:focus {
+    background:url(../images/timeline_unse.jpg);
+    width:40px;
+    height:25px;
+}
+.username_show {
+    font-size:14px;
+    float:right;
+    margin-right:5px;
+    line-height:50px;
+    margin-left:10px;
+}
+.xx_icon
 {
-  border-radius: 2px;
+    display:inline-block;
+    border:none;
+    outline:none;
+    width:39px;
+    height:39px;
+    margin-top:5px;
+    cursor:pointer;
+	background: url("../images/user_ope_normal.png")no-repeat;
 }
-.divdiv
+	.xx_icon:hover
+	{
+	background: url("../images/user_ope_over.png")no-repeat;
+	}
+	.xx_icon:active
+	{
+	background: url("../images/user_ope_down.png")no-repeat;
+	}
+.text_strong {
+    font-size:18px;
+    font-weight:normal;
+    color:#c0c0c0;
+    margin:0px 10px 0px 10px;
+    float:right;
+}
+.text_nomarl {
+    font-size:15px;
+    color:#5c5a5a;
+    margin:0px 15px 0px 0px;
+        float:right;
+
+}
+.sortby_icon
 {
-  width:20px;
-  height:20px;
+    display:inline-block;
+    border:none;
+    outline:none;
+    width:39px;
+    height:39px;
+    cursor:pointer;
+    float:right;
+	background: url("../images/sortby_normal.jpg")no-repeat;
 }
+	.sortby_icon:hover
+	{
+	background: url("../images/sortby_over.jpg")no-repeat;
+	}
+	.sortby_icon:active
+	{
+	background: url("../images/sortby_down.jpg")no-repeat;
+	}
+.refresh_icon
+{
+    display:inline-block;
+    border:none;
+    outline:none;
+    width:39px;
+    height:39px;
+    float:right;
+    cursor:pointer;
+	background: url("../images/refresh_normal.jpg")no-repeat;
+}
+	.refresh_icon:hover
+	{
+	background: url("../images/refresh_over.jpg")no-repeat;
+	}
+	.refresh_icon:active
+	{
+	background: url("../images/refresh_down.jpg")no-repeat;
+	}
+.thumbnail_icon
+{
+    display:inline-block;
+    border:none;
+    outline:none;
+    width:39px;
+    height:39px;
+    float:right;
+    cursor:pointer;
+	background: url("../images/thumbnail_normal.jpg")no-repeat;
+}
+	.thumbnail_icon:hover
+	{
+	background: url("../images/thumbnail_over.jpg")no-repeat;
+	}
+	.thumbnail_icon:active
+	{
+	background: url("../images/thumbnail_down.jpg")no-repeat;
+	}
+.list_icon
+{
+    display:inline-block;
+    border:none;
+    outline:none;
+    width:39px;
+    height:39px;
+    float:right;
+    cursor:pointer;
+	background: url("../images/list_normal.jpg")no-repeat;
+}
+	.list_icon:hover
+	{
+	background: url("../images/list_over.jpg")no-repeat;
+	}
+	.list_icon:active
+	{
+	background: url("../images/list_down.jpg")no-repeat;
+	}

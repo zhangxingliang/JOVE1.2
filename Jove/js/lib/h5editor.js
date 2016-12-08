@@ -8572,9 +8572,26 @@ h5.define('templates/H5PlayerLayout', [], function () {
     return '<div class="video-panel-resize resize-handle"></div>\
         <div id="h5-player-panel" class="h5-player-panel">\
             <div id="h5-video-panel-wrapper" class="video-panel-wrapper">\
-                <div class="wrapper">\
+                <div class="wrapperplayer ">\
                     <div id="h5-video-panel" class="video-panel">\
+                    <div class="player_top">\
                     <div class="h5-player-title"><span id="mvTimeLineTitle">Unnamed</span></div>\
+                             <div style="top: -9px; right: 4px; position: absolute; width: 260px; ">\
+                            <font class="code_small" style="color:#646464;">DURATION</font>\
+                            <font class="code_small" style="margin-right:60px;">POSITION</font>\
+                            </div>\
+                            <div style="top: 6px; right: -2px; position: absolute; width: 236px;">\
+                                <div class="duration">\
+                                    00:00:00:00\
+                                </div>\
+                                <div class="duration_mark">\
+                                    /\
+                                </div>\
+                                <div class="code">\
+                                    00:05:12:30\
+                                </div>\
+                            </div>\
+                    </div>\
                      <div class="h5-player-toolbar"><span class="glyphicon glyphicon-play toolbar-btn-play" id="play" title="Play/Pause(Space)" style="font-size: 21px;vertical-align: text-bottom;"></span><span class="glyphicon glyphicon-fast-backward toolbar-btn-play" id="startframe"  title="To the beginning(Home)"></span><span class="glyphicon glyphicon-step-backward toolbar-btn-play" id="prevframe" title="Last frame(←)"></span><span class="glyphicon glyphicon-step-forward toolbar-btn-play"id="nextframe" title="Next frame(→)"></span><span class="glyphicon glyphicon-fast-forward toolbar-btn-play" id="endframe" title="To the end(End)"></span></div>\
                         <div class="loading hidden">\
                             <div class="loadingWrapper">\
@@ -20100,7 +20117,7 @@ h5.define('timeline/H5Timeline', ["jquery","util/Object", "timeline/H5TimePositi
     function ($, Obj, H5TimePosition, util) {
 
     var CANVAS_CONTAINER_PADDING = 5,
-        TICK_COLOR = "#999999";
+        TICK_COLOR = "#676767";
 
     var Timeline = Obj.extend({
         init: function (app, media, statusArea, tracksContainer, hScrollbar) {
@@ -20197,7 +20214,8 @@ h5.define('timeline/H5Timeline', ["jquery","util/Object", "timeline/H5TimePositi
                 context.save();
                 context.clearRect(0, 0, _canvas.width, _canvas.height);
                 context.textBaseline = "top";
-                context.font = "normal 10px arial";
+                context.font = "normal 14px profont";
+                context.fillStyle = "#bbbbbb";
                 context.beginPath();
 
                 var x = startPixel;
@@ -20299,6 +20317,7 @@ h5.define('timeline/H5Timeline', ["jquery","util/Object", "timeline/H5TimePositi
  */
 h5.define('templates/H5ToolbarLayout', [], function () {
     return '<div class="status-container" dir="ltr">\
+    <div style="border-top:1px #000 solid; width:100%; position: absolute; top:-2px; height:1px;"></div>\
     <div class="status-inner-container" dir="ltr">\
       <div class="time-wrapper" dir="ltr">\
         <div class="time-container" dir="ltr">\
@@ -21533,7 +21552,7 @@ h5.define('templates/H5TracksLayout', [], function () {
 h5.define('templates/H5TimebarLayout', [], function () {
     return '<div class="timebar-container" dir="ltr">\
   <div class="h5-logo">\
-    <span class="h5-logo-title">JOVE</span>\
+    <span class="h5-logo-title">MBH</span>\
   </div>\
   <div class="time-bar" dir="ltr">\
     <div class="canvas-container" dir="ltr">\
@@ -29943,7 +29962,7 @@ h5.define('templates/TrackEventEditorLayout', [], function () {
 \
 <fieldset class="trackevent-property default input">\
   <label class="property-name"></label>\
-  <input class="value" type="text" title="' + lang[_curLang].pressEnter + '" />\
+  <div class="info_textbox"><input class="value" type="text" title="' + lang[_curLang].pressEnter + '" /></div>\
 </fieldset>\
 \
 <fieldset class="trackevent-property default input range">\
@@ -29961,62 +29980,62 @@ h5.define('templates/TrackEventEditorLayout', [], function () {
 </fieldset>\
 \
 <fieldset class="trackevent-property default input units">\
-  <label class="property-name" style = "padding-top:8px;"></label>\
+  <label class="property-name"></label>\
   <div class="h5-form-append">\
-    <input onpaste="return false"  class="value" type="text" title="' + lang[_curLang].pressEnter + '" style="ime-mode: disabled;" />\
-    <span class="h5-unit"></span>\
+    <div class="info_textbox"><input onpaste="return false"  class="value" type="text" title="' + lang[_curLang].pressEnter + '" style="ime-mode: disabled;" />\
+    <span class="h5-unit"></span></div>\
   </div>\
 </fieldset>\
 \
 <fieldset class="trackevent-property default input checkbox">\
   <label class="h5-form-checkbox">\
-    <input type="checkbox" class="value"/>\
-    <span class="property-name"></span>\
+    <input type="checkbox" class="value" style="margin-left:-32px;"/>\
+    <span class="property-name" style=""></span>\
   </label>\
 </fieldset>\
 \
 <fieldset class="trackevent-property default input color">\
   <label class="property-name"></label>\
   <div class="h5-form-append">\
-    <input class="value" onpaste="return false" type="text" style="ime-mode: disabled;" />\
-    <span class="color-picker-toggle h5-unit"></span>\
+    <div class="info_textbox"><input class="value" onpaste="return false" type="text" style="ime-mode: disabled;" />\
+    <span class="color-picker-toggle h5-unit"></span></div>\
   </div>\
   <div class="color-picker hidden"></div>\
 </fieldset>\
 \
 <fieldset class="trackevent-property select">\
   <label class="property-name"></label>\
-  <select>\
-  </select>\
+  <div class="info_textbox"><select>\
+  </select></div>\
 </fieldset>\
 \
 <fieldset class="trackevent-property targets">\
   <label class="property-name">' + lang[_curLang].target + '</label>\
-  <select data-manifest-key="target">\
+  <div class="info_textbox"><select data-manifest-key="target">\
     <option class="default-target-option" value="' + lang[_curLang].mediaElement + '">' + lang[_curLang].mediaElement + '</option>\
-  </select>\
+  </select></div>\
 </fieldset>\
 \
 <fieldset class="trackevent-property textarea">\
   <label class="property-name"></label>\
-  <textarea class="value"></textarea>\
+  <div class="info_textbox2"><textarea class="value"></textarea></div>\
 </fieldset>\
 \
 <fieldset class="trackevent-property checkbox-group">\
   <div class="checkbox-group">\
-    <label class="property-name"></label>\
-    <input type="checkbox" class="value" />\
+    <input type="checkbox" class="value" style="position: relative;left: -73px;top: 10px;"/>\
+    <label class="property-name" style="padding-left:10px;"></label>\
   </div>\
 </fieldset>\
 \
 <fieldset class="h5-form-inline form-half start-end">\
   <div class="h5-form-append">\
     <label class="property-name">' + lang[_curLang].start + '</label>\
-    <input type="text" onpaste="return false" class="value" data-manifest-key="start" style="ime-mode: disabled;">\
+    <div class="info_textbox"><input type="text" onpaste="return false" class="value" data-manifest-key="start" style="ime-mode: disabled;"></div>\
   </div>\
   <div class="h5-form-append">\
     <label class="property-name">' + lang[_curLang].end + '</label>\
-    <input type="text" onpaste="return false"  class="value" data-manifest-key="end" style="ime-mode: disabled;" >\
+    <div class="info_textbox"><input type="text" onpaste="return false"  class="value" data-manifest-key="end" style="ime-mode: disabled;" ></div>\
   </div>\
 </fieldset>\
 <div class="h5-breadcrumbs">\
@@ -31115,9 +31134,9 @@ h5.define('editor/EditorManager', ["editor/BaseEditor", "editor/TrackEventEditor
 h5.define('templates/TextTrackEventEditorLayout', [], function () {
     return '<div class="h5-editor h5-form default-editor">\
   <h1>' + lang[_curLang].textEditor + '</h1>\
-  <ul class="tabs small">\
-      <li class="basic-tab active"><a >' + lang[_curLang].basic + '</a></li>\
-      <li class="advanced-tab"><a >' + lang[_curLang].advanced + '</a></li>\
+  <ul class="tb2 small">\
+      <li class="basic-tab active" style="font-size:12px;"><a >' + lang[_curLang].basic + '</a></li>\
+      <li class="advanced-tab" style="font-size:12px;"><a >' + lang[_curLang].advanced + '</a></li>\
   </ul>\
   <div class="h5-editor-body h5-tabs-spacing scrollbar-container">\
         <div class="wrapper">\
@@ -31374,14 +31393,10 @@ h5.define('editor/TextEditor', ["jquery",  "editor/TrackEventEditor" , "template
       };
 
   });
-
-
-
-
 h5.define('templates/MediaTrackEventEditorLayout', [], function () {
     return '<div class="h5-editor h5-form media-editor">\
   <h1>' + lang[_curLang].edit + '</h1>\
-  <div class="h5-editor-body scrollbar-container" style="top:40px;">\
+  <div class="h5-editor-body scrollbar-container" style="top:30px;">\
     <div class="wrapper">\
         <div class="content">\
             <div class="error-message-container">\
@@ -31398,20 +31413,20 @@ h5.define('templates/MediaTrackEventEditorLayout', [], function () {
                         <span class="trimmer-resizable-handle trimmer-resizable-w" dir="ltr"></span>\
                     </div>\
                     </div>\
-                    <div class="h5-form-append">\
+                    <div class="h5-form-append"">\
                     <label>' + lang[_curLang].in + '</label>\
-                        <input class="trimmer-input-left">\
+                        <div class="info_textbox"><input class="trimmer-input-left"></div>\
                     </div>\
                     <div class="h5-form-append">\
                     <label>'+lang[_curLang].out+'</label>\
-                    <input class="trimmer-input-right">\
+                    <div class="info_textbox"><input class="trimmer-input-right"></div>\
                     </div>\
                 </fieldset>\
                 \
                 <div class="start-end-container"></div>\
                 <fieldset class="trackevent-property createdate">\
                     <label class="property-createdate">' + lang[_curLang].createTime + '</label>\
-                    <input class="value" type="text" readonly="true">\
+                    <div class="info_textbox"><input class="value" type="text" readonly="true"></div>\
                 </fieldset>\
             </div>\
         </div>\
@@ -31921,7 +31936,7 @@ h5.define('editor/MediaEditor', ["jquery", "editor/TrackEventEditor","util/util"
 h5.define('templates/ImageTrackEventEditorLayout', [], function () {
     return '<div class="h5-editor h5-form image-editor">\
   <h1>' + lang[_curLang].picture + '</h1>\
-  <div class="h5-editor-body scrollbar-container" style="top:40px;">\
+  <div class="h5-editor-body scrollbar-container" style="top:30px;">\
     <div class="wrapper">\
             <div class="content">\
                   <div class="error-message-container">\
@@ -31930,7 +31945,7 @@ h5.define('templates/ImageTrackEventEditorLayout', [], function () {
                 <div class="editor-options">\
                     <fieldset class="trackevent-property createdate">\
                         <label class="property-createdate">' + lang[_curLang].createTime + '</label>\
-                        <input class="value" type="text" readonly="true">\
+                        <div class="info_textbox"><input class="value" type="text" readonly="true"></div>\
                     </fieldset>\
                 </div>\
             </div>\
@@ -32881,7 +32896,7 @@ h5.define('editor/ImageEditor', ["jquery", "editor/TrackEventEditor", "util/util
 h5.define('templates/EffectTrackEventEditorLayout', [], function () {
     return '<div class="h5-editor h5-form image-editor">\
   <h1>Effect</h1>\
-  <div class="h5-editor-body scrollbar-container" style="top:40px;">\
+  <div class="h5-editor-body scrollbar-container" style="top:30px;">\
     <div class="wrapper">\
             <div class="content">\
                   <div class="error-message-container">\
@@ -33074,7 +33089,7 @@ h5.define('editor/EffectEditor', ["jquery", "editor/TrackEventEditor", "template
 h5.define('templates/SelectBoxEditorLayout', [], function () {
     return '<div class="h5-editor h5-form selectbox-editor">\
   <h1>' + lang[_curLang].inOrOutPoint + '</h1>\
-  <div class="h5-editor-body scrollbar-container" style="top:40px;">\
+  <div class="h5-editor-body scrollbar-container" style="top:30px;">\
     <div class="wrapper">\
             <div class="content">\
                   <div class="error-message-container">\
@@ -33197,7 +33212,7 @@ h5.define('editor/SelectBoxEditor', ["jquery", "editor/TrackEventEditor", "util/
 h5.define('templates/ProjectInfoEditorLayout', [], function () {
     return '<div class="h5-editor h5-form selectbox-editor">\
   <h1>' + lang[_curLang].programInfo + '</h1>\
-  <div class="h5-editor-body scrollbar-container" style="top:40px;">\
+  <div class="h5-editor-body scrollbar-container" style="top:30px;">\
     <div class="wrapper">\
             <div class="content">\
                   <div class="error-message-container">\

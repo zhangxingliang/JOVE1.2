@@ -11,6 +11,9 @@ const getters = {
   copingBoard: (state, getters)=>{
     return getters.currentNode.children.filter(item=>item.coping == true)
   },
+  searchResult: state=>{
+    return state.nodes[1]
+  },
   savePathTree: state=>{
     return state.saveBasePath.children
   }

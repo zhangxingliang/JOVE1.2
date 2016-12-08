@@ -6,6 +6,7 @@ const notifyPlugin = store => {
   var Guid ;
   var ws;
   var seek = 0;
+  var urlList = _socketServer.split(';')
   var total = urlList.length;
   var _this = this;
   var Reconnect = function () {
@@ -56,12 +57,12 @@ const notifyPlugin = store => {
   }
     Init();
     store.subscribe(mutation => {
-     if (mutation.type === 'setNodes') {
+     if (mutation.payload.type === types.SET_MATERIALS) {
        //处理payload
-       var cNode = mutation.payload.srcNode;
+       var node = mutation.payload.target;
        var msg = {
-         ClipFolderGuid: 'dd65d862701442bb9f5a7af921367eb6',
-         ClipFolderPath: "global_sobey_defaultclass/MaterialList/Public Material"
+         ClipFolderGuid: node.guid,
+         ClipFolderPath: node.father ? node.father.path : ''
        };
        Send(msg);
      }

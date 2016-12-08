@@ -23,19 +23,19 @@
   background-color: #222;
   cursor: default;
   font-weight: normal;
-  height: 25px;
-  line-height: 25px;
-  font-size: 12px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 15px;
   color: #cfd2d4;
 }
 .folder_container:hover
 {
-  background-color: #f5a623;
+  background-color: #393939;
   color: #fff;
 }
 .folder_container .folder_hover
 {
-  background-color: #f5a623;
+  background-color: #393939;
   color: #fff;
 }
 .folder_container span
@@ -57,6 +57,7 @@
 .folder_container .folder_name
 {
   display:inline-block;
+  padding-left:6px;
 }
 .folder_selected .folder_icon
 {
@@ -65,36 +66,64 @@
 
 .backup_icon
 {
-	background-image:url(../images/arrow_left.png);
+	background-image:url(/images/arrow_left.png);
+    background-position: center;
 	background-repeat:no-repeat;
 	background-size:9px 13px;
-	width:9px;
-	height:13px;
+	width:27px;
+	height:27px;
 	margin-left: 12px;
+    margin-top:5px;
 }
+.backup_icon:hover
+{
+    background: #444444;
+	background-image:url(/images/arrow_left.png);
+    background-position: center;
+	background-repeat:no-repeat;
+	background-size:9px 13px;
+	height:27px;
+	margin-left: 12px;
+    border-radius: 3px;
+}
+
 .history_container
 {
 	color: #636363;
-  height: 25px;
+  height: 40px;
   overflow: hidden;
   white-space: nowrap;
 	cursor:pointer;
   font-size: 13px;
 }
+
 .history_item_container > li + li:before
-{
-  content: "/";
-  padding: 0 3px;
-  color: #cccccc;
+ {
+    /*content:url(/images/arrow1_right.png);*/
+    content:"/";
+    padding: 10px 5px;
+    color: #c0c0c0;
 }
-.history_item:hover
+
+.history_item_container
 {
-	color:#f5a623;
+	position: absolute;
 }
 .history_item
 {
-
+    font-size:14px;
+    color:#c0c0c0;
+    height:27px;
+	line-height: 27px;
 }
+    .history_item a {
+        display: inline-block;
+    }
+	.history_item a:hover {
+        color:#c0c0c0;
+		background:#444;
+		border-radius: 3px;
+    }
 .history_item, .history_item_container, .history_container, .backup_icon
 {
 	display:inline-block;
@@ -102,25 +131,27 @@
 
 .material
 {
-  width: 90px;
-  height: 80px;
+  width: 150px;
+  height: 130px;
   box-sizing: border-box;
-  margin: 5px 5px;
+  margin: 8px 8px;
   background: #393939;
   position: relative;
+  border: 1px solid #393939;
+
 }
 .material:hover
 {
   /*border: 1px solid #f5a634;*/
-  background-color: #333;
-}
+    border: 1px solid #ff9000;
+    background: #62522f;}
 .material .material_status
 {
-  height:15px;
+  height:25px;
 }
 .material .material_icon_container
 {
-  line-height: 50px;
+  line-height: 77px;
   text-align: center;
   background-color: #2e2e2e;
 }
@@ -130,31 +161,31 @@
 }
 .material .material_icon_container span
 {
-  width: 40px;
-  height: 32px;
+  width: 137px;
+  height: 79px;
   vertical-align: middle;
   display: inline-block;
   background-size: contain !important;
 }
 .material .material_icon_container img
 {
-  max-width: 90px;
-  max-height: 50px;
+  max-width: 137px;
+  max-height: 77px;
   vertical-align: middle;
 }
 .material .material_info
 {
   color: #cfd2d4;
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
   cursor: default;
   height: 15px;
   line-height: 15px;
   position: absolute;
-  bottom: 0;
   margin-left: 2px;
-  width: 85px;
+  width: 120px;
+  padding-top:5px;
 }
 .material.material_selecting
 {
