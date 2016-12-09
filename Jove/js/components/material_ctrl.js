@@ -72,6 +72,22 @@ const material_ctrl = {
           util.locateFolder(this.$store, pathList.slice(1), {children : this.$store.getters.folderTree})
         })
       }
+      else {
+        var url = context.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + payload.source.guid + '&uk=' + _userToken
+        this.$store.commit({
+          type : types.SET_PREVIEWURL,
+          source : this.material,
+          data :  url
+        })
+        this.$store.commit({
+          type : types.ACTIVE_SVPLAYER
+        })
+        if(!this.$store.resourceBlockStatus){
+          this.$store.commit({
+            type : types.MOVE_SVPLAYER
+          })
+        }
+      }
     }
   },
   computed: {

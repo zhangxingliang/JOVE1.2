@@ -8367,7 +8367,9 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
             if (minimized) {
                 curWidth = minWidth;
             }
-            handlerElement.width(curWidth);
+            if (!options.isInfo) {
+                handlerElement.width(curWidth);
+            }
 
 
             if (isLeft) {
@@ -8377,7 +8379,13 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
             } else {
                 var right = parseInt(handlerElement.css("right"));
                 firstElement.css({ right: (right + curWidth) + 'px' });
-                handlerElement.css({ left: 'auto' });
+                if (options.isInfo) {
+                    var width = firstElement.width();
+                    handlerElement.css({ left: width});
+                }
+                else {
+                    handlerElement.css({ left: 'auto' });
+                }      
             }
 
 
@@ -8417,13 +8425,13 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
 
                     var left = parseInt(handlerElement.css("left"));
                     if (handlerElement[0].getAttribute('id') == 'player') {
-                        setCookie('playerWidth', nWidth);
+                        //setCookie('playerWidth', nWidth);
                     }
                     else {
                         if (nWidth < 230) {
                             nWidth = 231;
                         }
-                        setCookie('propertyWidth', nWidth );
+                       // setCookie('propertyWidth', nWidth );
                     }
                     handlerElement.width(nWidth);
                     curWidth = nWidth;
@@ -8431,7 +8439,7 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                 } else {
                     nWidth = oWidth - diffX;
                     if (handlerElement[0].getAttribute('id') == 'player') {
-                        if (e.clientX - (getCookie('treeWidth') || 216) < 400) {
+                        if (e.clientX -  216 < 400) { //(getCookie('treeWidth') || 216) < 400) {
                             return;
                         }
                     }
@@ -8450,23 +8458,23 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                     if (handlerElement[0].getAttribute('id') == 'player') {
                         if ($('.svcontainer').innerWidth() < 645) {
                             $('.markerlist').width(nWidth - 645);
-                            setCookie('markerWidth',nWidth - 645);
+                            //setCookie('markerWidth',nWidth - 645);
                             $('.svcontainer').css({ right: (nWidth - 645) + 'px' });
                             $('.svcontainer').css({ width: 'calc(100% - ' + (nWidth - 645) + 'px)' });
                             if ($('.svcontainer').innerWidth() < 645) {
                                 $('.markerlist').width(55);
-                                setCookie('markerWidth', 55);
+                               // setCookie('markerWidth', 55);
                                 $('.svcontainer').css({ right: '55px' });
                                 $('.svcontainer').css({ width: 'calc(100% - ' + 55 + 'px)' });
                             }
                         }
-                        setCookie('playerWidth', nWidth);
+                        //setCookie('playerWidth', nWidth);
                     }
                     else {
                         if (nWidth < 230) {
                             nWidth = 231;
                         }
-                        setCookie('propertyWidth', nWidth);
+                        //setCookie('propertyWidth', nWidth);
                     }
                     handlerElement.width(nWidth);
                     curWidth = nWidth;
@@ -8491,12 +8499,25 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                 _this.minimize(!minimized);
             });
 
+            this.hide = function () {
+                handlerElement.width(0);
+                firstElement.css({ right: 0 + 'px' });
+                _this.dispatchEvent("resize");
+
+            }
+            this.show = function () {
+                handlerElement.width(250);
+                firstElement.css({ right: 250 + 'px' });
+                var width = firstElement.width();
+                handlerElement.css({ left: width });
+                _this.dispatchEvent("resize");
+            }
             this.minimize = function (state) {
                 minimized = state;
 
                 if (state) {
                     handlerElement.width(minWidth);
-                    setCookie('playerWidth', minWidth);
+                    //setCookie('playerWidth', minWidth);
                     //setCookie('propertyWidth', 200);
                     curWidth = minWidth;
                     if (isLeft) {
@@ -8506,9 +8527,11 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                         var right = parseInt(handlerElement.css("right"));
                         firstElement.css({ right: (right + minWidth) + 'px' });
                     }
-                    _this.dispatchEvent("resize");
+                    setTimeout(function () {
+                        _this.dispatchEvent("resize");
+                    }, 300);
                     $('.markerlist').width(55);
-                    setCookie('markerWidth', 55);
+                    //setCookie('markerWidth', 55);
                     $('.svcontainer').css({ right: '55px' });
                     $('.svcontainer').css({ width: 'calc(100% - ' + 55 + 'px)' });
                 } else {
@@ -8519,14 +8542,14 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                         curWidth = initWidth;
                     }
                     if (handlerElement[0].getAttribute('id') == 'player') {
-                        setCookie('playerWidth', curWidth);
+                        //setCookie('playerWidth', curWidth);
                     }
                     else {
                         if (curWidth < 230) {
                             curWidth = 231;
                         }
-                        setCookie('propertyWidth', curWidth);
-                        setCookie('playerWidth', maxWidth + 231);
+                        //setCookie('propertyWidth', curWidth);
+                        //setCookie('playerWidth', maxWidth + 231);
                     }
                     handlerElement.width(curWidth);
                     if (isLeft) {
@@ -8536,7 +8559,9 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                         var right = parseInt(handlerElement.css("right"));
                         firstElement.css({ right: (right + curWidth) + 'px' });
                     }
-                    _this.dispatchEvent("resize");
+                    setTimeout(function () {
+                        _this.dispatchEvent("resize");
+                    }, 300);
                 }
 
             }
@@ -8573,7 +8598,6 @@ h5.define('templates/H5PlayerLayout', [], function () {
         <div id="h5-player-panel" class="h5-player-panel">\
             <div id="h5-video-panel-wrapper" class="video-panel-wrapper">\
                 <div class="wrapperplayer ">\
-                    <div id="h5-video-panel" class="video-panel">\
                     <div class="player_top">\
                     <div class="h5-player-title"><span id="mvTimeLineTitle">Unnamed</span></div>\
                              <div style="top: -9px; right: 4px; position: absolute; width: 260px; ">\
@@ -8592,7 +8616,8 @@ h5.define('templates/H5PlayerLayout', [], function () {
                                 </div>\
                             </div>\
                     </div>\
-                     <div class="h5-player-toolbar"><span class="glyphicon glyphicon-play toolbar-btn-play" id="play" title="Play/Pause(Space)" style="font-size: 21px;vertical-align: text-bottom;"></span><span class="glyphicon glyphicon-fast-backward toolbar-btn-play" id="startframe"  title="To the beginning(Home)"></span><span class="glyphicon glyphicon-step-backward toolbar-btn-play" id="prevframe" title="Last frame(←)"></span><span class="glyphicon glyphicon-step-forward toolbar-btn-play"id="nextframe" title="Next frame(→)"></span><span class="glyphicon glyphicon-fast-forward toolbar-btn-play" id="endframe" title="To the end(End)"></span></div>\
+                     <div class="h5-player-toolbar"><span class="glyphicon glyphicon-play toolbar-btn-play" id="play" title="Play/Pause(Space)">p</span><span class="glyphicon glyphicon-fast-backward toolbar-btn-play" id="startframe"  title="To the beginning(Home)">h</span><span class="glyphicon glyphicon-step-backward toolbar-btn-play" id="prevframe" title="Last frame(←)">l</span><span class="glyphicon glyphicon-step-forward toolbar-btn-play"id="nextframe" title="Next frame(→)">n</span><span class="glyphicon glyphicon-fast-forward toolbar-btn-play" id="endframe" title="To the end(End)">e</span></div>\
+                    <div id="h5-video-panel" class="video-panel">\
                         <div class="loading hidden">\
                             <div class="loadingWrapper">\
                                 <div class="rect1"></div>\
@@ -9189,11 +9214,11 @@ h5.define('timeline/H5PlayerPanel', [
                   _videoLoading = _videoPanel.querySelector(".loading"),
                   _videoPanelId = _videoPanel.id;
 
-              var _startframe = _videoPanel.querySelector("#startframe"),
-                  _prevframe = _videoPanel.querySelector("#prevframe"),
-                  _play = _videoPanel.querySelector("#play"),
-                  _nextframe = _videoPanel.querySelector("#nextframe"),
-                  _endframe = _videoPanel.querySelector("#endframe");
+              var _startframe = _videoPanelContainer.querySelector("#startframe"),
+                  _prevframe = _videoPanelContainer.querySelector("#prevframe"),
+                  _play = _videoPanelContainer.querySelector("#play"),
+                  _nextframe = _videoPanelContainer.querySelector("#nextframe"),
+                  _endframe = _videoPanelContainer.querySelector("#endframe");
 
               _startframe.addEventListener("click", function () {
                   app.media.startFrame();
@@ -9236,9 +9261,10 @@ h5.define('timeline/H5PlayerPanel', [
                   initWidth: options.initWidth,
                   maxWidth: options.maxWidth,
                   firstElement: options.slidingElement,
-                  handlerElement: _parentElement
+                  handlerElement: _parentElement,
               });
-
+              
+              window._playerResizer = _resizer;
               var mw = $(_parentElement).width() - options.playerPanel.minWidth;
               if (options.infoPanel.maxWidth > 0) {
                   mw = Math.min(options.infoPanel.maxWidth, mw);
@@ -9250,9 +9276,10 @@ h5.define('timeline/H5PlayerPanel', [
                   minimized: false,
                   handlerCss: 'info-panel-resize',
                   firstElement: _parentElement.querySelector(".video-panel-wrapper"),
-                  handlerElement: _parentElement.querySelector(".info-panel-wrapper")
+                  handlerElement: _parentElement.querySelector(".info-panel-wrapper"),
+                  isInfo :  true,
               });
-
+              window._infoResizer = _infoResizer;
               _pluginPanel = new H5InfoPanel(app, editorPlugin, _infoPanel);
 
               _resizer.addEventListener("resize", function () {

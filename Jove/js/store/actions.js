@@ -169,7 +169,13 @@ const actions = {
       })
     })
   },
+  [types.PREVIEW_MATERIAL](context, payload){
+    context.commit({
+      type : types.SET_PREVIEWURL,
+      data : url
+    })
+  },
   [types.CLIP_MATERIALS](context, payload){
 
-  },
+  }
 }

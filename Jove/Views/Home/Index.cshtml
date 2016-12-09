@@ -91,7 +91,7 @@
          </ul>
        </div>
     </div>
-    <div class="left_container" :style="{width:folderBlockStatus?200:0+'px'}">
+    <div class="left_container" :style="{left:(folderBlockStatus?0:-200)+'px'}">
       <div class="logo_box">
         <span>Web Quick Editing</span>
       </div>
@@ -105,7 +105,7 @@
       <div class="totalDiskSpace" id ="userStorage">
       </div>
     </div>
-    <div id="stage_wrapper" class="right_container" :style="{left:folderBlockStatus?200:0+'px'}">
+    <div id="stage_wrapper" class="right_container" :style="{left:(folderBlockStatus?200:0)+'px'}">
       <div class="top_box">
         <div id="div_fullTextSearch"></div>
         <input type="button" class="advance_search" value="Advance Search" v-on:click="advanceSearch"/>
@@ -115,14 +115,19 @@
                 <span class="xx_icon fr"></span>
                 <span class="username_show">duanxin</span>
                 <span class="timeline_icon mt15"></span>
-                <span class="info_icon mt15"></span>
-                <span class="list_top_icon mt15"></span>
-                <span class="tree_icon mt15" v-on:click="folderBlockStatus = !folderBlockStatus"></span>
+                <span class="info_icon mt15" :class="{info_icon_disabled:!infoBlockStatus}" v-on:click="toggleInfoBlock"></span>
+                <span class="list_top_icon mt15" :class="{list_top_icon_disabled:!resourceBlockStatus}" v-on:click="toggleResourceBlock"></span>
+                <span class="tree_icon mt15" :class="{tree_icon_disabled:!folderBlockStatus}" v-on:click="folderBlockStatus = !folderBlockStatus"></span>
             </div>
         </div>
       </div>
-      <div>
-      <div id="resourceList" class="materials_container">
+      <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle">
+         <iframe id="previewifm" class="sv_player" :src="previewUrl">
+         </iframe>
+         <div class="sv_marker_list">
+         </div>
+      </div>
+      <div id="resourceList" class="materials_container" v-show="resourceBlockStatus">
         <div class="toolbar_box">
           <nav-path-ctrl></nav-path-ctrl>
           <div class="materials_count fr">
@@ -143,7 +148,6 @@
       </div>
       <div id="player">
       </div>
-    </div>
     </div>
     <div id="editor" class="h5editor ani"></div>
   </div>

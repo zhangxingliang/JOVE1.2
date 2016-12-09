@@ -54,5 +54,12 @@ const state = {
     nickName : '',
     userCode : ''
   },
-  editor: {}
+  editor: {},
+  previewBaseUrl : golbalSetting.CM + '/ModulePage/webpreview.html',
+  previewUrl : golbalSetting.CM + '/ModulePage/webpreview.html',
+  svplayerStatus : false,
+  svplayerStyle : {
+    right : '860px'
+  },
+  resourceBlockStatus : true,
 }

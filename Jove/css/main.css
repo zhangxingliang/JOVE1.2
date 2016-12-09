@@ -15,7 +15,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 272px;
+  bottom: 372px;
   width: 200px;
   background: #222;
   transition: all .2s;
@@ -50,7 +50,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   left: 200px;
   background-color: #1b1b1b;
   top: 0;
-  bottom: 272px;
+  bottom: 372px;
   right: 0;
   transition: all .2s;
   transition-delay: .1s;
@@ -100,12 +100,15 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   position: absolute;
   bottom: 0;
 }
+
 .materials_container
 {
   position: absolute;
   bottom: 0;
   top: 50px;
   left: 0;
+  transition: all .2s;
+  transition-delay: .1s;
 }
 .scrollbar_container
 {
@@ -160,7 +163,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     margin-right:5px;
     cursor:pointer;
 }
-    .tree_icon:focus {
+    .tree_icon_disabled {
         background: url(../images/tree_unse.jpg);
         width: 40px;
         height: 25px;
@@ -173,7 +176,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     margin-right:5px;
     cursor:pointer;
 }
-.list_top_icon:focus {
+.list_top_icon_disabled {
     background:url(../images/list_unse.jpg);
     width:40px;
     height:25px;
@@ -186,7 +189,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     margin-right:5px;
     cursor:pointer;
 }
-.info_icon:focus {
+.info_icon_disabled {
     background:url(../images/information_unse.jpg);
     width:40px;
     height:25px;
@@ -200,7 +203,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     cursor:pointer;
 }
 
-.timeline_icon:focus {
+.timeline_icon_disabled {
     background:url(../images/timeline_unse.jpg);
     width:40px;
     height:25px;
@@ -321,3 +324,21 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 	{
 	background: url("../images/list_down.jpg")no-repeat;
 	}
+.sv_player
+{
+  border: none;
+	width: 645px;
+	height: 470px;
+	position: relative;
+}
+.sv_container
+{
+  position: absolute;
+  bottom: 0;
+  top: 50px;
+  left: 0;
+  z-index: 12345;
+  background: #161616;
+  transition: all .2s;
+  transition-delay: .1s;
+}

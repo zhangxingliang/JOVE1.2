@@ -57,5 +57,24 @@ const mutations = {
       newArr.push(item)
     })
     payload.target.children = newArr
-  }
+  },
+  [types.PREVIEW_MATERIAL](state, payload){
+    state.previewUrl = payload.data
+  },
+  [types.ACTIVE_SVPLAYER](state, payload){
+    state.svplayerStatus = true
+  },
+  [types.MOVE_SVPLAYER](state, payload){
+    state.svplayerStyle = {
+      right : 0 + 'px'
+    }
+  },
+  [types.RESET_SVPLAYER](state, payload){
+    state.svplayerStyle = {
+      right : '860px'
+    }
+  },
+  [types.TOGGLE_RESOURCEBLOCKSTATUS](state, payload){
+    state.resourceBlockStatus = !state.resourceBlockStatus
+  },
 }
