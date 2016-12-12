@@ -1,7 +1,7 @@
 const actions = {
   [types.GET_MATERIALS](context, payload){
     // http get then commit if need
-    if(payload.source.children.length > 0){
+    if(payload.source.children.length > 0 && !context.state.alwaysGet){
       return new Promise((resolve, reject)=>{
         resolve()
       })
@@ -173,6 +173,22 @@ const actions = {
     context.commit({
       type : types.SET_PREVIEWURL,
       data : url
+    })
+  },
+  [types.REFRESH_MATERIAL](context, payload){
+    var URL = util.getUrl('Cm/GetClipList')
+    return new Promise((resolve, reject)=>{
+      axios.post(URL, {
+        usertoken : _userToken,
+        path : context.getters.currentNode.path
+      }).then(res=>{
+        context.commit({
+            type : types.SET_MATERIALS,
+            target : context.getters.currentNode,
+            data : util.parseData(res.data, context.getters.currentNode)
+          })
+        resolve()
+      })
     })
   },
   [types.CLIP_MATERIALS](context, payload){

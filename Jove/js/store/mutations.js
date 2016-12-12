@@ -62,7 +62,25 @@ const mutations = {
     state.previewUrl = payload.data
   },
   [types.ACTIVE_SVPLAYER](state, payload){
-    state.svplayerStatus = true
+    if(state.resourceBlockStatus){
+      state.svplayerStyle = {
+        right : 0 + 'px'
+      }
+      state.svplayerStatus = true
+    }
+    else {
+      state.svplayerStyle = {
+        right : '860px'
+      }
+    }
+  },
+  [types.DISACTIVE_SVPLAYER](state, payload){
+    if(state.resourceBlockStatus){
+      state.svplayerStatus = false
+    }
+    else{
+
+    }
   },
   [types.MOVE_SVPLAYER](state, payload){
     state.svplayerStyle = {
@@ -75,6 +93,20 @@ const mutations = {
     }
   },
   [types.TOGGLE_RESOURCEBLOCKSTATUS](state, payload){
+    if(state.resourceBlockStatus){
+      state.svplayerStyle = {
+        right : '860px'
+      }
+      state.svplayerStatus = true
+    }
+    else if(state.svplayerStatus){
+      state.svplayerStyle = {
+        right : 0 + 'px'
+      }
+    }
     state.resourceBlockStatus = !state.resourceBlockStatus
+  },
+  [types.SET_ALWAYSGET](state, payload){
+    state.alwaysGet = payload.data
   },
 }

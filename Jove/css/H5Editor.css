@@ -4503,6 +4503,8 @@ body {
   right: 0px;
   background-color: black;
   border: solid 1px #555555;
+  transition: all .2s;
+  transition-delay: .1s;
 }
 .h5 .h5-player-panel .video-panel-wrapper .video-panel video {
   width: 100%;

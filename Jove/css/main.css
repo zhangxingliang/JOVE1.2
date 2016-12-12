@@ -336,9 +336,69 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   position: absolute;
   bottom: 0;
   top: 50px;
-  left: 0;
+  left: auto;
+  width: 860px;
   z-index: 12345;
   background: #161616;
   transition: all .2s;
   transition-delay: .1s;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s
+}
+.fade-enter, .fade-leave-active {
+  opacity: 0
+}
+.triangle_top
+{
+  border: 8px solid transparent;
+  border-bottom: 8px solid #e3e3e3;
+  position: absolute;
+}
+.triangle_top.user_operation
+{
+  top: 30px;
+  right: 11px;
+}
+.operation_box
+{
+  position: absolute;
+  top: 45px;
+  background-color: #e3e3e3;
+  z-index: 23333;
+  cursor: pointer;
+  border-radius: 4px;
+  line-height: 27px;
+  padding: 3px 0;
+}
+.operation_box.user_operation
+{
+  right: 5px;
+  width: 75px;
+}
+.operation_item{
+  list-style: none;
+  line-height: 27px;
+  padding: 0 7px;
+  color: #1b1b1b;
+  font-weight: 600;
+  text-align: center;
+}
+.operation_item:hover
+{
+  background-color: #f5a623;
+}
+.triangle_top.sort_by
+{
+  top: 30px;
+  right: 12px;
+}
+.menu_box
+{
+  position: relative;
+}
+.operation_box.sort_by
+{
+  width: 120px;
+  right: -42px;
 }

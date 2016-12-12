@@ -4,6 +4,10 @@
           data: {
               folderBlockStatus : true,
               infoBlockStatus : true,
+              userOperationStatus : false,
+              sortByStatus : false,
+              sortType : 'title',
+              sortSymbol : false
           },
           components: {
               'tree-ctrl' : tree_ctrl,
@@ -24,7 +28,7 @@ savePath(){
             return this.$store.getters.currentNode.searchResult.sort((a, b)=>a.name.localeCompare(b.name))
         }
         else{
-            return this.$store.getters.currentNode.children.sort((a, b)=>a.name.localeCompare(b.name))
+            return util.sortBy(this.$store.getters.currentNode.children, this.sortType, this.sortSymbol)
         }
     },
 materialsCount(){
@@ -56,6 +60,39 @@ materialsCount(){
     },
 },
 methods: {
+    hideMenu(){
+        this.userOperationStatus = this.sortByStatus = false
+    },
+    orderBy(type, symbol){
+        this.sortType = type
+        if(symbol !== undefined){
+            this.sortSymbol = symbol
+        }
+        else{
+            this.sortSymbol = !this.sortSymbol
+        }
+    },
+    logout(){
+        this.userOperationStatus = false
+        open(location, '_self').close()
+    },
+    refreshMaterial(){
+        this.$store.dispatch({
+            type : types.REFRESH_MATERIAL
+        })
+    },
+    toggleSVMV(){
+        if(this.svplayerStatus){
+            this.$store.commit({
+                type : types.DISACTIVE_SVPLAYER
+            })
+        }
+        else{
+            this.$store.commit({
+                type : types.ACTIVE_SVPLAYER
+            })
+        }
+    },
     toggleInfoBlock(){
         if(this.infoBlockStatus){
             _infoResizer.hide()
@@ -67,16 +104,29 @@ methods: {
         this.infoBlockStatus = !this.infoBlockStatus
     },
     toggleResourceBlock(){
-        if(this.folderBlockStatus && this.infoBlockStatus)this.folderBlockStatus = false
+        if(this.folderBlockStatus && this.resourceBlockStatus)
+        {
+            this.folderBlockStatus = false
+        }
         this.$store.commit({
             type : types.TOGGLE_RESOURCEBLOCKSTATUS
         })
+    },
+    toggleFolderBlock(){
+        if(!this.resourceBlockStatus)
+        {
+            this.$store.commit({
+                type : types.TOGGLE_RESOURCEBLOCKSTATUS
+            })
+        }
+        this.folderBlockStatus = !this.folderBlockStatus
     },
     advanceSearch(){
         try {
             var _this = this
             var template = "[{\"tabName\":\"Clip\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\note\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\creator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\createdate\"},{\"fieldName\":\"Modified by\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifier\"},{\"fieldName\":\"Modified Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifydate\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Journalist\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\journallist\"},{\"fieldName\":\"Item Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Category\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\category\"},{\"fieldName\":\"Program Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\programname\"}]},{\"tabName\":\"Folder\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"PGM\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"PGMCreator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"Marker\",\"type\":\"Mark\",\"field\":[{\"fieldName\":\"Comments\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Member\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Action\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"LMCreator\"}]}]";
             $.fn.advancedSearch.defaults.usertoken = _userToken;
+            $.fn.advancedSearch.defaults.sitecode = _siteCode;
             $.fn.advancedSearch.defaults.loginname = _this.$store.state.userInfo.loginName;
             $.fn.advancedSearch.defaults.template = template;
             $.fn.advancedSearch.defaults.callback = function (type, data) {
@@ -308,6 +358,7 @@ mounted(){
         if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
             try {
                 $.fn.fullTextSearch.defaults.usertoken = _userToken;
+                $.fn.fullTextSearch.defaults.sitecode = _siteCode;
                 $.fn.fullTextSearch.defaults.loginname = _this.userInfo.loginName;;
                 $("#div_fullTextSearch").fullTextSearch({});
                 $.fn.fullTextSearch.defaults.callback = function (data) {

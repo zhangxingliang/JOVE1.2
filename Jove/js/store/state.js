@@ -37,7 +37,7 @@ const state = {
     type : "folder",
     children:[]
   },
-  mousePosition : {
+  mousePosition: {
     x : 0,
     y : 0
   },
@@ -50,16 +50,17 @@ const state = {
   },
   clipBoard: [],
   userInfo: {
-    loginName : '',
-    nickName : '',
-    userCode : ''
+    loginName: '',
+    nickName: '',
+    userCode: ''
   },
   editor: {},
-  previewBaseUrl : golbalSetting.CM + '/ModulePage/webpreview.html',
-  previewUrl : golbalSetting.CM + '/ModulePage/webpreview.html',
-  svplayerStatus : false,
-  svplayerStyle : {
-    right : '860px'
+  previewBaseUrl: golbalSetting.CM + '/ModulePage/webpreview.html',
+  previewUrl: golbalSetting.CM + '/ModulePage/webpreview.html',
+  svplayerStatus: false,
+  svplayerStyle: {
+    right: '860px'
   },
-  resourceBlockStatus : true,
+  resourceBlockStatus: true,
+  alwaysGet: false,
 }

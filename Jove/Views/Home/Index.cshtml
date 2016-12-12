@@ -81,7 +81,7 @@
       <div class="material_info"><span :title="material.name">{{material.name}}</span></div>
     </div>
   </template>
-  <div id="app">
+  <div id="app" v-on:click.capture="hideMenu">
     <div class="save_plugin">
        <span class="dir_text" style="position: relative;width: 85px;text-align: left;top: 63px;left:10px; color: #cfd2d4;">Directory</span>
        <input type="text"  :value="savePath"  class="mp-input path" style="opacity:0;"/>
@@ -112,31 +112,56 @@
         <input type="button" class="task_monitor" value="Task Monitor" v-on:click="taskMonitor"/>
         <div class="materials_count fr">
             <div class="hidden_bar">
-                <span class="xx_icon fr"></span>
+                <span class="xx_icon fr" v-on:click="userOperationStatus = !userOperationStatus">
+                  <transition name="fade">
+                  <div v-show="userOperationStatus">
+                    <div class="triangle_top user_operation"></div>
+                    <ul class="operation_box user_operation">
+                      <li class="operation_item" v-on:click.stop="logout">Logout</li>
+                      <li class="operation_item">Help</li>
+                    </ul>
+                  </div>
+                </transition>
+                </span>
                 <span class="username_show">duanxin</span>
-                <span class="timeline_icon mt15"></span>
+                <span class="timeline_icon mt15"  :class="{timeline_icon_disabled:!svplayerStatus}" v-on:click="toggleSVMV"></span>
                 <span class="info_icon mt15" :class="{info_icon_disabled:!infoBlockStatus}" v-on:click="toggleInfoBlock"></span>
                 <span class="list_top_icon mt15" :class="{list_top_icon_disabled:!resourceBlockStatus}" v-on:click="toggleResourceBlock"></span>
-                <span class="tree_icon mt15" :class="{tree_icon_disabled:!folderBlockStatus}" v-on:click="folderBlockStatus = !folderBlockStatus"></span>
+                <span class="tree_icon mt15" :class="{tree_icon_disabled:!folderBlockStatus}" v-on:click="toggleFolderBlock"></span>
             </div>
         </div>
       </div>
+      <transition name="fade">
       <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle">
          <iframe id="previewifm" class="sv_player" :src="previewUrl">
          </iframe>
          <div class="sv_marker_list">
          </div>
       </div>
+    </transition>
       <div id="resourceList" class="materials_container" v-show="resourceBlockStatus">
         <div class="toolbar_box">
           <nav-path-ctrl></nav-path-ctrl>
           <div class="materials_count fr">
-              <span class="text_nomarl">Items</span>
-              <span class="text_strong">{{materialsCount}}</span>
-              <span class="list_icon"></span>
-              <span class="thumbnail_icon"></span>
-            <span class="sortby_icon"></span>
-            <span class="refresh_icon"></span>
+            <span class="text_nomarl">Items</span>
+            <span class="text_strong">{{materialsCount}}</span>
+            <span class="list_icon"></span>
+            <span class="thumbnail_icon"></span>
+            <span class="sortby_icon"  v-on:click="sortByStatus = !sortByStatus">
+              <transition name="fade">
+              <div class="menu_box" v-show="sortByStatus">
+                <div class="triangle_top sort_by"></div>
+                <ul class="operation_box sort_by">
+                  <li class="operation_item" v-on:click.stop="orderBy('title', true)">Title ↓</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('title', false)">Title ↑</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('createTime', false)">Create Time ↓</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('createTime', true)">Create Time ↑</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('type')">Type</li>
+                </ul>
+              </div>
+              </transition>
+            </span>
+            <span class="refresh_icon" v-on:click="refreshMaterial"></span>
           </div>
         </div>
         <vue-nice-scrollbar class="scrollbar_container" :speed="150">

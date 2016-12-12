@@ -8503,7 +8503,6 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                 handlerElement.width(0);
                 firstElement.css({ right: 0 + 'px' });
                 _this.dispatchEvent("resize");
-
             }
             this.show = function () {
                 handlerElement.width(250);

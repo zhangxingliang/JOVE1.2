@@ -65,6 +65,64 @@ const util = {
   getOperations: function(items){
 
   },
+  sortBy: function(arr, type, symbol){
+    if(type === 'title'){
+      var folderArr = arr.filter(item=>{
+        item.type === 'folder'
+      })
+      var otherArr = arr.filter(item=>{
+        item.type !== 'folder'
+      })
+      if(symbol){
+        arr = folderArr.sort(SortLikeWin).concat(otherArr.sort(SortLikeWin))
+      }
+      else{
+        arr = folderArr.sort(SortLikeWin).concat(otherArr.sort(SortLikeWin)).reverse()
+      }
+      return arr
+    }
+    else if(type === 'createTime'){
+      var folderArr = arr.filter(item=>{
+        item.type === 'folder'
+      })
+      var otherArr = arr.filter(item=>{
+        item.type !== 'folder'
+      })
+      if(symbol){
+        arr = folderArr.sort((item1,item2)=>{
+          return item1.createdate - item2.createdate
+        }).concat(otherArr.sort((item1,item2)=>{
+          return item1.createdate - item2.createdate
+        }))
+      }
+      else{
+        arr = folderArr.sort((item1,item2)=>{
+          return item1.createdate - item2.createdate
+        }).concat(otherArr.sort((item1,item2)=>{
+          return item1.createdate - item2.createdate
+        })).reverse()
+      }
+      return arr
+    }
+    else {
+      if(symbol){
+        arr = folderArr.sort((item1,item2)=>{
+          return item1.createdate - item2.createdate
+        }).concat(otherArr.sort((item1,item2)=>{
+          return item1.createdate - item2.createdate
+        }))
+      }
+      else{
+        arr = folderArr.sort((item1,item2)=>{
+          return item1.typeIndex - item2.typeIndex
+        }).concat(otherArr.sort((item1,item2)=>{
+          return item1.typeIndex - item2.typeIndex
+        })).reverse()
+      }
+      return arr
+    }
+
+  },
   getIconFilename: function(iconfilename) {
       var _iconfilename = ''
       if (iconfilename) {
@@ -405,4 +463,175 @@ const util = {
       }
     }
   }
+}
+function SortLikeWin(str1, str2) {
+    var a = str1.name.toUpperCase();
+    var b = str2.name.toUpperCase();
+    var reg = /[0-9]+/g;
+    var lista = a.match(reg);
+    var listb = b.match(reg);
+    if (!lista || !listb) {
+        return CommonCompare(a, b);
+    }
+    for (var i = 0, minLen = Math.min(lista.length, listb.length) ; i < minLen; i++) {
+        //数字所在位置序号
+        var indexa = a.indexOf(lista[i]);
+        var indexb = b.indexOf(listb[i]);
+        //数字前面的前缀
+        var prefixa = a.substring(0, indexa);
+        var prefixb = b.substring(0, indexb);
+        //数字的string
+        var stra = lista[i];
+        var strb = listb[i];
+        //数字的值
+        var numa = parseInt(stra);
+        var numb = parseInt(strb);
+        //如果数字的序号不等或前缀不等，属于前缀不同的情况，直接比较
+        if (indexa != indexb || prefixa != prefixb) {
+            return CommonCompare(a, b);
+        }
+        else {
+            //数字的string全等
+            if (stra === strb) {
+                //如果是最后一个数字，比较数字的后缀
+                if (i == minLen - 1) {
+                    return CommonCompare(a.substring(indexa+1), b.substring(indexb+1));
+                }
+                //如果不是最后一个数字，则循环跳转到下一个数字，并去掉前面相同的部分
+                else {
+                    a = a.substring(indexa + stra.length);
+                    b = b.substring(indexa + stra.length);
+                }
+            }
+                //如果数字的string不全等，但值相等
+            else if (numa == numb) {
+                //直接比较数字前缀0的个数，多的更小
+                return strb.lastIndexOf(numb + '') - stra.lastIndexOf(numa + '');
+            }
+            else {
+                //如果数字不等，直接比较数字大小
+                return numa - numb;
+            }
+        }
+    }
+}
+function CommonCompare(a, b) {
+    if (a === b) {
+        return 0;
+    }
+    else if (a.length == 0 || b.length == 0) {
+        return a < b ? -1 : 1;
+    }
+    var reg = /[^\u2E80-\u9FFF\d+a-zA-Z]/g;//匹配特殊字符
+    var lista = a.match(reg);
+    var listb = b.match(reg);
+    if (!lista || !listb) {
+        if (!lista && !listb) {
+            return ZHCompare(a, b)//a < b ? -1 : 1;
+        }
+        else if (!lista && listb) {//a没匹配到特殊字符，b匹配到了
+            var index = b.indexOf(listb[0]);
+            var prefixa = a.substring(0, index);
+            var prefixb = b.substring(0, index);
+            if (prefixa != prefixb) {
+                return ZHCompare(prefixa, prefixb);//prefixa < prefixb ? -1 : 1;//不考虑数字
+            }
+            else {
+                return !a[index]? -1 : a[index] < b[index]? -1 : 1;//如果a的index位置为undefined，则返回-1,否则比较abindex位置的值
+            }
+        }
+        else {//b没匹配到特殊字符，a匹配到了
+            var index = a.indexOf(lista[0]);
+            var prefixa = a.substring(0, index);
+            var prefixb = b.substring(0, index);
+            if (prefixa != prefixb) {
+                return ZHCompare(prefixa, prefixb);//prefixa < prefixb ? -1 : 1;//不考虑数字
+            }
+            else {
+                return !b[index] ? 1 : a[index] < b[index] ? -1 : 1;//如果b的index位置为undefined，则返回1,即有特殊字符的a大于没特殊字符且index位置为undefined的b，否则比较a，b，index位置的值
+            }
+        }
+    }
+    else {
+        for (var i = 0, minLen = Math.min(lista.length, listb.length) ; i < minLen; i++) {
+            //字符所在位置序号
+            var indexa = a.indexOf(lista[i]);
+            var indexb = b.indexOf(listb[i]);
+            //字符前面的前缀
+            var prefixa = a.substring(0, indexa);
+            var prefixb = b.substring(0, indexb);
+            //字符的string
+            var stra = lista[i];
+            var strb = listb[i];
+            //如果字符的序号不等或前缀不等，属于前缀不同的情况，直接比较
+            if (indexa !== indexb || prefixa !== prefixb) {
+                return ZHCompare(prefixa, prefixb);//prefixa < prefixb ? -1 : 1;//不考虑数字
+            }
+            else {
+                if (stra === strb) {
+                    //如果是最后一个字符，比较字符的后缀
+                    if (i == minLen - 1) {
+                        return CommonCompare(a.substring(indexa+1), b.substring(indexb+1));
+                    }
+                    else {
+                        a = a.substring(indexa + stra.length);
+                        b = b.substring(indexa + stra.length);
+                    }
+                }
+                else {
+                    return ZHCompare(stra, strb);//stra < strb ? -1 : 1;
+                }
+            }
+        }
+    }
+}
+function ZHCompare(a, b) {
+    if (a === b) {
+        return 0;
+    }
+    else if (a.length == 0 || b.length == 0) {
+        return a < b ? -1 : 1;
+    }
+    var reg = /[\u2E80-\u9FFF]/g; //匹配中文
+    var lista = a.match(reg);
+    var listb = b.match(reg);
+    if (!lista || !listb) {
+        return a < b ? -1 : 1;
+    }
+    else {//a b 都包含中文
+        for (var i = 0, minLen = Math.min(lista.length, listb.length) ; i < minLen; i++) {
+            //中文所在位置序号
+            var indexa = a.indexOf(lista[i]);
+            var indexb = b.indexOf(listb[i]);
+            //中文前面的前缀
+            var prefixa = a.substring(0, indexa);
+            var prefixb = b.substring(0, indexb);
+            //中文
+            var stra = lista[i];
+            var strb = listb[i];
+
+            //如果中文的序号不等或前缀不等，属于前缀不同的情况，直接比较
+            if (indexa != indexb || prefixa != prefixb) {
+                return prefixa < prefixb ? -1 : 1;
+            }
+            else {
+                //中文全等
+                if (stra === strb) {
+                    //如果是最后一个数字，比较数字的后缀
+                    if (i == minLen - 1) {
+                        return a.substring(indexa + 1) < b.substring(indexb + 1) ? -1 : 1;
+                    }
+                        //如果不是最后一个中文，则循环跳转到下一个中文，并去掉前面相同的部分
+                    else {
+                        a = a.substring(indexa + stra.length);
+                        b = b.substring(indexa + stra.length);
+                    }
+                }
+                else {
+                    //如果中文不等，直接比较中文大小
+                    return stra.localeCompare(strb);
+                }
+            }
+        }
+    }
 }
