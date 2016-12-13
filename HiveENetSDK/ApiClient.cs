@@ -24,13 +24,18 @@ namespace HiveENetSDK
             {
                 Logger.Debug("请求：{0}", url);
                 string json = JsonHelper.ToJson(body);
+                string siteCode = "S1";
 
                 WebClient client = new WebClient();
                 if (queryString != null)
                 {
                     foreach (string key in queryString.AllKeys)
                     {
-
+                        if (key.ToUpper() == "SITECODE" && !String.IsNullOrEmpty(queryString[key]))
+                        {
+                            siteCode = queryString[key];
+                            continue;
+                        }
                         client.QueryString.Add(key, queryString[key]);
                     }
                 }
@@ -39,7 +44,7 @@ namespace HiveENetSDK
                     method = "POST";
                 }
                 client.Headers.Add("sobeyhive-http-system", "JOVE");
-                client.Headers.Add("sobeyhive-http-site", "S1");
+                client.Headers.Add("sobeyhive-http-site", siteCode);
                 client.Headers.Add("sobeyhive-http-tool", "JOVE");
                 byte[] strData = Encoding.UTF8.GetBytes(json);
 
@@ -79,19 +84,25 @@ namespace HiveENetSDK
             {
                 Logger.Debug("请求：{0}", url);
                 client = new WebClient();
+                string siteCode = "S1";
+
                 if (queryString != null)
                 {
 
                     foreach (string key in queryString.AllKeys)
                     {
-
+                        if (key.ToUpper() == "SITECODE" && !String.IsNullOrEmpty(queryString[key]))
+                        {
+                            siteCode = queryString[key];
+                            continue;
+                        }
                         client.QueryString.Add(key, queryString[key]);
                     }
                 }
 
 
                 client.Headers.Add("sobeyhive-http-system", "JOVE");
-                client.Headers.Add("sobeyhive-http-site", "S1");
+                client.Headers.Add("sobeyhive-http-site", siteCode);
                 client.Headers.Add("sobeyhive-http-tool", "JOVE");
                 byte[] rData = client.DownloadData(url);
 

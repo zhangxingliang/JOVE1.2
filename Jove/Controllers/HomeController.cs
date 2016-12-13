@@ -14,13 +14,15 @@ namespace Jove.Controllers
         //
         // GET: /Home/
         //20161116 wfg modify ,chage the usertoken to token 国内项目需要，CM也要同步修改
-        public ActionResult Index(string token = "", string userCode = "")
+        public ActionResult Index(string token = "", string userCode = "",string FolderPath = "",string siteCode = "")
         {
 
             ViewBag.PageTitle = ConfigurationManager.AppSettings["PageTitle"];
             Session["a"] = "b";
             Session["usertoken"] = token;
             Session["usercode"] = userCode;
+            Session["folderPath"] = FolderPath;
+            Session["siteCode"] = siteCode;
             Session.Timeout = 120;
             return View();
         }
@@ -34,6 +36,8 @@ namespace Jove.Controllers
             ViewBag.RootPath = ConfigurationManager.AppSettings["RootPath"];
             ViewBag.PreviewPath = JOVEConfig.CMPriviewAddress;
             ViewBag.TaskMonitorWebAddress = JOVEConfig.TaskMonitorWebAddress;
+            ViewBag.FolderPath = Session["folderPath"];
+            ViewBag.SiteCode = Session["siteCode"];
             if (!string.IsNullOrEmpty(ViewBag.UserToken))
             {
                 ViewBag.SocketServer = JOVEConfig.GetSocketServer(ViewBag.UserToken);

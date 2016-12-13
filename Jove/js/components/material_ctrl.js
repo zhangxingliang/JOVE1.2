@@ -73,7 +73,7 @@ const material_ctrl = {
         })
       }
       else {
-        var url = context.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + payload.source.guid + '&uk=' + _userToken
+        var url = this.$store.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + this.material.guid + '&uk=' + _userToken
         this.$store.commit({
           type : types.SET_PREVIEWURL,
           source : this.material,

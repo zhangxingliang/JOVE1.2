@@ -17971,6 +17971,8 @@ h5.define('core/Media', [
                               timeupdate: function () {
                                   //当前时间
                                   _currentTime = _popcornWrapper.currentTime;
+                                  //更新时码
+                                  $('.duration').text(util.toSmpteString(_currentTime*1000));
                                   _this.dispatchEvent("mediatimeupdate", _this);
                               },
                               pause: function () {
@@ -35141,6 +35143,7 @@ h5.define("h5plugin/StandardToolbarButtonPlugin", ["core/EditorPluginBase",
                     }
                 });
                 _media.addEventListener("durationChanged", function () {
+                    $('.code').text(util.toSmpteString(_media.duration * 1000));
                     if (_media.duration === 0) {
                         playButton.disabled = true;
                         saveButton.disabled = true;

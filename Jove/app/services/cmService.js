@@ -6,43 +6,43 @@ define(["app", "services/utilsService"], function (app) {
         var _this = this;
         var apiUrl = app.apiUrl;
         this.getFavoriteObject = function (userCode, ignoreWaiting) {
-            return utilsService.get("Cm/GetFavoriteObject", { usertoken: _userToken, usercode: userCode }, null, ignoreWaiting);
+            return utilsService.get("Cm/GetFavoriteObject", { usertoken: _userToken, usercode: userCode, siteCode: _siteCode }, null, ignoreWaiting);
         }
 
         this.getDragedObject = function (contentid, objecttype, ignoreWaiting) {
-            return utilsService.get("Cm/GetDragedClipInfo", { usertoken: _userToken, contentid: contentid, objecttype: objecttype }, null, ignoreWaiting);
+            return utilsService.get("Cm/GetDragedClipInfo", { usertoken: _userToken, contentid: contentid, objecttype: objecttype, siteCode: _siteCode }, null, ignoreWaiting);
         };
 
         this.getClipList = function (path, ignoreWaiting) {
-            return utilsService.post("Cm/GetClipList", null, { usertoken: _userToken, path: path, t: new Date().getTime() }, ignoreWaiting);
+            return utilsService.post("Cm/GetClipList", { siteCode: _siteCode }, { usertoken: _userToken, path: path, t: new Date().getTime(), siteCode: _siteCode }, ignoreWaiting);
         };
 
         this.searchClips = function (keyword) {
-            return utilsService.get("Cm/SearchClips", { usertoken: _userToken, keyword: keyword })
+            return utilsService.get("Cm/SearchClips", { usertoken: _userToken, keyword: keyword, siteCode: _siteCode })
         }
 
         this.getFolderObjects = function (node, ignoreWaiting) {
             node.usertoken = _userToken;
-            return utilsService.post("Cm/GetFolderList", null, node, ignoreWaiting);
+            return utilsService.post("Cm/GetFolderList", {siteCode: _siteCode }, node, ignoreWaiting);
         };
 
         this.searchObjects = function (keyword, objectTypes, subTypes) {
-            return utilsService.get("Cm/SearchObjects", { keyword: keyword, objectTypes: objectTypes, subTypes: subTypes });
+            return utilsService.get("Cm/SearchObjects", { keyword: keyword, objectTypes: objectTypes, subTypes: subTypes, siteCode:_siteCode });
         };
         this.getObject = function (contentid, objecttype, ignoreWaiting) {
-            return utilsService.get("Cm/GetClipInfo", { usertoken: _userToken, contentid: contentid, objecttype: objecttype }, null, ignoreWaiting);
+            return utilsService.get("Cm/GetClipInfo", { usertoken: _userToken, contentid: contentid, objecttype: objecttype,siteCode:_siteCode }, null, ignoreWaiting);
         };
         this.getTimeline = function (guid, ignoreWaiting) {
-            return utilsService.get("Cm/GetTimeLine", { usertoken: _userToken, guid: guid }, null, ignoreWaiting);
+            return utilsService.get("Cm/GetTimeLine", { usertoken: _userToken, guid: guid ,siteCode:_siteCode}, null, ignoreWaiting);
         }
         this.hasFormatInfo = function (data) {
-            return utilsService.get("Cm/HasFormatInfo", { usertoken: _userToken, contentid: data.clipid });
+            return utilsService.get("Cm/HasFormatInfo", { usertoken: _userToken, contentid: data.clipid ,siteCode : _siteCode});
         }
         this.getLanguage = function () {
             return utilsService.get("Cm/GetLanguagePackege", {});
         };
         this.Login = function () {
-            return utilsService.get("Cm/Login", { usertoken: _userToken });
+            return utilsService.get("Cm/Login", { usertoken: _userToken , siteCode:_siteCode});
         }
         this.GetUserStorage = function (loginNmae) {
             return utilsService.get("Cm/GetUserStorage", { usertoken:_userToken, loginname: loginNmae });

@@ -50,14 +50,15 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<List<ObjectInfo>> GetClipList(string userToken, string path)
+        public ResponseMessage<List<ObjectInfo>> GetClipList(string userToken, string path, string siteCode = "")
         {
             ResponseMessage<List<ObjectInfo>> r = new ResponseMessage<List<ObjectInfo>>();
             string url = ApiContext.ApiUrl + "/entity/object/getchildobjects";//参数调整 待确认
             NameValueCollection q = new NameValueCollection();
             q.Add("userToken", userToken);
             q.Add("path", path);
-            q.Add("pathtype", "http"); 
+            q.Add("pathtype", "http");
+            q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<List<ObjectInfo>>>(url, q);
             Logger.Trace("执行结果：url:{0},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext));
             return r;
@@ -68,7 +69,7 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<ObjectInfo> GetClipInfo(string usertoken, string contentid, string objecttype, string pathtype)
+        public ResponseMessage<ObjectInfo> GetClipInfo(string usertoken, string contentid, string objecttype, string pathtype, string siteCode = "")
         {
             ResponseMessage<ObjectInfo> r = new ResponseMessage<ObjectInfo>();
             string url = ApiContext.ApiUrl + "/entity/object/getobjectinfo";
@@ -76,6 +77,7 @@ namespace HiveENetSDK.Services
             q.Add("usertoken", usertoken);
             q.Add("contentid", contentid);
             q.Add("objecttype", objecttype);
+            q.Add("siteCode", siteCode);
             if (!string.IsNullOrEmpty(pathtype))
             {
                 q.Add("pathtype", pathtype);
@@ -91,7 +93,7 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<List<FolderInfo>> GeFolderList(string usertoken, string path)
+        public ResponseMessage<List<FolderInfo>> GeFolderList(string usertoken, string path, string siteCode = "")
         {
             ResponseMessage<List<FolderInfo>> r = new ResponseMessage<List<FolderInfo>>();
             string url = ApiContext.ApiUrl + "/entity/folder/getsimplefolderinfo";//参数变更
@@ -99,6 +101,7 @@ namespace HiveENetSDK.Services
             q.Add("usertoken", usertoken);
             q.Add("path", path);
             q.Add("isCreate", "false");
+            q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<List<FolderInfo>>>(url, q);
             Logger.Trace("执行结果：url:{0},code:{1},msg{2},response:{3}\n", url, r.Code, r.Msg,JsonHelper.ToJson(r.Ext));
             return r;
@@ -109,7 +112,7 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<SaveClipResponse> SaveTimeLine(string usertoken, string path, string title, string contentid, EditorMediaJson requst)
+        public ResponseMessage<SaveClipResponse> SaveTimeLine(string usertoken, string path, string title, string contentid, EditorMediaJson requst, string siteCode = "")
         {
             ResponseMessage<SaveClipResponse> res = new ResponseMessage<SaveClipResponse>();
             string url = ApiContext.RenderApiUrl + "/entity/object/saveobjectinfo";
@@ -274,6 +277,7 @@ namespace HiveENetSDK.Services
             }
             NameValueCollection q = new NameValueCollection();
             q.Add("usertoken", usertoken);
+            q.Add("siteCode", siteCode);
 
             res = ApiContext.Client.Post<ResponseMessage<SaveClipResponse>>(url, r, "Post", q);
             Logger.Trace("执行结果：url:{0},code:{1},msg:{2},json:{3}\n", url, res.Code, res.Msg,JsonHelper.ToJson(r));
@@ -285,7 +289,7 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage SendToRender(string usertoken, string PEFSourcePath, string entityName, string objecttype, string folderPath, EditorMediaJson requst, string transCodeType = "")
+        public ResponseMessage SendToRender(string usertoken, string PEFSourcePath, string entityName, string objecttype, string folderPath, EditorMediaJson requst, string transCodeType = "", string siteCode = "")
         {
             ResponseMessage r = new ResponseMessage();
             string url = ApiContext.RenderApiUrl + "/entity/program/SubmitRender";
@@ -297,6 +301,7 @@ namespace HiveENetSDK.Services
             q.Add("objecttype", objecttype);
             q.Add("folderPath", folderPath);
             q.Add("transCodeType", transCodeType);
+            q.Add("siteCode", siteCode);
             r =  ApiContext.Client.Post<ResponseMessage>(url, JsonHelper.ToJson(requst), "Post", q);
             Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url,r.Code,r.Msg);
             return r;
@@ -307,7 +312,7 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage HasFormatInfo(string usertoken, string contentid)
+        public ResponseMessage HasFormatInfo(string usertoken, string contentid, string siteCode = "")
         {
             ResponseMessage r = new ResponseMessage();
             string url = ApiContext.ApiUrl + "/entity/program/getfileformatbycontentid";//接口参数变更
@@ -315,6 +320,7 @@ namespace HiveENetSDK.Services
             NameValueCollection q = new NameValueCollection();
             q.Add("usertoken", usertoken);
             q.Add("contentid", contentid);
+            q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage>(url, q);
             Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url, r.Code, r.Msg);
             return r;
@@ -326,7 +332,7 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<List<ObjectInfo>> GetFavoriteObject(string usertoken, string usercode)
+        public ResponseMessage<List<ObjectInfo>> GetFavoriteObject(string usertoken, string usercode, string siteCode = "")
         {
             ResponseMessage<List<ObjectInfo>> r = new ResponseMessage<List<ObjectInfo>>();
             string url = ApiContext.ApiUrl + "/entity/object/getfavoritesobjects";//参数调整 待确认
@@ -334,6 +340,7 @@ namespace HiveENetSDK.Services
             q.Add("usertoken", usertoken);
             q.Add("usercode", usercode);
             q.Add("pathtype", "http");
+            q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<List<ObjectInfo>>>(url, q);
             Logger.Trace("执行结果：url:{0},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext));
             return r;
@@ -343,7 +350,7 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<RenderPefResponse> RenderPEF(string usertoken, string title, EditorMediaJson requst)
+        public ResponseMessage<RenderPefResponse> RenderPEF(string usertoken, string title, EditorMediaJson requst, string siteCode = "")
         {
             ResponseMessage<RenderPefResponse> r = new ResponseMessage<RenderPefResponse>();
             string url = ApiContext.RenderApiUrl + "/entity/program/renderpef";//接口参数变更
@@ -351,6 +358,7 @@ namespace HiveENetSDK.Services
             NameValueCollection q = new NameValueCollection();
             q.Add("userToken", usertoken);
             q.Add("pefName", title);
+            q.Add("siteCode", siteCode);
             r = ApiContext.Client.Post<ResponseMessage<RenderPefResponse>>(url, JsonHelper.ToJson(requst), "Post", q);
             Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url, r.Code, r.Msg);
             return r;
@@ -361,13 +369,14 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<FileFormat> GetFileFormat(string formatID)
+        public ResponseMessage<FileFormat> GetFileFormat(string formatID, string siteCode = "")
         {
             ResponseMessage<FileFormat> r = new ResponseMessage<FileFormat>();
             string url = ApiContext.ApiUrl + "/entity/clip/getmediaformatdefbyid";//接口参数变更
 
             NameValueCollection q = new NameValueCollection();
             q.Add("lformatid", formatID);
+            q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<FileFormat>>(url, q);
             Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url, r.Code, r.Msg);
             return r;

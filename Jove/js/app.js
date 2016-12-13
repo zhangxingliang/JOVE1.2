@@ -7,33 +7,54 @@
               userOperationStatus : false,
               sortByStatus : false,
               sortType : 'title',
-              sortSymbol : false
+              sortSymbol : true,
+              typeSymbol : false,
           },
           components: {
               'tree-ctrl' : tree_ctrl,
               'material-ctrl' : material_ctrl,
               'nav-path-ctrl' : nav_path_ctrl,
-              'vue-nice-scrollbar' : vueNiceScrollbar
-
+              'vue-nice-scrollbar' : vueNiceScrollbar,
+              'marker-ctrl' : marker_ctrl,
           },
           computed: {
+              currentCtrl(){
+                if(this.materials.length > 0 && this.materials[0].type === 'marker'){
+                    return 'marker-ctrl'
+                }
+                else {
+                    
+                }
+                return 'material-ctrl'
+              },
               nodes(){
-      return this.$store.getters.folderTree.sort()
-},
-savePath(){
-    return this.$store.getters.savePathTree.sort()
-},
-    materials(){
-        if(this.$store.getters.currentNode.guid === 1 || this.$store.getters.currentNode.guid === 2){
-            return this.$store.getters.currentNode.searchResult.sort((a, b)=>a.name.localeCompare(b.name))
-        }
-        else{
-            return util.sortBy(this.$store.getters.currentNode.children, this.sortType, this.sortSymbol)
-        }
+                 return this.$store.getters.folderTree.sort()
+              },
+            savePath(){
+                return this.$store.getters.savePathTree.sort()
+            },
+            materials(){
+                if(this.$store.getters.currentNode.guid === 1 || this.$store.getters.currentNode.guid === 2){
+                    if(this.sortType === 'type'){
+                        return util.sortBy(this.$store.getters.currentNode.searchResult, this.sortType, this.typeSymbol)
+                    }
+                    else{
+                        return util.sortBy(this.$store.getters.currentNode.searchResult, this.sortType, this.sortSymbol)
+                    }
+                }
+                else{
+                    if(this.sortType === 'type'){
+                        return util.sortBy(this.$store.getters.currentNode.children, this.sortType, this.typeSymbol)
+                    }
+                    else{
+                        return util.sortBy(this.$store.getters.currentNode.children, this.sortType, this.sortSymbol)
+                    }
+                }
+                
+            },
+    materialsCount(){
+        return this.materials.length
     },
-materialsCount(){
-    return this.materials.length
-},
     userInfo(){
         return this.$store.state.userInfo
     },
@@ -69,7 +90,7 @@ methods: {
             this.sortSymbol = symbol
         }
         else{
-            this.sortSymbol = !this.sortSymbol
+            this.typeSymbol = !this.typeSymbol
         }
     },
     logout(){
@@ -342,7 +363,7 @@ format.setAttribute("src", golbalSetting.CM + "/js/common/format.js" + version)
 document.querySelector('html').appendChild(format)
 },
 mounted(){
-
+    // normal folder
     this.$store.dispatch({
         type : types.LOGIN,
         data : _userToken
@@ -362,17 +383,34 @@ mounted(){
                 $.fn.fullTextSearch.defaults.loginname = _this.userInfo.loginName;;
                 $("#div_fullTextSearch").fullTextSearch({});
                 $.fn.fullTextSearch.defaults.callback = function (data) {
-                    this.$store.commit({
+                    _this.$store.commit({
                         type : types.SET_MATERIALS,
-                        target : this.nodes[1],
+                        target : _this.nodes[1],
                         data : util.ParseSearchResult('fullsearch', data)
                     })
-                    this.$store.dispatch({
+                    _this.$store.dispatch({
                         type : types.GET_MATERIALS,
-                        source : this.nodes[1]
+                        source : _this.nodes[1]
                     })
                 };
                 fulltext.onload = fulltext.onreadystatechange = null;
+                _this.$store.dispatch({
+                    type : types.GET_MATERIALS,
+                    source : _this.nodes[0]
+                }).then(()=>{
+                    _this.$store.commit({
+                        type : types.GET_NAVPATH,
+                        target :  _this.nodes[0],
+                        data : []
+                    })
+                    var path = $.base64.decode(_folderPath).replace('Public', 'MaterialList').split('/');
+                    if(path.length>1){
+                      util.locateFolder(_this.$store, path, {children : _this.$store.getters.folderTree})
+                    }   
+                Vue.nextTick(()=>{
+                  editor.initDrag()
+                 })
+               })
             }
             catch (e) { }
         }

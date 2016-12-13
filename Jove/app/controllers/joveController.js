@@ -111,6 +111,7 @@ define(["app", "lib/h5editor", "h5/saveplugin"], function (app, editor, savePlug
                     if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {
                         try {
                             $.fn.fullTextSearch.defaults.usertoken = _userToken;
+                            $.fn.fullTextSearch.defaults.sitecode = _siteCode;
                             $.fn.fullTextSearch.defaults.loginname = $scope.userInfo.nickName;;
                             $("#div_fullTextSearch").fullTextSearch({});
                             $.fn.fullTextSearch.defaults.callback = function (data) {
@@ -364,12 +365,12 @@ define(["app", "lib/h5editor", "h5/saveplugin"], function (app, editor, savePlug
                 }
                 else {
                     $scope.showSV();
-                    document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&id=' + obj.guid + '&uk=' + _userToken);
+                    document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&id=' + obj.guid + '&uk=' + _userToken + '&sitecode=' + _siteCode);
                     $scope.previewGuid = obj.guid;
                     $scope.getMarkerList(obj.guid);
                 }
             }
-            document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&uk=' + _userToken);
+            document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&uk=' + _userToken + '&sitecode=' + _siteCode);
             if (parObj) {
                 var clip = {};
                 var obj = parObj;
@@ -423,6 +424,14 @@ define(["app", "lib/h5editor", "h5/saveplugin"], function (app, editor, savePlug
                 //alert("获取素材列表失败");
             });*/
             $scope.openFolder($scope.folderTree[0]);
+            //addby hzr 20161207 CM跳转到Jove页面定位目录
+            if (_folderPath != null && _folderPath != "") {
+                var path =$.base64.decode(_folderPath);
+                var pathList = path.split('/');
+                pathList[0] = "MaterialList";
+                $scope.positionToNode(pathList, $scope.folderTree);
+            }
+            
         });
         $scope.SelectItem = function (guid) {
             angular.forEach($scope.clipList, function (item) {
@@ -1459,7 +1468,7 @@ define(["app", "lib/h5editor", "h5/saveplugin"], function (app, editor, savePlug
             document.querySelector(".hoverifm").addEventListener("drop", function (ev) {
                 var data = JSON.parse(ev.dataTransfer.getData("Text"));
 
-                document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&id=' + data.data.clipid + '&uk=' + _userToken);
+                document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&id=' + data.data.clipid + '&uk=' + _userToken + '&sitecode=' + _siteCode);
                 $scope.previewGuid = data.data.clipid;
                 $scope.getMarkerList(data.data.clipid);
             });
@@ -1596,6 +1605,7 @@ define(["app", "lib/h5editor", "h5/saveplugin"], function (app, editor, savePlug
             try {
                 var template = "[{\"tabName\":\"Clip\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\note\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\creator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\createdate\"},{\"fieldName\":\"Modified by\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifier\"},{\"fieldName\":\"Modified Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifydate\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Journalist\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\journallist\"},{\"fieldName\":\"Item Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Category\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\category\"},{\"fieldName\":\"Program Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\programname\"}]},{\"tabName\":\"Folder\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"PGM\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"PGMCreator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"Marker\",\"type\":\"Mark\",\"field\":[{\"fieldName\":\"Comments\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Member\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Action\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"LMCreator\"}]}]";
                 $.fn.advancedSearch.defaults.usertoken = _userToken;
+                $.fn.advancedSearch.defaults.sitecode = _siteCode;
                 $.fn.advancedSearch.defaults.loginname = $scope.userInfo.nickName;
                 $.fn.advancedSearch.defaults.template = template;
                 $.fn.advancedSearch.defaults.callback = function (type, data) {

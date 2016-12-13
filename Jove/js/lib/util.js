@@ -5,6 +5,24 @@ Array.prototype.remove = function(item){
   }
   return idx
 }
+Array.prototype.groupBy = function(attr){
+  var newArrObj = {}
+  this.forEach(item=>{
+    var objAttr = attr + '_' + item[attr]
+    if(newArrObj[objAttr]){
+      newArrObj[objAttr].push(item)
+    }
+    else {
+      newArrObj[objAttr] = []
+      newArrObj[objAttr].push(item)
+    }
+  })
+  var newArr = []
+  for(let i in newArrObj){
+    newArr.push(newArrObj[i])
+  }
+  return newArr
+}
 Date.prototype.format = function (format) {
     var o = {
         'M+': this.getMonth() + 1, //month
@@ -68,10 +86,10 @@ const util = {
   sortBy: function(arr, type, symbol){
     if(type === 'title'){
       var folderArr = arr.filter(item=>{
-        item.type === 'folder'
+        if(item.type === 'folder')return item
       })
       var otherArr = arr.filter(item=>{
-        item.type !== 'folder'
+        if(item.type !== 'folder')return item
       })
       if(symbol){
         arr = folderArr.sort(SortLikeWin).concat(otherArr.sort(SortLikeWin))
@@ -83,10 +101,10 @@ const util = {
     }
     else if(type === 'createTime'){
       var folderArr = arr.filter(item=>{
-        item.type === 'folder'
+        if(item.type === 'folder')return item
       })
       var otherArr = arr.filter(item=>{
-        item.type !== 'folder'
+        if(item.type !== 'folder')return item
       })
       if(symbol){
         arr = folderArr.sort((item1,item2)=>{
@@ -106,20 +124,21 @@ const util = {
     }
     else {
       if(symbol){
-        arr = folderArr.sort((item1,item2)=>{
-          return item1.createdate - item2.createdate
-        }).concat(otherArr.sort((item1,item2)=>{
-          return item1.createdate - item2.createdate
-        }))
+        arr.sort((item1,item2)=>{
+          return item1.typeIndex - item2.typeIndex
+        })
       }
       else{
-        arr = folderArr.sort((item1,item2)=>{
+        arr.sort((item1,item2)=>{
           return item1.typeIndex - item2.typeIndex
-        }).concat(otherArr.sort((item1,item2)=>{
-          return item1.typeIndex - item2.typeIndex
-        })).reverse()
+        }).reverse()
       }
-      return arr
+      var  groupedArr  = arr.groupBy('typeIndex')
+      var newArr = []
+      groupedArr.forEach(item=>{
+        newArr = newArr.concat(item.sort(SortLikeWin))
+      })
+      return newArr
     }
 
   },
@@ -290,7 +309,7 @@ const util = {
           node.guid = item.entity.guid
           node.id = item.entity.id
           node.name = item.entity.name
-          node.iconfilename = item.entity.iconfilename ? item.entity.iconfilename : './images/nostamp.png'
+          node.iconfilename = item.entity.iconfilename ? util.getIconFilename(item.entity.iconfilename) : './images/nostamp.png'
           node.subtype = item.entity.subtype
           try{
             if(node.type === 'video'){

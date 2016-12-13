@@ -396,9 +396,14 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 .menu_box
 {
   position: relative;
+  z-index: 1;
 }
 .operation_box.sort_by
 {
   width: 120px;
   right: -42px;
+}
+.material_box  .marker_pos
+{
+  display: none;
 }

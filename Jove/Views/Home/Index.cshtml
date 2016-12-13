@@ -28,6 +28,7 @@
     <script src="~/js/components/tree_ctrl.js"></script>
     <script src="~/js/components/navPath_ctrl.js"></script>
     <script src="~/js/components/material_ctrl.js"></script>
+    <script src="~/js/components/marker_ctrl.js"></script>
     <script src="~/js/plugins/savePlugin.js"></script>
 </head>
 <body style="background:#1b1b1b;">
@@ -39,7 +40,7 @@
         <span class="folder_name">{{node.name}}</span>
       </div>
       <ul v-show="node.open">
-        <tree-ctrl :data="n" v-for="n in node.children.filter(item=>item.type == 'folder')"></tree-ctrl>
+        <tree-ctrl :data="n" v-for="n in node.children.filter(item=>item.type == 'folder').sort(sortFunc)"></tree-ctrl>
       </ul>
     </li>
   </template>
@@ -77,8 +78,31 @@
         <span class="status_item p"></span>
         <span class="status_item i"></span>
       </div>
-      <div class="material_icon_container" :class="{clipping:material.clipping}"><img v-if="material.type =='video' || material.type =='image'" :src="data.iconfilename" onerror="this.src='./images/nostamp.png'"><span v-else :style="{background: 'url(./images/' + material.type + '.png) no-repeat center center'}" ></span></div>
+      <div class="material_icon_container" :class="{clipping:material.clipping}"><img v-if="material.type =='video' || material.type =='image'" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'"><span v-else :style="{background: 'url(./images/' + material.type + '.png) no-repeat center center'}" ></span></div>
       <div class="material_info"><span :title="material.name">{{material.name}}</span></div>
+    </div>
+  </template>
+
+  <template id="marker_ctrl">
+    <div class="marker_container" v-on:dblclick="dblclick">
+      <div class="marker_icon_box">
+        <div class="marker_color" :style="{backgroundColor: material.color}"></div>
+        <div class="marker_icon">
+          <img draggable="false" class="marker_img" :src="material.iconfilename"/>
+        </div>
+        <span>{{material.name}}</span>
+      </div>
+      <div class="marker_pos">
+        <ul v-if="material.isSMarker">
+          <li><span class="timeCodeSpan">in</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.inPoint"></li>
+          <li><span class="timeCodeSpan">out</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.outPoint"></li>
+        </ul>
+        <ul v-else>
+          <li><span class="timeCodeSpan">POS</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
+          <li style="visibility: hidden;"><span class="timeCodeSpan">pos</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
+        </ul>
+      </div>
+      <textarea readonly="readonly" :title="material.note" class="marker_comment">{{material.note}}</textarea></div>
     </div>
   </template>
   <div id="app" v-on:click.capture="hideMenu">
@@ -114,7 +138,7 @@
             <div class="hidden_bar">
                 <span class="xx_icon fr" v-on:click="userOperationStatus = !userOperationStatus">
                   <transition name="fade">
-                  <div v-show="userOperationStatus">
+                  <div v-show="userOperationStatus" style="display: none;">
                     <div class="triangle_top user_operation"></div>
                     <ul class="operation_box user_operation">
                       <li class="operation_item" v-on:click.stop="logout">Logout</li>
@@ -123,8 +147,8 @@
                   </div>
                 </transition>
                 </span>
-                <span class="username_show">duanxin</span>
-                <span class="timeline_icon mt15"  :class="{timeline_icon_disabled:!svplayerStatus}" v-on:click="toggleSVMV"></span>
+                <span class="username_show">{{userInfo.nickName}}</span>
+                <span class="timeline_icon mt15"  :class="{timeline_icon_disabled:svplayerStatus}" v-on:click="toggleSVMV"></span>
                 <span class="info_icon mt15" :class="{info_icon_disabled:!infoBlockStatus}" v-on:click="toggleInfoBlock"></span>
                 <span class="list_top_icon mt15" :class="{list_top_icon_disabled:!resourceBlockStatus}" v-on:click="toggleResourceBlock"></span>
                 <span class="tree_icon mt15" :class="{tree_icon_disabled:!folderBlockStatus}" v-on:click="toggleFolderBlock"></span>
@@ -149,7 +173,7 @@
             <span class="thumbnail_icon"></span>
             <span class="sortby_icon"  v-on:click="sortByStatus = !sortByStatus">
               <transition name="fade">
-              <div class="menu_box" v-show="sortByStatus">
+              <div class="menu_box" v-show="sortByStatus"  style="display: none;">
                 <div class="triangle_top sort_by"></div>
                 <ul class="operation_box sort_by">
                   <li class="operation_item" v-on:click.stop="orderBy('title', true)">Title ↓</li>
@@ -166,8 +190,8 @@
         </div>
         <vue-nice-scrollbar class="scrollbar_container" :speed="150">
           <div class="material_box clearfix">
-            <material-ctrl :data="m" v-for="m in materials">
-            </material-ctrl>
+            <component :is="currentCtrl" :data="m" v-for="m in materials">
+            </component>
           </div>
         </vue-nice-scrollbar >
       </div>

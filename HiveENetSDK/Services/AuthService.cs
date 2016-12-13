@@ -65,13 +65,14 @@ namespace HiveENetSDK.Services
         /// </summary>
         /// <param name="requst"></param>
         /// <returns></returns>
-        public ResponseMessage<UserInfo> GetUserInfo(string usertoken)
+        public ResponseMessage<UserInfo> GetUserInfo(string usertoken,string siteCode = "")
         {
             ResponseMessage<UserInfo> r = new ResponseMessage<UserInfo>();
             string url = ApiContext.ApiUrl + "/basic/account/getcurrentuserinfo";//接口参数变更
 
             NameValueCollection q = new NameValueCollection();
             q.Add("usertoken", usertoken);
+            q.Add("siteCode",siteCode);
             r = ApiContext.Client.Get<ResponseMessage<UserInfo>>(url, q);
           //  Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url, r.Code, r.Msg);
             return r;

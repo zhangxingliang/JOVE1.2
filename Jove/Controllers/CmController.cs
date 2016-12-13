@@ -28,14 +28,14 @@ namespace Jove.Controllers
         /// <returns></returns>
         [HttpPost]
         [OutputCache(Duration = 0, VaryByParam = "None", VaryByCustom = "browser")]
-        public ActionResult GetClipList(GetClipListRequest request)
+        public ActionResult GetClipList(GetClipListRequest request,string siteCode = "")
         {
             ResponseMessage<List<ObjectInfo>> r = new ResponseMessage<List<ObjectInfo>>();
 
             Logger.Trace("获取素材列表:usertoken={0},path={1}\n", request.userToken, request.path);
-            r = AppContext.Current.FolderService.GetClipList(request.userToken, GetPathUrlCode(request.path));
+            r = AppContext.Current.FolderService.GetClipList(request.userToken, GetPathUrlCode(request.path), siteCode);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);
-            return Json(r.Ext, JsonRequestBehavior.AllowGet);
+            return Json((r.Ext), JsonRequestBehavior.AllowGet);
         }
 
         //[HttpGet]
@@ -95,23 +95,23 @@ namespace Jove.Controllers
         /// <param name="loginInfoID"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetClipInfo(string usertoken, string contentid, string objecttype)
+        public ActionResult GetClipInfo(string usertoken, string contentid, string objecttype, string siteCode = "")
         {
             ResponseMessage<ObjectInfo> r = new ResponseMessage<ObjectInfo>();
 
             Logger.Trace("获取素材信息:usertoken={0},contentid={1}，objecttype={2}\n", usertoken, contentid, objecttype);
-            r = AppContext.Current.FolderService.GetClipInfo(usertoken, contentid, objecttype, "http");
+            r = AppContext.Current.FolderService.GetClipInfo(usertoken, contentid, objecttype, "http",siteCode);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult GetDragedClipInfo(string usertoken, string contentid, string objecttype)
+        public ActionResult GetDragedClipInfo(string usertoken, string contentid, string objecttype, string siteCode = "")
         {
             ResponseMessage<EditedObjectInfo> r = new ResponseMessage<EditedObjectInfo>();
 
             Logger.Trace("获取拖拽的素材信息:usertoken={0},contentid={1}，objecttype={2}\n", usertoken, contentid, objecttype);
-            var temp = AppContext.Current.FolderService.GetClipInfo(usertoken, contentid, objecttype, "");
+            var temp = AppContext.Current.FolderService.GetClipInfo(usertoken, contentid, objecttype, "", siteCode);
             r.Code = temp.Code;
             r.Msg = temp.Msg;
             r.Ext = ObjectInfoToDraged(temp.Ext);
@@ -207,12 +207,12 @@ namespace Jove.Controllers
         /// <param name="loginInfoID"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult GetFolderList(GetFolderRequst requst)
+        public ActionResult GetFolderList(GetFolderRequst requst, string siteCode = "")
         {
             ResponseMessage<List<FolderInfo>> r = new ResponseMessage<List<FolderInfo>>();
 
             Logger.Trace("获取目录列表:requst={0}\n", JsonHelper.ToJson(requst));
-            r = AppContext.Current.FolderService.GeFolderList(requst.usertoken, GetPathUrlCode(requst.path));
+            r = AppContext.Current.FolderService.GeFolderList(requst.usertoken, GetPathUrlCode(requst.path), siteCode);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);
 
             var folderList = r.Ext;
@@ -223,6 +223,9 @@ namespace Jove.Controllers
         }
         public static string GetPathUrlCode(string path)
         {
+            if (string.IsNullOrEmpty(path)) {
+                return path;
+            }
             string[] paths = path.Split('/');
 
             Regex reg = new Regex("[&!@#$%^*_+]");
@@ -325,7 +328,7 @@ namespace Jove.Controllers
         /// <param name="loginInfoID"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SaveTimeLine(RenderPEFRequest requst, string usertoken, string contentid)
+        public ActionResult SaveTimeLine(RenderPEFRequest requst, string usertoken, string contentid, string siteCode = "")
         {
             string lastPefPath = "";
             string path = "" ;
@@ -351,7 +354,7 @@ namespace Jove.Controllers
                  }
             }
             Logger.Trace("获取素材信息:usertoken={0},path={1}，title={2},contentid={3},requst={4}\n", usertoken, requst.folderPath, requst.title, contentid, JsonHelper.ToJson(requst));
-            r = AppContext.Current.FolderService.SaveTimeLine(usertoken,requst.folderPath, requst.title, contentid, requst.json);
+            r = AppContext.Current.FolderService.SaveTimeLine(usertoken, requst.folderPath, requst.title, contentid, requst.json, siteCode);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);
             try
             {
@@ -382,12 +385,12 @@ namespace Jove.Controllers
         /// <param name="loginInfoID"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult GetTimeLine(string usertoken, string guid)
+        public ActionResult GetTimeLine(string usertoken, string guid, string siteCode = "")
         {
             ResponseMessage<ObjectInfo> r = new ResponseMessage<ObjectInfo>();
             EditorMediaJson response = new EditorMediaJson();
 
-            r = AppContext.Current.FolderService.GetClipInfo(usertoken, guid, "64", "http");
+            r = AppContext.Current.FolderService.GetClipInfo(usertoken, guid, "64", "http", siteCode);
             Logger.Trace("获取素材信息:usertoken={0},guid={1}\n", usertoken, guid);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);
             return Json(r, JsonRequestBehavior.AllowGet);
@@ -398,11 +401,11 @@ namespace Jove.Controllers
         /// <param name="loginInfoID"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult SendToRender(string usertoken,string objecttype,  RenderPEFRequest requst,string transCodeType="")
+        public ActionResult SendToRender(string usertoken, string objecttype, RenderPEFRequest requst, string transCodeType = "", string siteCode = "")
         {
             ResponseMessage r = new ResponseMessage();
             Logger.Trace("获取素材信息:usertoken={0},PEFSourcePath={1}，folderPath={2},objecttype={3}\n", usertoken, requst.pefFilePath, requst.folderPath, objecttype);
-            r = AppContext.Current.FolderService.SendToRender(usertoken, GetPathUrlCode(requst.pefFilePath), requst.title, objecttype, GetPathUrlCode(requst.folderPath), requst.json, transCodeType);
+            r = AppContext.Current.FolderService.SendToRender(usertoken, GetPathUrlCode(requst.pefFilePath), requst.title, objecttype, GetPathUrlCode(requst.folderPath), requst.json, transCodeType, siteCode);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);
             return Json(r, JsonRequestBehavior.AllowGet);
         }
@@ -423,15 +426,15 @@ namespace Jove.Controllers
         //}
 
         [HttpGet]
-        public ActionResult Login(string usertoken)
+        public ActionResult Login(string usertoken, string siteCode = "")
         {
             ResponseMessage<UserInfo> r = new ResponseMessage<UserInfo>();
-            r = AppContext.Current.AuthService.GetUserInfo(usertoken);
+            r = AppContext.Current.AuthService.GetUserInfo(usertoken, siteCode);
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult GetFavoriteObject(string usertoken, string usercode)
+        public ActionResult GetFavoriteObject(string usertoken, string usercode, string siteCode = "")
         {
             ResponseMessage<List<ObjectInfo>> r = new ResponseMessage<List<ObjectInfo>>();
             Logger.Trace("获取收藏夹素材列表:usertoken={0}\n", usertoken);
@@ -454,7 +457,7 @@ namespace Jove.Controllers
         //}
 
         [HttpPost]
-        public ActionResult RenderPEF(RenderPEFRequest request, string usertoken)
+        public ActionResult RenderPEF(RenderPEFRequest request, string usertoken, string siteCode = "")
         {
             ResponseMessage<RenderPefResponse> r = new ResponseMessage<RenderPefResponse>();
             request.json.videostandard = JOVEConfig.GetHivevideoStandard(usertoken);

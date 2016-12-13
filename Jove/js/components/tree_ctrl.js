@@ -129,6 +129,9 @@ const tree_ctrl =
       },
       selectedNode(){
         return this.$store.state.currentNode
+      },
+      sortFunc(){
+        return window.SortLikeWin
       }
     }
 }

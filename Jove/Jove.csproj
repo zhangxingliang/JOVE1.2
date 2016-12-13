@@ -281,6 +281,7 @@
     <Content Include="images\user_ope_normal.png" />
     <Content Include="images\user_ope_over.png" />
     <Content Include="images\zip.png" />
+    <Content Include="js\components\marker_ctrl.js" />
     <Content Include="js\config\golbalSettings.js" />
     <Content Include="js\lib\axios.js" />
     <Content Include="js\lib\h5editor.js" />

@@ -109,4 +109,7 @@ const mutations = {
   [types.SET_ALWAYSGET](state, payload){
     state.alwaysGet = payload.data
   },
+  [types.SET_PREVIEWURL](state, payload){
+    state.previewUrl = payload.data
+  }
 }

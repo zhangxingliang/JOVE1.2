@@ -73,7 +73,7 @@ const createPlugin = function (editor, mlapp) {
                     }
                     if (flag) {
                         var url = _siteRoot + "cm/RenderPEF";
-                        var par = { usertoken: _userToken };
+                        var par = { usertoken: _userToken ,siteCode:_siteCode};
                        // window.parent.editor.media.update({ name: _inputTitle.value });
                         var objstr = JSON.stringify({
                             json: json,
@@ -90,7 +90,7 @@ const createPlugin = function (editor, mlapp) {
                             success: function (r) {
                                 if (r.Code == "0") {
                                     var url2 = _siteRoot + "cm/SendToRender";
-                                    var par2 = { usertoken: _userToken, objecttype: '64', transCodeType: _transCodeType };
+                                    var par2 = { usertoken: _userToken, objecttype: '64', transCodeType: _transCodeType,siteCode:_siteCode };
                                     var request = JSON.parse(objstr);
                                     request.pefFilePath = r.Ext.PEFFilePath;
                                     $.ajax({
@@ -121,7 +121,7 @@ const createPlugin = function (editor, mlapp) {
                     }
                     else {
                         var url = _siteRoot + "cm/SaveTimeLine";
-                        var par = { usertoken: _userToken, contentid: guid };
+                        var par = { usertoken: _userToken, contentid: guid ,siteCode:_siteCode};
                         json.name = _inputTitle.value.trim();
                         var request = {
                             json: json,
@@ -245,7 +245,7 @@ const createPlugin = function (editor, mlapp) {
                     json = window.parent.editor.media.json;
                     if (guid != "") {
                         var url = _siteRoot + "cm/SaveTimeLine";
-                        var par = { usertoken: _userToken, contentid: guid };
+                        var par = { usertoken: _userToken, contentid: guid ,siteCode:_siteCode};
                         var objstr = JSON.stringify({
                             json: window.parent.editor.media.json,
                             title: window.parent.editor.media.json.name,

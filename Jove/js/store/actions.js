@@ -7,7 +7,9 @@ const actions = {
       })
     }
     else {
-      var URL = util.getUrl('Cm/GetClipList')
+      var URL = util.getUrl('Cm/GetClipList', {
+        siteCode : _siteCode
+      })
       return new Promise((resolve, reject)=>{
         axios.post(URL, {
           usertoken : _userToken,
@@ -61,7 +63,8 @@ const actions = {
   },
   [types.LOGIN](context, payload){
     var URL = util.getUrl('Cm/Login', {
-      usertoken : _userToken
+      usertoken : _userToken,
+      siteCode : _siteCode
     })
     return new Promise((resolve, reject)=>{
       axios.get(URL).then(res=>{
@@ -77,7 +80,8 @@ const actions = {
     var URL = util.getUrl('Cm/GetClipInfo', {
         usertoken : _userToken,
         contentid : payload.data.clipid,
-        objecttype : payload.data.sourceid
+        objecttype : payload.data.sourceid,
+        siteCode : _siteCode
     })
     return new Promise((resolve, reject)=>{
       axios.get(URL).then(res=>{
@@ -89,7 +93,8 @@ const actions = {
     var URL = util.getUrl('Cm/GetDragedClipInfo', {
         usertoken : _userToken,
         contentid : payload.data.clipid,
-        objecttype : payload.data.sourceid
+        objecttype : payload.data.sourceid,
+        siteCode : _siteCode
     })
     return new Promise((resolve, reject)=>{
       axios.get(URL).then(res=>{
@@ -101,6 +106,7 @@ const actions = {
     var URL = util.getUrl('Cm/GetTimeLine', {
         usertoken : _userToken,
         contentid : payload.data,
+        siteCode : siteCode
     })
     return new Promise((resolve, reject)=>{
       axios.get(URL).then(res=>{
@@ -128,19 +134,6 @@ const actions = {
             resolve()
           }
         }
-      })
-    })
-  },
-  [types.GET_SEARCHRESULT](context, payload){
-    var URL = util.getUrl(golbalSetting.CM + "/Handler/MaterialList.ashx")
-    var data = {
-      OperationType : 'GetSearchResult',
-      usertoken : _userToken,
-      username : context.state.userInfo.userName,
-    }
-    return new Promise((resolve, reject)=>{
-      axios.post(URL, data).then(res=>{
-        resolve(res)
       })
     })
   },
@@ -180,7 +173,8 @@ const actions = {
     return new Promise((resolve, reject)=>{
       axios.post(URL, {
         usertoken : _userToken,
-        path : context.getters.currentNode.path
+        path : context.getters.currentNode.path,
+        siteCode : _siteCode
       }).then(res=>{
         context.commit({
             type : types.SET_MATERIALS,
