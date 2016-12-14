@@ -407,3 +407,174 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 {
   display: none;
 }
+.divdiv
+{
+  width: 100%;
+  height: 100%;
+}
+.dropdown
+{
+  width: 110px;
+  font-size: 12px;
+  text-align: left;
+  right: 5px;
+  position: relative;
+  background-color: #1b1b1b;
+}
+.dropdown:hover
+{
+	color: #f5a623;
+}
+.h5.window .window-caption
+{
+  background-color: #1b1b1b;
+  border-bottom: 1px solid #101010;
+  height: 30px;
+}
+.h5 .mp-memo-content2
+{
+  position: relative;
+  width: 548px;
+  height: 598px;
+  font-size: 14px;
+  background-color: #1b1b1b;
+}
+.h5 .mp-memo-content2 .input-text-wrapper {
+  left: 105px;
+  right: 10px;
+}
+.h5 .mp-memo-content2 > span
+{
+  display: block;
+  position: absolute;
+}
+.h5 .mp-memo-content2 .input-text-wrapper
+{
+  position: absolute;
+  left: 105px;
+  top: 15px;
+  right: 10px;
+  display: block;
+  max-width: none;
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-0, .h5 .markPointDiv .mp-0, .h5 .listview-outlook .list .mp-0
+{
+	color:rgb(208,208,208);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-1, .h5 .markPointDiv .mp-1, .h5 .listview-outlook .list .mp-1
+{
+	color:rgb(244,112,104);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-2, .h5 .markPointDiv .mp-2, .h5 .listview-outlook .list .mp-2
+{
+	color:rgb(244,112,104);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-3, .h5 .markPointDiv .mp-3, .h5 .listview-outlook .list .mp-3
+{
+	color:rgb(243,178,102);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-4, .h5 .markPointDiv .mp-4, .h5 .listview-outlook .list .mp-4
+{
+	color:rgb(239,239,97);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-5, .h5 .markPointDiv .mp-5, .h5 .listview-outlook .list .mp-5
+{
+	color:rgb(129,233,154);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-6, .h5 .markPointDiv .mp-6, .h5 .listview-outlook .list .mp-6
+{
+	color:rgb(129,231,235);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-7, .h5 .markPointDiv .mp-7, .h5 .listview-outlook .list .mp-7
+{
+	color:rgb(179,111,242);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-8, .h5 .markPointDiv .mp-8, .h5 .listview-outlook .list .mp-8
+{
+	color:rgb(243,112,175);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .mp-9, .h5 .markPointDiv .mp-9, .h5 .listview-outlook .list .mp-9
+{
+	color:rgb(142,87,0);
+}
+.h5 .listview-outlook .list .mp-bk-0
+{
+	background-color:rgb(208,208,208);
+}
+.h5 .listview-outlook .list .mp-bk-1
+{
+	background:rgb(244,112,104);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl .active a {
+    background-color: #f5a623;
+}
+.h5 .listview-outlook .list .mp-bk-2
+{
+	background:rgb(244,112,104);
+}
+.h5 .operationMenu .v-menu.markPointMenuUl li a .text {
+    color: #000;
+}
+.h5 .listview-outlook .list .mp-bk-3
+{
+	background:rgb(243,178,102);
+}
+.h5 .listview-outlook .list .mp-bk-4
+{
+	background:rgb(239,239,97);
+}
+.h5 .listview-outlook .list .mp-bk-5
+{
+	background:rgb(129,233,154);
+}
+.h5 .listview-outlook .list .mp-bk-6
+{
+	background:rgb(129,231,235);
+}
+.h5 .listview-outlook .list .mp-bk-7
+{
+	background:rgb(179,111,242);
+}
+.h5 .listview-outlook .list .mp-bk-8
+{
+	background:rgb(243,112,175);
+}
+.h5 .listview-outlook .list .mp-bk-9
+{
+	background:rgb(142,87,0);
+}
+.save_plugin .folder_box
+{
+  overflow: hidden;
+  background-color: #222;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 491px;
+  width: 433px;
+  color: #cfd2d4;
+}
+.treelist
+{
+  top: 53px;
+  right: 10px;
+  left: 10px;
+  position: absolute;
+}
+.h5 .mp-memo-content2 .mp-foot
+{
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  left: 0;
+  top: auto;
+  right: 10px;
+}
+.h5 .mp-memo-content2 .input-text-wrapper .mp-input {
+    width: 100%;
+    height: 100%;
+    background-color: #292929;
+    padding: .3125rem;
+    border: 1px #181818 solid;
+    color: #cfd2d4;
+}

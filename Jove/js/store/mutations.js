@@ -1,52 +1,51 @@
 const mutations = {
-  [types.SET_MATERIALS](state, payload){
-    if(payload.target.guid === 1 || payload.target.guid === 2){
+  [types.SET_MATERIALS](state, payload) {
+    if (payload.target.guid === 1 || payload.target.guid === 2) {
       payload.target.searchResult = payload.data
-    }
-    else{
+    } else {
       payload.target.children = payload.data
     }
 
   },
-  [types.TOGGLE_FOLDER](state, payload){
+  [types.TOGGLE_FOLDER](state, payload) {
     payload.target.open = !payload.target.open
   },
-  [types.EXPAND_FOLDER](state, payload){
-      payload.target.open = true
+  [types.EXPAND_FOLDER](state, payload) {
+    payload.target.open = true
   },
-  [types.MOVE_MATERIALS](state, payload){
-    payload.data.forEach(item=>{
-        item.floor = payload.target.floor + 1
-        item.father.children.remove(item)
-        item.father = payload.target
-        item.checked = false
-        payload.target.children.push(item)
-      })
+  [types.MOVE_MATERIALS](state, payload) {
+    payload.data.forEach(item => {
+      item.floor = payload.target.floor + 1
+      item.father.children.remove(item)
+      item.father = payload.target
+      item.checked = false
+      payload.target.children.push(item)
+    })
   },
-  [types.BACK_UP](state, payload){
+  [types.BACK_UP](state, payload) {
     var l = state.navPath.length
-    if(l > 1){
+    if (l > 1) {
       state.navPath.splice(-1, 1)[0].selected = false
     }
-    state.histories[state.histories.length-1].selected = true
+    state.histories[state.histories.length - 1].selected = true
   },
-  [types.GET_NAVPATH](state, payload){
-    if(state.navPath.length){
-      state.navPath[state.navPath.length-1].selected = false;
+  [types.GET_NAVPATH](state, payload) {
+    if (state.navPath.length) {
+      state.navPath[state.navPath.length - 1].selected = false;
     }
     payload.target.selected = true;
     state.navPath.length = 0 ;
     util.getHistories(payload.target, state.navPath);
   },
-  [types.SET_USERINFO](state, payload){
+  [types.SET_USERINFO](state, payload) {
     state.userInfo = payload.data
   },
-  [types.SET_EDITOR](state, payload){
+  [types.SET_EDITOR](state, payload) {
     state.editor = payload.data
   },
-  [types.GET_SEARCHMODEL](state, payload){
+  [types.GET_SEARCHMODEL](state, payload) {
     var newArr = []
-    payload.data.forEach(item=>{
+    payload.data.forEach(item => {
       item.guid = 2
       item.searchResult = []
       item.floor = payload.target.floor + 1
@@ -58,58 +57,60 @@ const mutations = {
     })
     payload.target.children = newArr
   },
-  [types.PREVIEW_MATERIAL](state, payload){
+  [types.PREVIEW_MATERIAL](state, payload) {
     state.previewUrl = payload.data
   },
-  [types.ACTIVE_SVPLAYER](state, payload){
-    if(state.resourceBlockStatus){
+  [types.ACTIVE_SVPLAYER](state, payload) {
+    if (state.resourceBlockStatus) {
       state.svplayerStyle = {
-        right : 0 + 'px'
+        right: 0 + 'px'
       }
       state.svplayerStatus = true
-    }
-    else {
+    } else {
       state.svplayerStyle = {
-        right : '860px'
+        right: '860px'
       }
     }
   },
-  [types.DISACTIVE_SVPLAYER](state, payload){
-    if(state.resourceBlockStatus){
+  [types.DISACTIVE_SVPLAYER](state, payload) {
+    if (state.resourceBlockStatus) {
       state.svplayerStatus = false
-    }
-    else{
+    } else {
 
     }
   },
-  [types.MOVE_SVPLAYER](state, payload){
+  [types.MOVE_SVPLAYER](state, payload) {
     state.svplayerStyle = {
-      right : 0 + 'px'
+      right: 0 + 'px'
     }
   },
-  [types.RESET_SVPLAYER](state, payload){
+  [types.RESET_SVPLAYER](state, payload) {
     state.svplayerStyle = {
-      right : '860px'
+      right: '860px'
     }
   },
-  [types.TOGGLE_RESOURCEBLOCKSTATUS](state, payload){
-    if(state.resourceBlockStatus){
+  [types.TOGGLE_RESOURCEBLOCKSTATUS](state, payload) {
+    if (state.resourceBlockStatus) {
       state.svplayerStyle = {
-        right : '860px'
+        right: '860px'
       }
       state.svplayerStatus = true
-    }
-    else if(state.svplayerStatus){
+    } else if (state.svplayerStatus) {
       state.svplayerStyle = {
-        right : 0 + 'px'
+        right: 0 + 'px'
       }
     }
     state.resourceBlockStatus = !state.resourceBlockStatus
   },
-  [types.SET_ALWAYSGET](state, payload){
+  [types.SET_ALWAYSGET](state, payload) {
     state.alwaysGet = payload.data
   },
-  [types.SET_PREVIEWURL](state, payload){
+  [types.SET_PREVIEWURL](state, payload) {
     state.previewUrl = payload.data
-  }
+  },
+  [types.SET_SAVEFOLDER](state, payload) {
+    state.saveFolder.selected = false
+    state.saveFolder = payload.source
+    state.saveFolder.selected = true
+  },
 }

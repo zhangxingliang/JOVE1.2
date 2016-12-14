@@ -1909,8 +1909,10 @@ body {
   height: auto;
   float: left;
   z-index: 10050;
-  background-color: #ffffff;
-  border: solid 1px #dfdfdf;
+  background-color: transparent;
+  -webkit-box-shadow: 0 1px 16px #101010;
+  box-shadow: 0 1px 16px #101010;
+  border: 1px solid #101010;
 }
 .h5.window * {
   box-sizing: border-box;
@@ -1918,12 +1920,12 @@ body {
 .h5.window .window-caption {
   position: relative;
   padding: 0px;
-  border-bottom: 1px #e9e9e9 solid;
   border-top: 0;
   cursor: default;
-  background-color: #f79b38;
   color: #ffffff;
-  height: 25px;
+  background-color: #1b1b1b;
+  border-bottom: 1px solid #101010;
+  height: 30px;
 }
 .h5.window .window-caption .window-caption-icon {
   margin-left: .3125rem;
@@ -1933,11 +1935,11 @@ body {
   width: 1rem;
 }
 .h5.window .window-caption .window-caption-title {
-  font-size: .875rem;
+  font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  padding-left: .3125rem;
-  line-height: 24px;
+  padding-left: 10px;
+  line-height: 30px;
 }
 .h5.window .window-caption .btn-close,
 .h5.window .window-caption .btn-min,
@@ -1954,8 +1956,7 @@ body {
   outline: none;
   cursor: pointer;
   display: block;
-  background-color: #4391e6;
-  top: 0px;
+  top: 2px;
   right: .25rem;
   color: #a7d0ff;
 }
@@ -2081,7 +2082,7 @@ body {
 .h5.aui_state_focus .aui_icon div {
   width: 48px;
   height: 48px;
-  margin: 10px 0 10px 10px;
+  margin: 10px 0 10px 20px;
   background-position: center center;
   background-repeat: no-repeat;
   font-size: 48px;
@@ -2365,28 +2366,28 @@ body {
   color: #faa685;
 }
 .fa-times-circle-img {
-  background-image: url(../img/no.png);
+  background-image: url(../images/no.png);
   background-size: 42px 42px;
 }
 .h5.aui_state_focus .fa-check-circle {
   color: #bede0b;
 }
 .fa-check-circle-img {
-  background-image: url(../img/yes.png);
+  background-image: url(../images/yes.png);
   background-size: 42px 42px;
 }
 .h5.aui_state_focus .fa-question-circle {
   color: #84cef8;
 }
 .fa-question-circle-img {
-  background-image: url(../img/why.png);
+  background-image: url(../images/why.png);
   background-size: 42px 42px;
 }
 .h5.aui_state_focus .fa-exclamation-circle {
   color: #f7d82a;
 }
 .fa-exclamation-circle-img {
-  background-image: url(../img/gantan.png);
+  background-image: url(../images/gantan.png);
   background-size: 42px 42px;
 }
 .h5 .mp-memo-content {
@@ -2394,37 +2395,43 @@ body {
   width: 490px;
   height: 150px;
   font-size: 14px;
+  background-color: #1b1b1b;
 }
 .h5 .mp-memo-content > span {
   width: 65px;
   display: block;
   position: absolute;
   text-align: center;
-  left: 0px;
-  top: 15px;
+  color: #cfd2d4;
+  left: 10px;
 }
 .h5 .mp-memo-content .mp-input-wrapper {
   position: absolute;
-  left: 65px;
   top: 10px;
-  border: solid 1px #ccc;
-  right: 25px;
   bottom: 50px;
   display: block;
   max-width: none;
+  left: 105px;
+  border: 1px solid #101010;
+  bottom: 56px;
+  right: 10px;
 }
 .h5 .mp-memo-content .mp-input-wrapper .mp-input-r {
   position: absolute;
-  left: 0px;
-  right: 17px;
-  top: 0px;
-  bottom: 0px;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 .h5 .mp-memo-content .mp-input-wrapper .mp-input-r .mp-input {
   width: 100%;
   height: 100%;
   margin: 0px;
   resize: none;
+  background-color: #292929;
+  color: #cfd2d4;
+  border: none;
+  outline: none;
 }
 .h5 .mp-memo-content .mp-input-wrapper .dropdown {
   position: absolute;
@@ -2476,17 +2483,28 @@ body {
   top: auto;
   right: 25px;
 }
-.h5 .mp-memo-content .mp-foot .mp-btn {
+.h5 .mp-foot .mp-btn {
   float: right;
-  width: 75px;
-  background-color: #DCDCDC;
+  width: 88px;
+  border: 1px solid #101010;
+  color: #cfd2d4;
+  background-color: #292929;
   text-align: center;
   display: block;
-  height: 20px;
-  line-height: 20px;
+  height: 26px;
+  line-height: 25px;
   margin-top: 15px;
-  margin-left: 12px;
+  margin-left: 5px;
   cursor: pointer;
+}
+.h5 .mp-foot .mp-btn:hover
+{
+	border: solid 1px #f5a623;
+}
+
+.h5 .mp-foot .mp-btn:active
+{
+	background-color: #f5a623;
 }
 .h5 #markButtonDiv {
   width: 40px;
@@ -2561,20 +2579,16 @@ body {
   font-size: 21px;
 }
 .h5 .operationMenu .v-menu.markPointMenuUl {
+  border: none;
   width: 250px;
   max-width: none;
-  border: 1px solid #d8d6d7;
-  border-left: none;
-  border-bottom: none;
   margin-top: -3px;
   background-color: #ffffff;
   padding: 0px;
 }
 .h5 .operationMenu .v-menu.markPointMenuUl li {
   border: none;
-  border-left: 1px solid #d8d6d7;
   float: left;
-  border-bottom: 1px solid #d8d6d7;
   width: 50px;
   height: 30px;
   box-sizing: border-box;
@@ -2589,9 +2603,10 @@ body {
   display: block;
   width: 100%;
   padding: 0px;
+  background-color: #1b1b1b;
 }
 .h5 .operationMenu .v-menu.markPointMenuUl li a:hover {
-  background-color: #4290e8;
+  background-color: #f5a623;
 }
 .h5 .operationMenu .v-menu.markPointMenuUl li a .icon {
   margin-top: 0px;
@@ -4759,9 +4774,6 @@ body {
   padding-right: 1em;
   box-sizing: border-box;
 }
-.h5 .operationMenu .v-menu li:first-child {
-  border-top: 1px solid #d9d9d9;
-}
 .h5 .ui-resizable,
 .h5 .ui-droppable,
 .h5 .ui-draggable {
@@ -4998,7 +5010,7 @@ body {
   cursor: crosshair;
 }
 .h5 .color-selector .wheel {
-  background: url(../img/wheel.png) no-repeat;
+  background: url(../images/wheel.png) no-repeat;
   width: 195px;
   height: 195px;
 }
@@ -5010,14 +5022,14 @@ body {
   height: 101px;
 }
 .h5 .color-selector .overlay {
-  background: url(../img/mask.png) no-repeat;
+  background: url(../images/mask.png) no-repeat;
 }
 .h5 .color-selector .marker {
   width: 17px;
   height: 17px;
   margin: -8px 0 0 -8px;
   overflow: hidden;
-  background: url(../img/marker.png) no-repeat;
+  background: url(../images/marker.png) no-repeat;
 }
 .h5 .content-editable textarea {
   display: none;
