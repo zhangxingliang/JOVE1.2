@@ -1,6 +1,5 @@
 const actions = {
   [types.GET_MATERIALS](context, payload) {
-    // http get then commit if need
     if (payload.source.children.length > 0 && !context.state.alwaysGet) {
       return new Promise((resolve, reject) => {
         resolve()
@@ -22,7 +21,30 @@ const actions = {
           resolve()
         })
       })
-    // success commit  fail alert
+    }
+  },
+  [types.GET_MATERIALS2](context, payload) {
+    if (payload.source.children.length > 0) {
+      return new Promise((resolve, reject) => {
+        resolve()
+      })
+    } else {
+      var URL = util.getUrl('Cm/GetClipList', {
+        siteCode: _siteCode
+      })
+      return new Promise((resolve, reject) => {
+        axios.post(URL, {
+          usertoken: _userToken,
+          path: payload.source.path
+        }).then(res => {
+          context.commit({
+            type: types.SET_MATERIALS,
+            target: payload.source,
+            data: util.parseData(res.data, payload.source)
+          })
+          resolve()
+        })
+      })
     }
   },
   [types.TOGGLE_FOLDER](context, payload) {
@@ -65,11 +87,15 @@ const actions = {
     })
     return new Promise((resolve, reject) => {
       axios.get(URL).then(res => {
-        context.commit({
-          type: types.SET_USERINFO,
-          data: res.data.Ext
-        })
-        resolve()
+        if (res.data.Code === '0') {
+          context.commit({
+            type: types.SET_USERINFO,
+            data: res.data.Ext
+          })
+          resolve()
+        } else {
+          reject()
+        }
       })
     })
   },

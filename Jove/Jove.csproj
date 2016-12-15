@@ -201,7 +201,7 @@
     <Content Include="images\pdf.png" />
     <Content Include="images\ppt.png" />
     <Content Include="images\rar.png" />
-    <Content Include="images\Sequence.png" />
+    <Content Include="images\sequence.png" />
     <Content Include="images\word.png" />
     <Content Include="index.html" />
     <Content Include="ipconf.xml" />

@@ -1,30 +1,32 @@
 const marker_ctrl = {
-  template : '#marker_ctrl',
+  template: '#marker_ctrl',
   props: {
     data: Object
   },
-  data: function(){
+  data: function() {
     return {
     }
   },
   methods: {
-    dblclick: function(event){
-      if(this.material.type === 'marker') {
+    dblclick: function(event) {
+      if (this.material.type === 'marker') {
         this.$store.dispatch({
-          type : types.GET_OBJECT_INFO,
-          data : {
-            clipid : this.material.objectguid,
-            sourceid : '32'
+          type: types.GET_OBJECT_INFO,
+          data: {
+            clipid: this.material.objectguid,
+            sourceid: '32'
           }
-        }).then(res=>{
+        }).then(res => {
           var pathList = res.data.Ext.entity.folderpath.split('/')
-          util.locateFolder(this.$store, pathList.slice(1), {children : this.$store.getters.folderTree})
+          util.locateFolder(this.$store, pathList.slice(1), {
+            children: this.$store.getters.folderTree
+          })
         })
       }
     }
   },
   computed: {
-    material(){
+    material() {
       return this.data
     }
   }

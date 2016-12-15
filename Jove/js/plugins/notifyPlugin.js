@@ -66,9 +66,15 @@ const notifyPlugin = store => {
     if (mutation.payload.type === types.SET_MATERIALS) {
       //处理payload
       var node = mutation.payload.target;
-      var msg = {
+      /*var msg = {
         ClipFolderGuid: node.guid,
         ClipFolderPath: node.father ? node.father.path : ''
+      };*/
+      var msg = {
+        FolderGuid: node.guid,
+        FolderPath: node.path,
+        FatherFolderGuid: node.father ? node.father.guid : '',
+        isOpen: true
       };
       Send(msg);
     }

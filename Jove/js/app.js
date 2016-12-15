@@ -390,7 +390,7 @@ const app = new Vue({
                 target: _this.nodes[0],
                 data: []
               })
-              var path = $.base64.decode(_folderPath).replace('Public', 'MaterialList').split('/');
+              var path = util.utf8to16(_folderPath).replace('Public', 'MaterialList').split('/').filter(item=>item != '');
               if (path.length > 1) {
                 util.locateFolder(_this.$store, path, {
                   children: _this.$store.getters.folderTree

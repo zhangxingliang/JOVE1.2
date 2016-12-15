@@ -5848,8 +5848,9 @@ var TimelinePlayer = EventObject.extend({
 
             //没有视频轨则清空canvas
             if (!hasVideoTrack) {
-                var c = $('.playerCanvas');
-                c[0].getContext('2d').clearRect(0,0,c.width(), c.height());
+                drawFrame();
+               // var c = $('.playerCanvas');
+               // c[0].getContext('2d').clearRect(0,0,c.width(), c.height());
             }
 
 
@@ -5891,6 +5892,7 @@ var TimelinePlayer = EventObject.extend({
         }
 
         function drawFrame() {
+            var flag = false;
             if (_currentTrackEvents.length == 0 || !_options.useCanvas) {
                 //防止播放完视频后仍MV显示视频画面  2016.9.22 zxl
                 _canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
@@ -5929,7 +5931,7 @@ var TimelinePlayer = EventObject.extend({
                     tracks[idx].hasVideo = true;
                     curItem.__isVideo = true;
                     trackGroup.video.push(curItem);
-
+                    flag = true;
                     videoTrackCount++;
                 } else {
                     curItem.__isVideo = false;
@@ -5999,7 +6001,9 @@ var TimelinePlayer = EventObject.extend({
                 }
             }
 
-            _canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
+            if (!flag) {
+                _canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
+            }
             _canvasContext.drawImage(_offlineCanvas, 0, 0);
 
         }
@@ -10425,7 +10429,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               // document.querySelector(".hoverifm").style.display = "block";
               __currentDraggingHelper = __helpers[_id];
               e.dataTransfer.effectAllowed = "all";
-              //e.dataTransfer.setDragImage($("<div></div>")[0], 0, 0);
+              //e.dataTransfer.setDragImage($('.material_icon',e.target)[0], 74, 41);
 
               _onStart(e, __helpers[_id]);
 
@@ -13668,7 +13672,7 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                             if (startTime < 0) {
                                 startTime = 0;
                             }
-
+                            app.media.currentTime = startTime;
                             var sevent = track.findTrackEventByTime(startTime);
 
 
@@ -13816,6 +13820,7 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                         else {
                             startTime = util.roundTime(app.pixelToTime(x) / 1000);
                         }
+                        app.media.currentTime = startTime;
                         var autoAlignRs = app.media.autoAlign(trackEvent, startTime, endTime, 20, startTime);
                         startTime = autoAlignRs.startTime;
                     }
@@ -13827,6 +13832,7 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                         }
                         else {
                             endTime = util.roundTime(app.pixelToTime(x + w) / 1000);
+                            app.media.currentTime = endTime;
                             var autoAlignRs = app.media.autoAlign(trackEvent, startTime, endTime, 20, "", endTime);
                             endTime = autoAlignRs.endTime;
                         }
@@ -14969,6 +14975,7 @@ h5.define('core/StaticTrackEventPlugin', ["core/TrackEventPluginBase", "core/Tra
                         } else {
                             var autoAlignRs = app.media.autoAlign(trackEvent, startTime, endTime, 20, undefined, undefined, ignoreTrackEvent);
                             startTime = autoAlignRs.startTime;
+                            app.media.currentTime = startTime;
                             endTime = autoAlignRs.endTime;
                             len = endTime - startTime;
                             var w = app.timeToPixel(len * 1000),
@@ -15054,6 +15061,7 @@ h5.define('core/StaticTrackEventPlugin', ["core/TrackEventPluginBase", "core/Tra
                         } else {
                             startTime = util.roundTime(app.pixelToTime(x) / 1000);
                         }
+                        app.media.currentTime = startTime;
                         var autoAlignRs = app.media.autoAlign(trackEvent, startTime, endTime, 20, startTime);
                         startTime = autoAlignRs.startTime;
                     }
@@ -15098,6 +15106,7 @@ h5.define('core/StaticTrackEventPlugin', ["core/TrackEventPluginBase", "core/Tra
                                 offsetTime = 0;
                             }
                         }
+                        app.media.currentTime = endTime;
                         var autoAlignRs = app.media.autoAlign(trackEvent, startTime, endTime, 20, "", endTime);
                         endTime = autoAlignRs.endTime;
 
@@ -16006,7 +16015,8 @@ h5.define('timeline/H5TrackView', ["jquery",
                                   track: _track
                               };
                               var r = p.dragOver(app, helper, mousePosition, dragData, e);
-
+                              //查看拖拽位置的画面
+                              app.media.currentTime = dragData.startTime;
                               if (typeof dragData.dropTime == 'number') {
                                   helper.data.dropTime = dragData.dropTime;
                                   helper.data.dropNextTrackEvent = dragData.dropNextTrackEvent;
@@ -18834,7 +18844,8 @@ h5.define('core/Media', [
                                           _currentTime = 0;
                                       }
                                       if (_currentTime > _duration) {
-                                          _currentTime = _duration;
+                                          app.media.updateDuration(_currentTime);
+                                          //_currentTime = _duration;
                                       } //if
                                       _popcornWrapper.currentTime = _currentTime;
                                      // _this.dispatchEvent("mediatimeupdate", _this);
@@ -30091,23 +30102,31 @@ h5.define('editor/TrackEventEditor', [
 
       var NULL_FUNCTION = function () { };
 
-      var __defaultLayouts = util.domFragment(TRACK_EVENT_EDITOR_LAYOUT),   //$(TRACK_EVENT_EDITOR_LAYOUT),
-          //__googleFonts = [
-          //  lang[_curLang].MSYH,
-          //  lang[_curLang].song,
-          //  "SimHei",
-          //  "NSimSun",
-          //  "FangSong ",
-          //  "LiSu",
-          //  "KaiTi",
-          //  "YouYuan",
-          //  "Times New Roman",
-          //  "Georgia",
-          //  "Arial"
-          //];
-          //addby hzr 20161118 通过读取网管配置中的字体
-          __googleFonts = _installedFontCollection.split(";");
+      var __defaultLayouts = util.domFragment(TRACK_EVENT_EDITOR_LAYOUT);   //$(TRACK_EVENT_EDITOR_LAYOUT),
 
+      //addby hzr 20161118 通过读取网管配置中的字体
+      var __googleFonts = [];
+
+      if (_installedFontCollection != null && _installedFontCollection != "") {
+          __googleFonts = _installedFontCollection.split(";");
+      }
+
+      else {
+          __googleFonts = [
+            lang[_curLang].MSYH,
+            lang[_curLang].song,
+            "SimHei",
+            "NSimSun",
+            "FangSong ",
+            "LiSu",
+            "KaiTi",
+            "YouYuan",
+            "Times New Roman",
+            "Georgia",
+            "Arial"
+          ];
+      }
+          
       /**
        * Class: TrackEventEditor
        *

@@ -163,6 +163,12 @@
   line-height: 77px;
   text-align: center;
   background-color: #2e2e2e;
+  position: absolute;
+  left: 0;
+  top: 25px;
+  right: 0;
+  bottom: 20px;
+  overflow: hidden;
 }
 .material .material_icon_container span
 {
@@ -172,7 +178,7 @@
   display: inline-block;
   background-size: contain !important;
 }
-.material .material_icon_container img
+.material .material_icon_container .material_icon
 {
   max-width: 137px;
   max-height: 77px;
@@ -191,6 +197,7 @@
   margin-left: 2px;
   width: 120px;
   padding-top:5px;
+  bottom: 0;
 }
 .material.material_selecting
 {
@@ -373,4 +380,30 @@
 .status_item.i
 {
   background: url(../images/I.png) no-repeat;
+}
+.preview_cell
+{
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 3px;
+  background-color: #e95252;
+  visibility: hidden;
+  pointer-events: none;
+}
+.material_icon_container:hover .preview_cell
+{
+  visibility: visible;
+}
+.material_icon_container:hover .preview_img
+{
+  visibility: visible;
+}
+.preview_img
+{
+  position: absolute;
+  pointer-events: none;
+  left: 0px;
+  visibility: hidden;
 }
