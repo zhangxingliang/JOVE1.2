@@ -10148,6 +10148,9 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               _padding = options.padding || 0,
               _updateInterval = -1,
               _scroll = options.scroll,
+              _trackEvent = options.trackEvent,
+              _linkedTrackEvent,
+              _linkedElement,
               _scrollRect,
               _elementRect,
               _lastDims,
@@ -10179,6 +10182,10 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               e.preventDefault();
               e.stopPropagation();
 
+              _linkedTrackEvent = _trackEvent.track.findLinkedTrackEvent(_trackEvent);
+              if (_linkedTrackEvent && app.media.isLinked) {
+                  _linkedElement = _linkedTrackEvent.view.element;
+              }
               var originalRect = element.getBoundingClientRect(),
                   originalPosition = element.offsetLeft,
                   originalWidth = element.clientWidth,
@@ -10224,6 +10231,10 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                   if (_iterationBlockX === null) {
                       element.style.left = newX + "px";
                       element.style.width = newW + _padding + "px";
+                      if (_linkedElement) {
+                          _linkedElement.style.left = newX + "px";
+                          _linkedElement.style.width = newW + _padding + "px";
+                      }
                       _elementRect = element.getBoundingClientRect();
 
                       _lastDims[0] = newX;
@@ -10235,6 +10246,10 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
 
                       element.style.left = newX + "px";
                       element.style.width = newW + _padding + "px";
+                      if (_linkedElement) {
+                          _linkedElement.style.left = newX + "px";
+                          _linkedElement.style.width = newW + _padding + "px";
+                      }
                       _elementRect = element.getBoundingClientRect();
 
                       _lastDims[0] = newX;
@@ -10255,6 +10270,8 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                   window.removeEventListener("mousemove", onMouseMove, false);
                   window.removeEventListener("mouseup", onMouseUp, false);
                   clearInterval(_updateInterval);
+                  _linkedEvent = null;
+                  _linkedElement = null;
                   _updateInterval = -1;
                   _onStop(_resizeEvent);
                   app.undo.push('resize');
@@ -10296,7 +10313,10 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               app.media.pause();
               e.preventDefault();
               e.stopPropagation();
-
+              _linkedTrackEvent = _trackEvent.track.findLinkedTrackEvent(_trackEvent);
+              if (_linkedTrackEvent  && app.media.isLinked) {
+                  _linkedElement = _linkedTrackEvent.view.element;
+              }
               var originalPosition = element.offsetLeft,
                   originalWidth = element.offsetWidth,
                   mouseDownPosition = e.clientX,
@@ -10336,12 +10356,18 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                   // width of the resizing element.
                   if (_iterationBlockX === null) {
                       element.style.width = newW + "px";
+                      if (_linkedElement) {
+                          _linkedElement.style.width = newW + "px";
+                      }
                       _elementRect = element.getBoundingClientRect();
                       _lastDims[1] = newW;
                   }
                   else {
                       newW = _iterationBlockX - originalPosition;
                       element.style.width = newW + "px";
+                      if (_linkedElement) {
+                          _linkedElement.style.width = newW + "px";
+                      }
                       _elementRect = element.getBoundingClientRect();
                       _lastDims[1] = newW;
                   }
@@ -11379,6 +11405,7 @@ h5.define('timeline/H5TrackEvent', ["jquery","util/Object", "util/util",
                                   _draggable.selected = _trackEvent.selected;
 
                                   _resizable = H5DragDrop.resizable(_element, {
+                                      trackEvent: _trackEvent,
                                       containment: _parent.element.parentNode,
                                       scroll: _parent.element.parentNode.parentNode,
                                       padding: _padding,
@@ -13919,8 +13946,12 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                             newPopcornOptions.from = Math.max(from, 0);
                         }
 
+                        var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
                         trackEvent.update(newPopcornOptions);
 
+                        if (linkedTrackEvent && app.media.isLinked) {
+                            linkedTrackEvent.update(newPopcornOptions);
+                        }
                         media.updateDuration();
 
 
@@ -17111,6 +17142,14 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                             }
                         });
                     }
+                    this.findLinkedTrackEvent = function(event){
+                        if (this.trackType === 'A') {
+                            return app.media.tracks[2].findTrackEventByTime(event.popcornOptions.start)
+                        }
+                        else if (this.trackType === 'VA') {
+                            return app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
+                        }
+                    }
                     this.findSpaceDuration = function (start, end, te) {
                         _trackEvents.sort(function (m, n) {
                             return m.popcornOptions.start - n.popcornOptions.start;
@@ -19612,6 +19651,10 @@ h5.define('timeline/H5TrackContainer', ["jquery",
                       if (trackEvent) {
                           _media.deselectAllTrackEvents();
                           trackEvent.selected = true;
+                          var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+                          if (linkedTrackEvent && app.media.isLinked) {
+                              linkedTrackEvent.selected = true;
+                          }
                           if (_media.paused) {
                               _media.currentTime = trackEvent.popcornOptions.end;
                           }
@@ -19654,7 +19697,11 @@ h5.define('timeline/H5TrackContainer', ["jquery",
             //  }
 
               trackEvent.selected = true;
-
+              var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+              if (linkedTrackEvent && app.media.isLinked)
+              {
+                  linkedTrackEvent.selected = true;
+              }
 
               function onTrackEventMouseUp() {
                   window.removeEventListener("mouseup", onTrackEventMouseUp, false);
@@ -28662,7 +28709,10 @@ h5.define('editor/H5EditorHelper', ["jquery","jquery-ui", "util/Keys"], function
                 trackEvent.selected = true;
 
 
-
+                var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+                if (linkedTrackEvent && app.media.isLinked) {
+                    linkedTrackEvent.selected = true;
+                }
 
                 // If the current open editor isn't a trackevent editor,
                 // open an editor for this event
@@ -35108,6 +35158,16 @@ h5.define("h5plugin/StandardToolbarButtonPlugin", ["core/EditorPluginBase",
 
                 split = _this.createToolbarButton("h5-tb-op-split");
                 split.appendChild(new H5ToolbarButton({ split: true }).element);
+                var linkedElement = _this.createToolbarButton("h5-tb-btn-delete"),
+                liinkedButton = new H5ToolbarButton({
+                    'class': 'info',
+                    title: lang[_curLang].modifyE,
+                    click: function () {
+                        app.media.isLinked = !app.media.isLinked;
+                        //app.editor.openTrackEventProperty(app.media);
+                    }
+                });
+                linkedElement.appendChild(liinkedButton.element);
 
                 _media.addEventListener("mediapause", function () {
                     playButton.selected = false;

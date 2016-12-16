@@ -753,3 +753,4 @@ util.utf8to16 = function(str) {
   }
   return out;
 }
+util.getListHeader = function(x, arr) {}

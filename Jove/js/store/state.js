@@ -63,5 +63,23 @@ const state = {
   },
   resourceBlockStatus: true,
   alwaysGet: false,
-  saveFolder: {}
+  saveFolder: {},
+  headers: [
+    {
+      name: 'Title',
+      attr: 'name',
+    },
+    {
+      name: 'Create Time',
+      attr: 'formatDate',
+    },
+    {
+      name: '333333',
+      attr: 'formatDate',
+    },
+    {
+      name: '4444',
+      attr: 'formatDate',
+    }
+  ]
 }

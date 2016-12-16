@@ -180,8 +180,8 @@
 }
 .material .material_icon_container .material_icon
 {
-  max-width: 137px;
-  max-height: 77px;
+  max-width: 148px;
+  max-height: 83px;
   vertical-align: middle;
 }
 .material .material_info
@@ -406,4 +406,17 @@
   pointer-events: none;
   left: 0px;
   visibility: hidden;
+}
+.list_header_item
+{
+  line-height: 30px;
+  display: inline-block;
+  width: 200px;
+  background-color: #fff;
+}
+.dragging_item
+{
+  position: absolute;
+  z-index: 1;
+  background: #ccc;
 }

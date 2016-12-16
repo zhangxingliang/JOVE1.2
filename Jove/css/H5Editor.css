@@ -3820,7 +3820,7 @@ body {
   border-bottom: 1px dashed red;
 }
 .h5editor .track-event[selected="true"] {
-  border-color: #000000;
+  border: 2px solid #f5a623;
   z-index: 200;
 }
 .h5editor .track-event {
@@ -4518,8 +4518,6 @@ body {
   right: 0px;
   background-color: black;
   border: solid 1px #555555;
-  transition: all .2s;
-  transition-delay: .1s;
 }
 .h5 .h5-player-panel .video-panel-wrapper .video-panel video {
   width: 100%;

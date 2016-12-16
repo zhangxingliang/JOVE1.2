@@ -37,12 +37,12 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 .left_container .folder_box
 {
   border-right: 1px solid #000;
-  height: calc(100% - 85px);
+  height: calc(100% - 121px);
   background:#222222;
   border-top:1px #1b1b1b solid;
   font-size:15px;
   line-height:30px;
-  padding-top:10px;
+  padding: 10px 0;
 }
 .right_container
 {

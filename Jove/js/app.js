@@ -17,6 +17,7 @@ const app = new Vue({
     'vue-nice-scrollbar': vueNiceScrollbar,
     'marker-ctrl': marker_ctrl,
     'tree-ctrl2': tree_ctrl2,
+    'list-material-header-ctrl': list_material_header_ctrl,
   },
   computed: {
     currentCtrl() {
@@ -390,7 +391,7 @@ const app = new Vue({
                 target: _this.nodes[0],
                 data: []
               })
-              var path = util.utf8to16(_folderPath).replace('Public', 'MaterialList').split('/').filter(item=>item != '');
+              var path = util.utf8to16(_folderPath).replace('Public', 'MaterialList').split('/').filter(item => item != '');
               if (path.length > 1) {
                 util.locateFolder(_this.$store, path, {
                   children: _this.$store.getters.folderTree

@@ -29,6 +29,7 @@
     <script src="~/js/components/navPath_ctrl.js"></script>
     <script src="~/js/components/material_ctrl.js"></script>
     <script src="~/js/components/marker_ctrl.js"></script>
+    <script src="~/js/components/list_material_header_ctrl.js"></script>
     <script src="~/js/plugins/savePlugin.js"></script>
     <title>Web Quick Editing</title>
 </head>
@@ -58,18 +59,40 @@
     </li>
   </template>
   <template id="nav_path_ctrl">
-  <div class="history_container">
-    <span class="backup_icon" v-on:click="backUp"></span>
-    <ul class="history_item_container">
-      <li class="history_item" v-on:click="click(path)" v-for="path in navPath">
-        <a :title="path.name">{{path.name}}</a>
-      </li>
-    </ul>
-  </div>
-</template>
-
-<template id="material_ctrl">
-    <div class="material fl" :class="[material.type, material.clipping ? 'material_clipping' : 'aa']" draggable="true" v-on:dblclick="dblclick"
+    <div class="history_container">
+      <span class="backup_icon" v-on:click="backUp"></span>
+      <ul class="history_item_container">
+        <li class="history_item" v-on:click="click(path)" v-for="path in navPath">
+          <a :title="path.name">{{path.name}}</a>
+        </li>
+      </ul>
+    </div>
+  </template>
+  <template id=list_material_header_ctrl>
+      <div calss="list_header_container">
+        <div class="list_header_item" v-for="header in headers"
+         v-on:mousedown="dragstart($event, header)">
+          <span>{{header.name}}</span>
+        </div>
+        <div class="list_header_item dragging_item" v-show="dragging" :style="{left: x + 'px'}">
+          <span>{{dragItem.name}}</span>
+        </div>
+      </div>
+  </template>
+  <template id="list_material_ctrl">
+      <div class="list_material_content">
+        <div v-on:mousemove="mousemove" class="list_material_icon_container">
+          <img draggable="false" class="material_icon" v-if="material.type =='video' || material.type =='image'" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+          <span v-else :style="{background: 'url(./images/' + material.type + '.png) no-repeat center center'}" ></span>
+        </div>
+        <div class="list_material_info"><span :title="material.name">{{material.name}}</span></div>
+        <div v-for="header in headers">
+          <span>{{material[header.attr]}}</span>
+        </div>
+      </div>
+  </template>
+  <template id="material_ctrl">
+    <div class="material fl" :class="[material.type, material.clipping ? 'material_clipping' : '']" draggable="true" v-on:dblclick="dblclick"
       :data-channel='material.channel'
       :data-from="0"
       :data-duration="material.duration"
@@ -212,6 +235,7 @@
         </div>
         <vue-nice-scrollbar class="scrollbar_container" :speed="150">
           <div class="material_box clearfix">
+            <!--list-material-header-ctrl></list-material-header-ctrl-->
             <component :is="currentCtrl" :data="m" v-for="m in materials" keep-alive>
             </component>
           </div>
