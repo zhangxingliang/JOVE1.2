@@ -9,6 +9,7 @@ const app = new Vue({
     sortType: 'title',
     sortSymbol: true,
     typeSymbol: false,
+    listSymbol: true,
   },
   components: {
     'tree-ctrl': tree_ctrl,
@@ -18,13 +19,15 @@ const app = new Vue({
     'marker-ctrl': marker_ctrl,
     'tree-ctrl2': tree_ctrl2,
     'list-material-header-ctrl': list_material_header_ctrl,
+    'list-material-ctrl': list_material_ctrl,
   },
   computed: {
     currentCtrl() {
       if (this.materials.length > 0 && this.materials[0].type === 'marker') {
+        this.listSymbol = false;
         return 'marker-ctrl'
-      } else {
-
+      } else if (this.listSymbol) {
+        return 'list-material-ctrl'
       }
       return 'material-ctrl'
     },
@@ -33,6 +36,9 @@ const app = new Vue({
     },
     savePath() {
       return this.$store.getters.savePathTree;
+    },
+    _materials() {
+      return this.listSymbol ? this.listMaterials : this.materials
     },
     materials() {
       if (this.$store.getters.currentNode.guid === 1 || this.$store.getters.currentNode.guid === 2) {
@@ -48,7 +54,13 @@ const app = new Vue({
           return util.sortBy(this.$store.getters.currentNode.children, this.sortType, this.sortSymbol)
         }
       }
-
+    },
+    listMaterials() {
+      if (this.$store.getters.currentNode.guid === 1 || this.$store.getters.currentNode.guid === 2) {
+        return util.sortBy(this.$store.getters.currentNode.searchResult, this.$store.state.listOrder.type, this.$store.state.listOrder.symbol)
+      } else {
+        return util.sortBy(this.$store.getters.currentNode.children, this.$store.state.listOrder.type, this.$store.state.listOrder.symbol)
+      }
     },
     materialsCount() {
       return this.materials.length
@@ -79,6 +91,12 @@ const app = new Vue({
     },
   },
   methods: {
+    swithListThumb(symbol) {
+      this.listSymbol = symbol
+      Vue.nextTick(() => {
+        editor.initDrag()
+      })
+    },
     hideMenu() {
       this.userOperationStatus = this.sortByStatus = false
     },

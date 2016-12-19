@@ -89,6 +89,13 @@ const list_material_ctrl = {
     },
     headers() {
       return this.$store.state.headers
+    },
+    headerWidth() {
+      return this.headers.reduce((item1, item2) => {
+          return {
+            width: item1.width + item2.width
+          }
+        }).width + 121
     }
   }
 }

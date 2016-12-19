@@ -30,6 +30,7 @@
     <script src="~/js/components/material_ctrl.js"></script>
     <script src="~/js/components/marker_ctrl.js"></script>
     <script src="~/js/components/list_material_header_ctrl.js"></script>
+    <script src="~/js/components/list_material_ctrl.js"></script>
     <script src="~/js/plugins/savePlugin.js"></script>
     <title>Web Quick Editing</title>
 </head>
@@ -69,30 +70,54 @@
     </div>
   </template>
   <template id=list_material_header_ctrl>
-      <div calss="list_header_container">
-        <div class="list_header_item" v-for="header in headers"
-         v-on:mousedown="dragstart($event, header)">
+      <div class="list_header_container" :style="{width: headerWidth+'px'}">
+        <div class="list_header_item fl list_header_stamp">
+          <span>Stamp</span>
+        </div>
+        <!--div class="list_header_item fl list_header_title" :style="{width: titleWidth + 'px'}">
+          <span class="list_sort_btn btn_up" v-on:mousedown.stop="sortBy({attr: 'name'}, true)"></span>
+          <span class="list_sort_btn btn_down"  v-on:mousedown.stop="sortBy({attr: 'name'}, false)"></span>
+          <span class="drag_area fr" v-on:mousedown.stop="resize($event)"></span>
+          <span>Title</span>
+        </div-->
+        <div class="list_header_item fl" :class="{list_header_item_dragging:header.dragging}" v-for="header in headers"
+         v-on:mousedown="dragstart($event, header)" :style="{width: header.width + 'px'}">
+          <span class="list_sort_btn btn_up" v-on:mousedown.stop="sortBy(header, true)"></span>
+          <span class="list_sort_btn btn_down"  v-on:mousedown.stop="sortBy(header, false)"></span>
+          <span class="drag_area fr" v-on:mousedown.stop="resize($event, header)"></span>
           <span>{{header.name}}</span>
         </div>
         <div class="list_header_item dragging_item" v-show="dragging" :style="{left: x + 'px'}">
-          <span>{{dragItem.name}}</span>
+          <span>{{dragName}}</span>
         </div>
       </div>
   </template>
   <template id="list_material_ctrl">
-      <div class="list_material_content">
-        <div v-on:mousemove="mousemove" class="list_material_icon_container">
-          <img draggable="false" class="material_icon" v-if="material.type =='video' || material.type =='image'" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
-          <span v-else :style="{background: 'url(./images/' + material.type + '.png) no-repeat center center'}" ></span>
+      <div class="list_material_content clearfix" :class="[material.type, material.clipping ? 'material_clipping' : '']" :style="{width: headerWidth+'px'}" :draggable="material.type =='video' || material.type =='image'" v-on:dblclick="dblclick"
+        :data-channel='material.channel'
+        :data-from="0"
+        :data-duration="material.duration"
+        :data-audio="material.isAudio"
+        :data-type="material.type"
+        :data-id="material.guid"
+        :data-id2="material.id"
+        :data-name="material.name"
+        :data-icon="material.iconfilename"
+        :data-url="material.iconfilename"
+        :data-source-id="material.typeid"
+        :data-createdate ="material.formatDate">
+        <div v-on:mousemove="mousemove" class="list_material_icon_container fl">
+          <img draggable="false" class="list_material_icon_img" v-if="material.type =='video' || material.type =='image'" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+          <span class="list_material_icon_span" v-else :style="{background: 'url(./images/' + material.type + '.png) no-repeat center center'}" ></span>
         </div>
-        <div class="list_material_info"><span :title="material.name">{{material.name}}</span></div>
-        <div v-for="header in headers">
+        <!--div class="list_material_info fl"><span :title="material.name">{{material.name}}</span></div-->
+        <div class="list_material_attr fl" v-for="header in headers" :style="{width: header.width + 'px'}">
           <span>{{material[header.attr]}}</span>
         </div>
       </div>
   </template>
   <template id="material_ctrl">
-    <div class="material fl" :class="[material.type, material.clipping ? 'material_clipping' : '']" draggable="true" v-on:dblclick="dblclick"
+    <div class="material fl" :class="[material.type, material.clipping ? 'material_clipping' : '']" :draggable="material.type =='video' || material.type =='image'" v-on:dblclick="dblclick"
       :data-channel='material.channel'
       :data-from="0"
       :data-duration="material.duration"
@@ -214,8 +239,8 @@
           <div class="materials_count fr">
             <span class="text_nomarl">Items</span>
             <span class="text_strong">{{materialsCount}}</span>
-            <span class="list_icon"></span>
-            <span class="thumbnail_icon"></span>
+            <span class="list_icon" v-on:click="swithListThumb(true)"></span>
+            <span class="thumbnail_icon" v-on:click="swithListThumb(false)"></span>
             <span class="sortby_icon"  v-on:click="sortByStatus = !sortByStatus">
               <transition name="fade">
               <div class="menu_box" v-show="sortByStatus"  style="display: none;">
@@ -234,9 +259,9 @@
           </div>
         </div>
         <vue-nice-scrollbar class="scrollbar_container" :speed="150">
-          <div class="material_box clearfix">
-            <!--list-material-header-ctrl></list-material-header-ctrl-->
-            <component :is="currentCtrl" :data="m" v-for="m in materials" keep-alive>
+          <div class="material_box clearfix" :class="{list_material_box:listSymbol}">
+            <list-material-header-ctrl v-show="listSymbol"></list-material-header-ctrl>
+            <component :is="currentCtrl" :data="m" v-for="m in _materials" keep-alive>
             </component>
           </div>
         </vue-nice-scrollbar >

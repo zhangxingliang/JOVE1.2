@@ -113,4 +113,7 @@ const mutations = {
     state.saveFolder = payload.source
     state.saveFolder.selected = true
   },
+  [types.SET_ORDERTYPE](state, payload) {
+    state.listOrder = payload.data
+  },
 }

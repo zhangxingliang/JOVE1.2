@@ -119,7 +119,7 @@ const util = {
         })).reverse()
       }
       return arr
-    } else {
+    } else if (type === 'typeIndex') {
       if (symbol) {
         arr.sort((item1, item2) => {
           return item1.typeIndex - item2.typeIndex
@@ -135,6 +135,20 @@ const util = {
         newArr = newArr.concat(item.sort(SortLikeWin))
       })
       return newArr
+    } else {
+      var sortFunc = sortLikeWinBy(type)
+      var folderArr = arr.filter(item => {
+        if (item.type === 'folder') return item
+      })
+      var otherArr = arr.filter(item => {
+        if (item.type !== 'folder') return item
+      })
+      if (symbol) {
+        arr = folderArr.sort(sortFunc).concat(otherArr.sort(sortFunc))
+      } else {
+        arr = folderArr.sort(sortFunc).concat(otherArr.sort(sortFunc)).reverse()
+      }
+      return arr
     }
 
   },
@@ -296,7 +310,9 @@ const util = {
           node.name = item.entity.name
           node.iconfilename = item.entity.iconfilename ? util.getIconFilename(item.entity.iconfilename) : './images/nostamp.png'
           node.subtype = item.entity.subtype
-          try {
+          util.extendData(item, node)
+          //try
+          {
             if (node.type === 'video') {
               if (item.entity.item) {
                 node.duration = item.entity.item.length / 10000000
@@ -329,7 +345,7 @@ const util = {
                 }
               }
             }
-          } catch (e) {}
+          } // catch (e) {}
           node.floor = floor
           node.selected = false
           node.father = father
@@ -494,6 +510,57 @@ const util = {
         }
       })
     })
+  }
+}
+function sortLikeWinBy(attr) {
+  return function(str1, str2) {
+    var a = str1[attr].toUpperCase();
+    var b = str2[attr].toUpperCase();
+    var reg = /[0-9]+/g;
+    var lista = a.match(reg);
+    var listb = b.match(reg);
+    if (!lista || !listb) {
+      return CommonCompare(a, b);
+    }
+    for (var i = 0, minLen = Math.min(lista.length, listb.length); i < minLen; i++) {
+      //数字所在位置序号
+      var indexa = a.indexOf(lista[i]);
+      var indexb = b.indexOf(listb[i]);
+      //数字前面的前缀
+      var prefixa = a.substring(0, indexa);
+      var prefixb = b.substring(0, indexb);
+      //数字的string
+      var stra = lista[i];
+      var strb = listb[i];
+      //数字的值
+      var numa = parseInt(stra);
+      var numb = parseInt(strb);
+      //如果数字的序号不等或前缀不等，属于前缀不同的情况，直接比较
+      if (indexa != indexb || prefixa != prefixb) {
+        return CommonCompare(a, b);
+      } else {
+        //数字的string全等
+        if (stra === strb) {
+          //如果是最后一个数字，比较数字的后缀
+          if (i == minLen - 1) {
+            return CommonCompare(a.substring(indexa + 1), b.substring(indexb + 1));
+          }
+          //如果不是最后一个数字，则循环跳转到下一个数字，并去掉前面相同的部分
+          else {
+            a = a.substring(indexa + stra.length);
+            b = b.substring(indexa + stra.length);
+          }
+        }
+        //如果数字的string不全等，但值相等
+        else if (numa == numb) {
+          //直接比较数字前缀0的个数，多的更小
+          return strb.lastIndexOf(numb + '') - stra.lastIndexOf(numa + '');
+        } else {
+          //如果数字不等，直接比较数字大小
+          return numa - numb;
+        }
+      }
+    }
   }
 }
 function SortLikeWin(str1, str2) {
@@ -753,4 +820,268 @@ util.utf8to16 = function(str) {
   }
   return out;
 }
-util.getListHeader = function(x, arr) {}
+util.getListHeader = function(left, arr) {
+  var l = arr.length
+  for (let i = 0; i < l; i++) {
+    if (arr[i].width > left) {
+      return arr[i]
+    } else {
+      left -= arr[i].width
+    }
+  }
+  return arr[l - 1]
+}
+util.extendData = function(sdata, node) {
+  var _framerate = 25;
+  var clipData = sdata.entity;
+  if (sdata.streammedia != undefined) {
+    if (sdata.streammedia.length > 0) {
+      _framerate = sdata.streammedia[0].framerate;
+    }
+  }
+  if (clipData.item != undefined) {
+    var _ntsctcmode = (clipData.item.ntsctcmode == undefined ? 0 : clipData.item.ntsctcmode);
+    var _videostandard = (clipData.item.videostandard == undefined ? 0 : clipData.item.videostandard);
+  } else {
+    var _ntsctcmode = 0;
+    var _videostandard = 0;
+  }
+  var _filestatus;
+  if (clipData.item != undefined) {
+    if (clipData.item.filestatus != undefined) {
+      _filestatus = clipData.item.filestatus;
+    }
+  }
+  //创建者
+  if (clipData.creator != undefined) {
+    node.creatorName = clipData.creator;
+  }
+  //修改者
+  if (clipData.modifier != undefined) {
+    node.modifierName = clipData.modifier;
+  }
+  //素材状态
+  var clipStatus = "";
+  if (clipData.item != undefined) {
+    if (_filestatus & FileStatus.ET_Obj_FS_WA) { //WA类型的单独处理
+      node.clipStatus = (clipData.item.capturestatus == undefined ? "Normal" : GetClipStatus(clipData.item.capturestatus));
+
+    } else {
+      node.clipStatus = (clipData.item.capturestatus == undefined ? "" : GetClipStatus(clipData.item.capturestatus));
+    }
+  }
+  //HV
+  var hv = "";
+  if ((clipData.subtype & CLIPTYPE.ET_CLIPTYPE_AV) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_V) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_XDCAM)
+    || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
+    || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
+    if (_filestatus & (FileStatus.ET_Obj_FS_HV_ALL | FileStatus.ET_Obj_FS_HV_SEG)) {
+      node.hv = '&#10003;';
+    }
+  }
+  //LV
+  if ((clipData.subtype & CLIPTYPE.ET_CLIPTYPE_AV) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_V) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_XDCAM) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_A)
+    || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
+    || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
+    if (_filestatus & (FileStatus.ET_Obj_FS_LV_ALL | FileStatus.ET_Obj_FS_LV_SEG)) {
+      node.lv = '&#10003;';
+    }
+  }
+  //HA
+  if (_filestatus != undefined) {
+    if ((clipData.subtype & CLIPTYPE.ET_CLIPTYPE_A) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_AV) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_V) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_XDCAM) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_A)
+      || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
+      || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
+      if (_filestatus & (FileStatus.ET_Obj_FS_HA_ALL | FileStatus.ET_Obj_FS_HA_SEG)) {
+        node.ha = '&#10003;';
+      }
+    }
+  }
+  //LA
+  if (_filestatus != undefined) {
+    if ((clipData.subtype & CLIPTYPE.ET_CLIPTYPE_A) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_AV) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_V) || (clipData.subtype & CLIPTYPE.ET_CLIPTYPE_XDCAM)
+      || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
+      || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
+      if (_filestatus & (FileStatus.ET_Obj_FS_LA_ALL | FileStatus.ET_Obj_FS_LA_SEG)) {
+        node.la = '&#10003;';
+      }
+    }
+  }
+  //HD\SD
+  if (clipData.item != undefined) {
+    if (clipData.item.videostandard != undefined) {
+      //if(item.videostandard==VideoStandard.)
+      var temphs = ET_VideoStandardGetHSClass(clipData.item.videostandard);
+      if (temphs == Video_HS.ET_VIDEO_HS_SD) {
+        node.hsd = "SD";
+      }
+      if (temphs == Video_HS.ET_VIDEO_HS_HD720p || temphs == Video_HS.ET_VIDEO_HS_HD1080i
+        || temphs == Video_HS.ET_VIDEO_HS_HD1080p || temphs == Video_HS.ET_VIDEO_HS_HD1440i) {
+        node.hsd = "HD";
+      }
+    }
+  }
+  //16:9
+  if (clipData.item != undefined) {
+    node.img16_9sd = (clipData.item.imagetype == ImageType.ET_CLIP_IMAGETYPE_16_9SD ? "&#10003;" : "");
+  }
+  //to be del
+  if (clipData.deleteflag != undefined) {
+    node.tobedel = (clipData.deleteflag == 1 ? "&#10003;" : "");
+  }
+  node.comments = clipData.note;
+  node.modificationDate = clipData.modifydate.formatDate();
+  node.clipStatus = GetClipStatus(clipData.status);
+  node.rights = clipData.rights;
+
+  if (node.type === 'image') {
+    node.totalDuration = GetTimeStringByFrameNum(GetFrameNumByHundredNS(863999600000, _videostandard, _ntsctcmode), _ntsctcmode, _videostandard, _framerate)
+    node.length = GetTimeStringByFrameNum(GetFrameNumByHundredNS(40000000, _videostandard, _ntsctcmode), _ntsctcmode, _videostandard, _framerate)
+    node.trimin = '00:00:00:00';
+    node.trimout = GetTimeStringByFrameNum(GetFrameNumByHundredNS(40000000, _videostandard, _ntsctcmode), _ntsctcmode, _videostandard, _framerate)
+  } else if (node.type === 'video') {
+    var _in = 0;
+    var _out = 0;
+    if (clipData.item.trimin != undefined) {
+      _in = clipData.item.trimin
+    }
+    if (clipData.item.trimout != undefined) {
+      _out = clipData.item.trimout
+    }
+    node.totalDuration = GetTimeStringByFrameNum(GetFrameNumByHundredNS(clipData.item.length, _videostandard, _ntsctcmode), _ntsctcmode, _videostandard, _framerate)
+    node.length = GetTimeStringByFrameNum(GetFrameNumByHundredNS((_out - _in), _videostandard, _ntsctcmode), _ntsctcmode, _videostandard, _framerate)
+    node.trimin = GetTimeStringByFrameNum(GetFrameNumByHundredNS(clipData.item.trimin, _videostandard, _ntsctcmode), _ntsctcmode, _videostandard, _framerate)
+    node.trimout = GetTimeStringByFrameNum(GetFrameNumByHundredNS(clipData.item.trimout, _videostandard, _ntsctcmode), _ntsctcmode, _videostandard, _framerate)
+  } else {
+  }
+
+}
+function GetFrameNumByHundredNS(hundredNanoSeconds, videoStandard, ntscTcMode) {
+  if (isNaN(hundredNanoSeconds)) {
+    hundredNanoSeconds = 0;
+  }
+  videoStandard = Format.ET_GetOldStandard(videoStandard);
+  //百纳秒转帧
+  var seconds = (hundredNanoSeconds / Math.pow(10, 9)) * 100;
+  var _frame;
+
+  if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_50) {
+    _frame = seconds * 50;
+  } else if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_5994) {
+    _frame = seconds * 59.94;
+  } else if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_25) {
+    _frame = seconds * 25;
+  } else if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_2997) {
+    _frame = seconds * 29.97;
+  } else if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_30) {
+    _frame = seconds * 30;
+  }
+  _frame = _frame.toFixed(0);
+  return _frame
+}
+function GetFrameRateByVideoStandard(videostandard) {
+  var _frameRate = Format.ETGetVideoFrameRate(videostandard).nTimeRate;
+  var frameRate = FrameRateEnum.FR_25;
+  if (_frameRate == 25) {
+    frameRate = FrameRateEnum.FR_25;
+  } else if (_frameRate == 2997) {
+    frameRate = FrameRateEnum.FR_2997;
+  } else if (_frameRate == 50) {
+    frameRate = FrameRateEnum.FR_50;
+  } else if (_frameRate == 5994) {
+    frameRate = FrameRateEnum.FR_5994;
+  } else if (_frameRate == 30) {
+    frameRate = FrameRateEnum.FR_30;
+  }
+  return frameRate;
+}
+function GetTimeStringByFrameNum(lFrameNum, lNtscTcMode, videoStandard, framerate) {
+  if (lFrameNum == undefined || lNtscTcMode == undefined) return "00:00:00:00";
+  videoStandard = Format.ET_GetOldStandard(videoStandard);
+  var frm = 0,
+    sec = 0,
+    min = 0,
+    hour = 0;
+  var df = false;
+  if (lNtscTcMode == 0) {
+    df = true;
+  }
+  if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_50) {
+    var frm720p = lFrameNum % (25 * 2);
+    frm = parseInt(frm720p / 2);
+    var sec_total = (lFrameNum - frm720p) / (25 * 2);
+    sec = sec_total % 60;
+    var min_total = (sec_total - sec) / 60;
+    min = min_total % 60;
+    hour = (min_total - min) / 60;
+
+    df = false; //P制都是非丢帧的
+  } else if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_5994) {
+    if (lNtscTcMode == 0) {
+      var freeFrame = lFrameNum % (107892 * 2);
+      hour = parseInt(lFrameNum / (107892 * 2));
+      var tenMin = parseInt(freeFrame / (17982 * 2));
+      freeFrame = freeFrame % (17982 * 2);
+      var nMin = parseInt((freeFrame - 4) / (1798 * 2));
+      min = nMin + tenMin * 10;
+      freeFrame = freeFrame - nMin * (1798 * 2);
+
+      sec = parseInt(freeFrame / (30 * 2));
+      //frm = freeFrame % (30*2);
+      var frm720p = freeFrame % (30 * 2);
+      frm = parseInt(frm720p / 2);
+
+      df = true;
+    } else {
+      var frm720p = lFrameNum % (30 * 2);
+      frm = parseInt(frm720p / 2);
+      var sec_total = (lFrameNum - frm720p) / (30 * 2);
+      sec = sec_total % 60;
+      var min_total = (sec_total - sec) / 60;
+      min = min_total % 60;
+      hour = (min_total - min) / 60;
+    }
+  } else if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_25) {
+    frm = lFrameNum % 25;
+    var sec_total = (lFrameNum - frm) / 25;
+    sec = sec_total % 60;
+    var min_total = (sec_total - sec) / 60;
+    min = min_total % 60;
+    hour = (min_total - min) / 60;
+
+    df = false; //P制都是非丢帧的
+  } else if (GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_2997 || GetFrameRateByVideoStandard(videoStandard) == FrameRateEnum.FR_30) {
+    if (lNtscTcMode == 0) {
+      var freeFrame = lFrameNum % 107892;
+      hour = parseInt(lFrameNum / 107892);
+      var tenMin = parseInt(freeFrame / 17982);
+      freeFrame = freeFrame % 17982;
+      var nMin = parseInt((freeFrame - 2) / 1798);
+      min = nMin + tenMin * 10;
+      freeFrame = freeFrame - nMin * 1798;
+
+      sec = parseInt(freeFrame / 30);
+      frm = freeFrame % 30;
+      df = true;
+    } else {
+      frm = lFrameNum % 30;
+      var sec_total = (lFrameNum - frm) / 30;
+      sec = sec_total % 60;
+      var min_total = (sec_total - sec) / 60;
+      min = min_total % 60;
+      hour = (min_total - min) / 60;
+    }
+  } else { //默认按照25帧率算
+
+    frm = lFrameNum % 25;
+    var sec_total = (lFrameNum - frm) / 25;
+    sec = sec_total % 60;
+    var min_total = (sec_total - sec) / 60;
+    min = min_total % 60;
+    hour = (min_total - min) / 60;
+
+    df = false; //P制都是非丢帧的
+  }
+
+  return (hour < 10 ? '0' + hour : hour) + ":" + (min < 10 ? '0' + min : min) + (df ? "." : ":") + (sec < 10 ? '0' + sec : sec) + ":" + (frm < 10 ? '0' + frm : frm);
+}

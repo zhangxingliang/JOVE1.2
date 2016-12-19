@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'pro_text'; /*������˵������������������*/
+    font-family: 'pro_text';
     src:url(../fonts/pro2.ttf) format('truetype');
 }
 
@@ -16,6 +16,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   top: 0;
   left: 0;
   bottom: 372px;
+  z-index: 2;
   width: 200px;
   background: #222;
   transition: all .2s;
@@ -57,8 +58,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 }
 .right_container .toolbar_box
 {
-  height: 40px;
-  line-height: 40px;
+  height: 38px;
+  line-height: 38px;
   background:#1f1f1f;
   border-bottom:1px #000 solid;
   border-top:1px #1a1a1a solid;
@@ -403,6 +404,10 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   width: 120px;
   right: -42px;
 }
+.material_box
+{
+  position: absolute;
+}
 .material_box  .marker_pos
 {
   display: none;
@@ -577,4 +582,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     padding: .3125rem;
     border: 1px #181818 solid;
     color: #cfd2d4;
+}
+.list_material_box
+{
+  padding-top: 30px;
 }

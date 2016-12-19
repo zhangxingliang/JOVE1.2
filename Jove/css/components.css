@@ -411,12 +411,128 @@
 {
   line-height: 30px;
   display: inline-block;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   width: 200px;
-  background-color: #fff;
+  box-shadow: 1px 0px 0 0px #1b1b1b;
+  -webkit-box-shadow: 1px 0px 0 0px #1b1b1b;
+  position: relative;
 }
 .dragging_item
 {
   position: absolute;
   z-index: 1;
-  background: #ccc;
+  background: #363636;
+  top: 0px;
+  border-left: 1px solid #1b1b1b;
+}
+.list_material_icon_container, .list_material_info, .list_material_attr
+{
+  width: 200px;
+  height: 65px;
+  position: relative;
+  line-height: 65px;
+  text-align: center;
+  text-overflow: ellipsis;
+  box-shadow: 1px 0px 0 0px #1b1b1b;
+  -webkit-box-shadow: 1px 0px 0 0px #1b1b1b;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.list_material_icon_container
+{
+  height: 65px;
+  line-height: 65px;
+  text-align: center;
+  background: #2e2e2e;
+  width: 120px;
+}
+.list_material_icon_container .list_material_icon_img
+{
+  max-width: 120px;
+  max-height: 65px;
+  vertical-align: middle;
+}
+.list_material_icon_span
+{
+  width: 120px;
+  height: 65px;
+  vertical-align: middle;
+  display: inline-block;
+  background-size: contain !important;
+}
+.list_material_content
+{
+  white-space: nowrap;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  height: 65px;
+  background: #393939;
+  margin-bottom: 1px;
+}
+.list_material_content:hover
+{
+  border: 1px solid #f5a623;
+}
+.list_header_container
+{
+  position: fixed;
+  top: 90px;
+  z-index: 1;
+  background: #464646;
+  height: 30px;
+  overflow: hidden;
+}
+.list_header_stamp
+{
+  width: 121px;
+}
+.list_header_item_dragging
+{
+  /*background-color: #363636;*/
+  color: #464646; /*隐藏文字，仿windows*/
+}
+.list_sort_btn
+{
+  opacity: 0;
+  width: 0;
+  height: 0;
+  border: 5px solid transparent;
+  cursor: pointer;
+  position: absolute;
+}
+.btn_up
+{
+  border-bottom: 5px solid #ffffff;
+  top: 0;
+  right: 2px;
+}
+.btn_down
+{
+  border-top: 5px solid #ffffff;
+  top: 15px;
+  right: 2px;
+}
+.list_header_item:hover .list_sort_btn
+{
+  opacity: 1;
+}
+.btn_up:hover
+{
+  border-bottom: 5px solid #f5a623;
+}
+.btn_down:hover
+{
+  border-top: 5px solid #f5a623;
+}
+.drag_area
+{
+  width: 3px;
+  height: 30px;
+  position: relative;
+  z-index: 1;
+  cursor: w-resize;
+  display: inline-block;
 }

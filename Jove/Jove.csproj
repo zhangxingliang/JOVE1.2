@@ -183,6 +183,8 @@
     <Content Include="images\why.png" />
     <Content Include="images\yes.png" />
     <Content Include="images\zip.png" />
+    <Content Include="js\components\list_material_ctrl.js" />
+    <Content Include="js\components\list_material_header_ctrl.js" />
     <Content Include="js\components\marker_ctrl.js" />
     <Content Include="js\config\golbalSettings.js" />
     <Content Include="js\lib\axios.js" />

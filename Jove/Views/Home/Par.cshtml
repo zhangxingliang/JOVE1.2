@@ -40,6 +40,141 @@ var FileStatus =
     ET_Obj_FS_H264_Creating: 0x00020000,     //表示素材正在生成了H.264文件。
     ET_Obj_FS_H264: 0x00040000    //表示素材已生成了H.264文件
 };
+var ImageType = {
+    ET_CLIP_IMAGETYPE_ORIGINAL: 0x00000000,	 //0：为素材原始比例
+    ET_CLIP_IMAGETYPE_4_3: 0x00000001,	 //1、图像为4:3的方式
+    ET_CLIP_IMAGETYPE_16_9SD: 0x00000002,	 //2：图像为16:9的方式
+    ET_CLIP_IMAGETYPE_16_9HD: 0x00000004	 //4：图像为16:9的方式，16:9HD
+}
+var CLIPTYPE = {
+    // 素材子类型
+    ET_CLIPTYPE_UNKNOW: 0x000000,	// 未知素材
+    ET_CLIPTYPE_AV: 0x000001,	// 普通视音频素材
+    ET_CLIPTYPE_V: 0x000002,	// 普通视频素材
+    ET_CLIPTYPE_A: 0x000004,	// 普通音频素材 
+    ET_CLIPTYPE_XDCAM: 0x000008,	// 蓝光素材
+    ET_CLIPTYPE_TGA: 0x000010,	// TGA素材
+    ET_CLIPTYPE_IMAGE: 0x000020,	// 图片
+    ET_CLIPTYPE_P2: 0x000040,	// P2素材
+    ET_CLIPTYPE_SGCLIP: 0x000080,	// SG素材，彩条素材
+    ET_CLIPTYPE_HIDE: 0x000100,	// 隐藏素材
+    ET_CLIPTYPE_OA_EMPTYCLIP: 0x000200,	//OA FOLDER中的空素材
+    ET_CLIPTYPE_XDCAM_LIST: 0x000400,	//蓝光素材表现方式，为了和ET_CLIPTYPE_XDCAM，单个区分开
+    ET_CLIPTYPE_P2_LIST: 0x000800,	//和XDCAM 方式一样
+    ET_CLIPTYPE_INFINITY: 0x001000,    //Infinity clip
+    ET_CLIPTYPE_XDS: 0x800000,    //XDS素材0x002000
+    ET_CLIPTYPE_CANON: 0x1000000,    //Canon素材0x004000
+    ET_CLIPTYPE_XDSFLAG: 0x2000000,    //0x008000
+    ET_CLIPTYPE_EX: 0x4000000	//EX素材0x400
+}
+var ClipStatus = {
+    ET_CLIP_CAPTURESTATUS_NORMAL: 0x00000000,		//为正常状态
+    ET_CLIP_CAPTURESTATUS_CAPTURE: 0x00000001,		//为正在采集状态
+    ET_CLIP_CAPTURESTATUS_LOOPCAPTURE: 0x00000002,		//为循环采集状态
+    ET_CLIP_CAPTURESTATUS_CREATELOW: 0x00000010,		//为素材生成低码率状态
+    ET_CLIP_CAPTURESTATUS_CLIPTRIM: 0x00000020,		//为素材TRIM过程中的状态
+    ET_CLIP_CAPTURESTATUS_RENDERING: 0x00000040,		//为节目合成状态
+    ET_CLIP_CAPTURESTATUS_TRANSCODEING: 0x00000080,	//为素材转码状态
+    ET_CLIP_CAPTURESTATUS_XDCAMUPLOW: 0x00000100,//为蓝光上载完低码率状态
+    ET_CLIP_CAPTURESTATUS_XDCAMUPHIGHT: 0x00000200,		//为蓝光上载完高码率状态
+    ET_CLIP_CAPTURESTATUS_XDCAMCREATELOW: 0x00000400,	//为蓝光上载完高码率音频转码MP3完成状态
+    ET_CLIP_CAPTURESTATUS_COPYING: 0x00000800,	//复制中的素材
+    ET_CLIP_CAPTURESTATUS_RENDERPGMTOOA: 0x00001000,//新建的空素材，用于非编MASTERVIEW拖拽到此素材上合成节目
+    ET_CLIP_CAPTURESTATUS_FROM3RD: 0x00002000,		//正在从第三方导入素材
+    ET_CLIP_CAPTURESTATUS_TRANSMITTING: 0x00004000,     //正在从其它系统传输
+    ET_CLIP_CAPTURESTATUS_TRANSMIT_FINISHED: 0x00008000,   //素材传输完成
+    ET_CLIP_CAPTURESTATUS_NLE_CAPTURE: 0x00010000,      //非编正在采集
+    ET_CLIP_CAPTURESTATUS_ASK_LOCAL2CENTRE: 0x00020000,		//请求从本地上传至中心
+    ET_CLIP_CAPTURESTATUS_LOCAL2CENTRE: 0x00040000,		//正在从本地上传至中心...
+    ET_CLIP_CAPTURESTATUS_NLE_RENDERING: 0x00080000,		//非编本地Render的素材,正在Render时,Clip Status为NLE Rendering  0x00010000
+    ET_CLIP_CAPTURESTATUS_FAILEDFROM3RD: 0x00100000      //从第三方导入素材失败，此状态素材的操作和ET_CLIP_CAPTURESTATUS_FROM3RD一样 0x00020000
+}
+var Video_HS = {
+    ET_VIDEO_HS_UNKNOWN: 0,
+    ET_VIDEO_HS_SD: 1,
+    ET_VIDEO_HS_HD720p: 2,
+    ET_VIDEO_HS_HD1080i: 3,
+    ET_VIDEO_HS_HD1080p: 4,
+    ET_VIDEO_HS_HD1440i: 5,
+    ET_VIDEO_HS_4K: 6,
+
+    ET_3D_HS_SD: 7,
+    ET_3D_HS_HD720p: 8,
+    ET_3D_HS_HD1080i: 9,
+    ET_3D_HS_HD1080p: 10,
+    ET_3D_HS_HD1440i: 11,
+    ET_3D_HS_4K: 12
+}
+var FrameRateEnum = {
+    FR_25: 1,
+    FR_2997: 2,
+    FR_50: 3,
+    FR_5997: 4,
+    FR_5994: 5,
+    FR_30: 6
+};
+function GetClipStatus(status) {
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_NORMAL) {
+        return "Normal";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_CAPTURE) {
+        return "Capture";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_LOOPCAPTURE) {
+        return "Loop Capture";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_CREATELOW) {
+        return "Create Low";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_CLIPTRIM) {
+        return "cliptrim";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_RENDERING) {
+        return "Rendering";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_TRANSCODEING) {
+        return "Transcoding";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_XDCAMUPLOW) {
+        return "xdcamuplow";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_XDCAMUPHIGHT) {
+        return "xdcamuphight";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_XDCAMCREATELOW) {
+        return "xdcamcreatelow";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_COPYING) {
+        return "copying";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_RENDERPGMTOOA) {
+        return "renderpgmtooa";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_FROM3RD) {
+        return "  Importing From 3rd";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_TRANSMITTING) {
+        return "transmitting";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_TRANSMIT_FINISHED) {
+        return "transmit_finished";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_NLE_CAPTURE) {
+        return "NLE Capture";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_ASK_LOCAL2CENTRE) {
+        return "ask_local2centre";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_LOCAL2CENTRE) {
+        return "local2centre";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_NLE_RENDERING) {
+        return "NLE Rendering";
+    }
+    if (status == ClipStatus.ET_CLIP_CAPTURESTATUS_FAILEDFROM3RD) {
+        return "failedfrom3rd";
+    }
+}
 var _svFlag = false;
 var _socketServer = '@ViewBag.SocketServer';
 var version = '?v=1.0.0.1';

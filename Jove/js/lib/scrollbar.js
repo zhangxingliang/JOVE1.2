@@ -180,7 +180,7 @@
           return Math.max(0, Math.min(this.top, this.scrollContentHeight - this.scrollContainerHeight))
         },
         _left() {
-          return Math.max(0, Math.min(this.left, this.scrollContentWidth - this.scrollContentWidth))
+          return Math.max(0, Math.min(this.left, this.scrollContentWidth - this.scrollContainerWidth))
         }
       },
       components: {

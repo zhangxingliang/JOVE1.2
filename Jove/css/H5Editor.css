@@ -4610,6 +4610,7 @@ body {
   top: 0px;
   bottom: 0px;
   right: 0px;
+  z-index: 2;
   /*-webkit-box-shadow: 2px 0px 2px #cccccc;
   box-shadow: 2px 0px 2px #cccccc;
   border-right: solid 1px #cccccc;*/
