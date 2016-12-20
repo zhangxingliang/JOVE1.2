@@ -116,6 +116,10 @@ const app = new Vue({
       this.$store.dispatch({
         type: types.REFRESH_MATERIAL,
         source: this.$store.getters.currentNode
+      }).then(() => {
+        Vue.nextTick(() => {
+          editor.initDrag()
+        })
       })
     },
     toggleSVMV() {
@@ -304,12 +308,12 @@ const app = new Vue({
       }
 
       editor.service.save = function(json, opt, callback) {
-        if (editor.media.isEmpty()) {
+        if (!editor.media.isEmpty()) {
           if (!document.querySelector(".windowModalDiv")) {
             // get folder
             _this.$store.dispatch({
               type: types.GET_MATERIALS,
-              source: mlapp.state.saveBasePath
+              source: _this.$store.state.saveBasePath
             });
             document.querySelector(".onlysave").click();
             if (callback) {
@@ -379,7 +383,7 @@ const app = new Vue({
       fulltext.setAttribute("src", golbalSetting.CM + "/js/plugins/jquery.fulltextsearch.js" + version)
       document.querySelector('html').appendChild(fulltext)
       var userstorge = document.createElement("script")
-      userstorge.setAttribute("src", golbalSetting.CM + "/js/module/UserSpace.js" + version)
+      userstorge.setAttribute("src", golbalSetting.CM + "/js/plugins/UserSpace.js" + version)
       document.querySelector('html').appendChild(userstorge)
       fulltext.onload = fulltext.onreadystatechange = function() {
         if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") {

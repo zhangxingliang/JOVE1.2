@@ -1,7 +1,8 @@
 const list_material_ctrl = {
   template: "#list_material_ctrl",
   props: {
-    data: Object
+    data: Object,
+    index: Number,
   },
   data: function() {
     return {

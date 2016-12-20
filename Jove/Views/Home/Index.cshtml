@@ -38,7 +38,7 @@
   <template id="tree_ctrl">
     <li>
       <div :title="node.name" class="folder_container" :class="{folder_selected : node.selected, folder_hover : dragOver}" v-on:click="click" v-on:dblclick="dblclick" :style="{paddingLeft:12 * node.floor + 'px'}">
-        <span class="triangle_icon glyphicon" :class="node.nodes ? 'glyphicon-triangle-right' : 'glyphicon-triangle-right'" v-on:click="nodeToggle(node)"></span>
+        <span class="triangle_icon" :class="node.open ? 'triangle_icon_down' : 'triangle_icon_right'" v-on:click.stop="nodeToggle(node)"></span>
         <span :class="node.icon" class="folder_icon"> </span>
         <span class="folder_name">{{node.name}}</span>
       </div>
@@ -50,7 +50,7 @@
   <template id="tree_ctrl2">
     <li>
       <div :title="node.name" class="folder_container" :class="{folder_selected : node.selected}" v-on:click="click" v-on:dblclick="dblclick" :style="{paddingLeft:12 * node.floor + 'px'}">
-        <span class="triangle_icon glyphicon" :class="node.nodes ? 'glyphicon-triangle-right' : 'glyphicon-triangle-right'" v-on:click="nodeToggle(node)"></span>
+        <span class="triangle_icon" :class="node.open ? 'triangle_icon_down' : 'triangle_icon_right'" v-on:click.stop="nodeToggle(node)"></span>
         <span :class="node.icon" class="folder_icon"> </span>
         <span class="folder_name">{{node.name}}</span>
       </div>
@@ -93,7 +93,7 @@
       </div>
   </template>
   <template id="list_material_ctrl">
-      <div class="list_material_content clearfix" :class="[material.type, material.clipping ? 'material_clipping' : '']" :style="{width: headerWidth+'px'}" :draggable="material.type =='video' || material.type =='image'" v-on:dblclick="dblclick"
+      <div class="list_material_content clearfix" :class="[material.type, material.clipping ? 'material_clipping' : '', 'list_material_bgcolor' + index%2]" :style="{width: headerWidth+'px'}" :draggable="material.type =='video' || material.type =='image'" v-on:dblclick="dblclick"
         :data-channel='material.channel'
         :data-from="0"
         :data-duration="material.duration"
@@ -107,8 +107,18 @@
         :data-source-id="material.typeid"
         :data-createdate ="material.formatDate">
         <div v-on:mousemove="mousemove" class="list_material_icon_container fl">
-          <img draggable="false" class="list_material_icon_img" v-if="material.type =='video' || material.type =='image'" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
-          <span class="list_material_icon_span" v-else :style="{background: 'url(./images/' + material.type + '.png) no-repeat center center'}" ></span>
+          <div class="material_status">
+            <div v-if="material.type =='video'">
+              <span class="list_status_item wa" :class="{wa1:!material.WA}"></span>
+              <span class="list_status_item hq" :class="{hq1:!material.HQ}"></span>
+              <span class="list_status_item lq" :class="{lq1:!material.LQ}"></span>
+              <span class="list_status_item db" :class="{db1:!material.DB}"></span>
+              <span class="list_status_item p" :class="{p1:!material.P}"></span>
+              <span class="list_status_item i" :class="{i1:!material.I}"></span>
+            </div>
+          </div>
+          <img draggable="false" class="list_material_icon_img" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+          <span class="list_material_icon_span" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
         </div>
         <!--div class="list_material_info fl"><span :title="material.name">{{material.name}}</span></div-->
         <div class="list_material_attr fl" v-for="header in headers" :style="{width: header.width + 'px'}">
@@ -132,19 +142,19 @@
       :data-createdate ="material.formatDate">
       <div class="material_status">
         <div v-if="material.type =='video'">
-          <span class="status_item wa" v-if="material.WA"></span>
-          <span class="status_item hq" v-if="material.HQ"></span>
-          <span class="status_item lq" v-if="material.LQ"></span>
-          <span class="status_item db" v-if="material.DB"></span>
-          <span class="status_item p" v-if="material.P"></span>
-          <span class="status_item i" v-if="material.I"></span>
+          <span class="status_item wa" :class="{wa1:!material.WA}"></span>
+          <span class="status_item hq" :class="{hq1:!material.HQ}"></span>
+          <span class="status_item lq" :class="{lq1:!material.LQ}"></span>
+          <span class="status_item db" :class="{db1:!material.DB}"></span>
+          <span class="status_item p" :class="{p1:!material.P}"></span>
+          <span class="status_item i" :class="{i1:!material.I}"></span>
         </div>
       </div>
       <div v-on:mousemove="mousemove" class="material_icon_container">
-        <img draggable="false" class="material_icon" v-if="material.type =='video' || material.type =='image'" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
-        <span v-else :style="{background: 'url(./images/' + material.type + '.png) no-repeat center center'}" ></span>
+        <img draggable="false" class="material_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+        <span v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
         <!--img draggable="false" v-if="material.type =='video'" class="preview_img" src="./images/nostamp3.png" :style="{top:top+'px'}">
-        <div draggable="false" v-if="material.type =='video'" class="preview_cell" :style="{left:left+'px'}">
+        <div draggable="false" v-if="material.type =='video'" class="preview_cell" :style="{left:left+'px'}" >
         </div-->
       </div>
       <div class="material_info"><span :title="material.name">{{material.name}}</span></div>
@@ -239,8 +249,8 @@
           <div class="materials_count fr">
             <span class="text_nomarl">Items</span>
             <span class="text_strong">{{materialsCount}}</span>
-            <span class="list_icon" v-on:click="swithListThumb(true)"></span>
-            <span class="thumbnail_icon" v-on:click="swithListThumb(false)"></span>
+            <span class="list_icon" :class="{list_icon_active:listSymbol}" v-on:click="swithListThumb(true)"></span>
+            <span class="thumbnail_icon" :class="{thumbnail_icon_active:!listSymbol}" v-on:click="swithListThumb(false)"></span>
             <span class="sortby_icon"  v-on:click="sortByStatus = !sortByStatus">
               <transition name="fade">
               <div class="menu_box" v-show="sortByStatus"  style="display: none;">
@@ -259,9 +269,9 @@
           </div>
         </div>
         <vue-nice-scrollbar class="scrollbar_container" :speed="150">
-          <div class="material_box clearfix" :class="{list_material_box:listSymbol}">
+          <div class="material_box clearfix" :class="{list_material_box:listSymbol, marker_material_box: currentCtrl=='marker-ctrl'}">
             <list-material-header-ctrl v-show="listSymbol"></list-material-header-ctrl>
-            <component :is="currentCtrl" :data="m" v-for="m in _materials" keep-alive>
+            <component :is="currentCtrl" :data="m" :index="index" v-for="(m, index) in _materials" keep-alive>
             </component>
           </div>
         </vue-nice-scrollbar >

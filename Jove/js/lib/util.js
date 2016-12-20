@@ -274,10 +274,10 @@ const util = {
           node.type = util.getMaterialType(item.entity)
           if (node.type === 'audio') {
             node.type = 'video'
-            node.bgtype = 'audiobg'
+            node.bgtype = 'audio'
             node.isAudio = 'true'
           } else {
-            node.bgtype = node.type + 'bg'
+            node.bgtype = node.type
             node.isAudio = 'false'
             if (node.type === 'folder') {
               node.path = item.entity.folderpath + '/' + item.entity.name
@@ -308,7 +308,7 @@ const util = {
           node.guid = item.entity.guid
           node.id = item.entity.id
           node.name = item.entity.name
-          node.iconfilename = item.entity.iconfilename ? util.getIconFilename(item.entity.iconfilename) : './images/nostamp.png'
+          node.iconfilename = item.entity.iconfilename ? util.getIconFilename(item.entity.iconfilename) : ''
           node.subtype = item.entity.subtype
           util.extendData(item, node)
           //try
@@ -854,11 +854,19 @@ util.extendData = function(sdata, node) {
   }
   //创建者
   if (clipData.creator != undefined) {
-    node.creatorName = clipData.creator;
+    if (clipData.creator.length == 32) {
+      node.creatorName = getUserNameByUserCode(clipData.creator, _userToken);
+    } else {
+      nodecreatorName = clipData.creator;
+    }
   }
   //修改者
   if (clipData.modifier != undefined) {
-    node.modifierName = clipData.modifier;
+    if (clipData.modifier.length == 32) {
+      node.modifierName = getUserNameByUserCode(clipData.modifier, _userToken);
+    } else {
+      node.modifierName = clipData.modifier;
+    }
   }
   //素材状态
   var clipStatus = "";
@@ -876,7 +884,7 @@ util.extendData = function(sdata, node) {
     || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
     || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
     if (_filestatus & (FileStatus.ET_Obj_FS_HV_ALL | FileStatus.ET_Obj_FS_HV_SEG)) {
-      node.hv = '&#10003;';
+      node.hv = '✓';
     }
   }
   //LV
@@ -884,7 +892,7 @@ util.extendData = function(sdata, node) {
     || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
     || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
     if (_filestatus & (FileStatus.ET_Obj_FS_LV_ALL | FileStatus.ET_Obj_FS_LV_SEG)) {
-      node.lv = '&#10003;';
+      node.lv = '✓';
     }
   }
   //HA
@@ -893,7 +901,7 @@ util.extendData = function(sdata, node) {
       || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
       || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
       if (_filestatus & (FileStatus.ET_Obj_FS_HA_ALL | FileStatus.ET_Obj_FS_HA_SEG)) {
-        node.ha = '&#10003;';
+        node.ha = '✓';
       }
     }
   }
@@ -903,7 +911,7 @@ util.extendData = function(sdata, node) {
       || (CLIPTYPE.ET_CLIPTYPE_XDCAM_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2_LIST & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_P2 & clipData.subtype)
       || (CLIPTYPE.ET_CLIPTYPE_INFINITY & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2 & clipData.subtype) || (CLIPTYPE.ET_CLIPTYPE_E2_LIST & clipData.subtype)) {
       if (_filestatus & (FileStatus.ET_Obj_FS_LA_ALL | FileStatus.ET_Obj_FS_LA_SEG)) {
-        node.la = '&#10003;';
+        node.la = '✓';
       }
     }
   }
@@ -923,11 +931,11 @@ util.extendData = function(sdata, node) {
   }
   //16:9
   if (clipData.item != undefined) {
-    node.img16_9sd = (clipData.item.imagetype == ImageType.ET_CLIP_IMAGETYPE_16_9SD ? "&#10003;" : "");
+    node.img16_9sd = (clipData.item.imagetype == ImageType.ET_CLIP_IMAGETYPE_16_9SD ? "✓" : "");
   }
   //to be del
   if (clipData.deleteflag != undefined) {
-    node.tobedel = (clipData.deleteflag == 1 ? "&#10003;" : "");
+    node.tobedel = (clipData.deleteflag == 1 ? "✓" : "");
   }
   node.comments = clipData.note;
   node.modificationDate = clipData.modifydate.formatDate();

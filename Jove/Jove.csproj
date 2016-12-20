@@ -137,12 +137,17 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontawesome-webfont2.svg" />
     <Content Include="images\A.png" />
+    <Content Include="images\arrow_down.png" />
+    <Content Include="images\arrow_down2.png" />
+    <Content Include="images\arrow_right.png" />
+    <Content Include="images\arrow_right2.png" />
     <Content Include="images\D.png" />
     <Content Include="images\edl.png" />
     <Content Include="images\gantan.png" />
     <Content Include="images\H.png" />
     <Content Include="images\h5pgm.png" />
     <Content Include="images\I.png" />
+    <Content Include="images\image.png" />
     <Content Include="images\information_se.jpg" />
     <Content Include="images\information_unse.jpg" />
     <Content Include="images\L.png" />
@@ -154,6 +159,8 @@
     <Content Include="images\list_unse.jpg" />
     <Content Include="images\marker.png" />
     <Content Include="images\mask.png" />
+    <Content Include="images\ML_FLAG_big.png" />
+    <Content Include="images\ML_FLAG_small.png" />
     <Content Include="images\no.png" />
     <Content Include="images\nostamp.png" />
     <Content Include="images\P.png" />
@@ -179,6 +186,7 @@
     <Content Include="images\user_ope_down.png" />
     <Content Include="images\user_ope_normal.png" />
     <Content Include="images\user_ope_over.png" />
+    <Content Include="images\video.png" />
     <Content Include="images\wheel.png" />
     <Content Include="images\why.png" />
     <Content Include="images\yes.png" />

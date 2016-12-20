@@ -5963,7 +5963,7 @@ var TimelinePlayer = EventObject.extend({
                         for (var i = 0; i < trackGroup.video.length; i++) {
                             var trackEvent = trackGroup.video[i];
                             if (trackEvent.draw) {
-                                trackEvent.draw(trackCanvas.context, curTime - trackEvent.startTime, trackGroup.video,trackGroup);
+                                trackEvent.draw(trackCanvas.context, curTime - trackEvent.startTime, trackGroup.video, trackGroup);
                             }
                         }
                     } else {
@@ -6004,8 +6004,8 @@ var TimelinePlayer = EventObject.extend({
             if (!flag) {
                 _canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
             }
-            _canvasContext.drawImage(_offlineCanvas, 0, 0);
-
+            _canvasContext.drawImage(_offlineCanvas, 0, 0, _canvas.width, _canvas.height);
+           
         }
 
 
@@ -6501,6 +6501,8 @@ if (typeof global !== "undefined") {
                         scale, dw, dl, dt, dh;
                     //清空画面
                     context.clearRect(0, 0, cw, ch);
+                   // context.fillStyle = "#000";
+                    //context.fillRect(0, 0, cw, ch);
                     if (vh / vw >= ch / cw) {
                         scale = ch / vh;
                         dw = Math.floor(vw * scale)-1;
@@ -6516,6 +6518,7 @@ if (typeof global !== "undefined") {
                         dt = Math.floor((ch - vh * scale) / 2);
                     }
                     context.drawImage(video, dl, dt, dw, dh);
+                    return true;
                 }
             }
 
@@ -17143,11 +17146,15 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                         });
                     }
                     this.findLinkedTrackEvent = function(event){
+                        var levent = null;
                         if (this.trackType === 'A') {
-                            return app.media.tracks[2].findTrackEventByTime(event.popcornOptions.start)
+                            levent = app.media.tracks[2].findTrackEventByTime(event.popcornOptions.start)
                         }
                         else if (this.trackType === 'VA') {
-                            return app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
+                            levent =  app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
+                        }
+                        if (levent.popcornOptions.start === event.popcornOptions.start) {
+                            return levent
                         }
                     }
                     this.findSpaceDuration = function (start, end, te) {

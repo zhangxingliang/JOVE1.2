@@ -88,6 +88,12 @@ const state = {
       dragging: false,
     },
     {
+      name: 'Modify by',
+      attr: 'modifierName',
+      width: 200,
+      dragging: false,
+    },
+    {
       name: 'Modification Date',
       attr: 'modificationDate',
       width: 200,

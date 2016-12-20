@@ -4341,6 +4341,7 @@ body {
 }
 .h5 .h5tooltip.h5tooltip-middle {
   top: 50%;
+  display: none;
 }
 .h5 .h5tooltip.arrow:before {
   content: "";
@@ -4477,6 +4478,7 @@ body {
   cursor: col-resize;
   z-index: 101;
   background:#000;
+  display: none;
 }
 .h5 .h5-player-panel {
   position: relative;

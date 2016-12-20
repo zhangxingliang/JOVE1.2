@@ -6,7 +6,7 @@
 .fl{float: left;}
 .fr{float: right;}
 .clearfix{overflow:hidden;_zoom:1;}
-body{font-family:"pro_text","Microsoft YaHei";color:#cfd2d4;}
+body{font-family:"pro_text","Microsoft YaHei";color:#cfd2d4;font-size: 13px;word-wrap: break-word;}
 html{background-color: #1b1b1b;height:100%}
 button, html input[type="button"], input[type="reset"], input[type="submit"] {-webkit-appearance: button;cursor: pointer;outline: none;}
 
@@ -221,8 +221,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     display:inline-block;
     border:none;
     outline:none;
-    width:39px;
-    height:39px;
+    width:38px;
+    height:38px;
     margin-top:5px;
     cursor:pointer;
 	background: url("../images/user_ope_normal.png")no-repeat;
@@ -254,8 +254,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     display:inline-block;
     border:none;
     outline:none;
-    width:39px;
-    height:39px;
+    width:38px;
+    height:38px;
     cursor:pointer;
     float:right;
 	background: url("../images/sortby_normal.jpg")no-repeat;
@@ -273,8 +273,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     display:inline-block;
     border:none;
     outline:none;
-    width:39px;
-    height:39px;
+    width:38px;
+    height:38px;
     float:right;
     cursor:pointer;
 	background: url("../images/refresh_normal.jpg")no-repeat;
@@ -397,7 +397,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 .menu_box
 {
   position: relative;
-  z-index: 1;
+  z-index: 3;
+  font-size: 16px;
 }
 .operation_box.sort_by
 {
@@ -586,4 +587,16 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 .list_material_box
 {
   padding-top: 30px;
+}
+.marker_material_box
+{
+  position: relative;
+}
+.thumbnail_icon_active
+{
+  background: url(../images/thumbnail_over.jpg)no-repeat;
+}
+.list_icon_active
+{
+  background: url(../images/list_over.jpg)no-repeat;
 }

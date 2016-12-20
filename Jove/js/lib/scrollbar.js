@@ -187,7 +187,11 @@
         verticalScrollbar: _verticalScrollbar2.default,
         horizontalScrollbar: _horizontalScrollbar2.default
       },
-
+      watch: {
+        scrollContentWidth: function(oldVal, newVal) {
+          this.hMovement = 0
+        }
+      },
       methods: {
         calculateSize: function calculateSize() {
           var $scrollContent = this.$refs.scrollContent;
