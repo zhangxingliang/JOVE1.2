@@ -2,7 +2,9 @@ const list_material_header_ctrl = {
   template: "#list_material_header_ctrl",
   data: function() {
     return {
-      dragItem: null,
+      dragItem: {
+        width: 200
+      },
       dragName: '',
       index: -1,
       dragging: false,
@@ -20,9 +22,53 @@ const list_material_header_ctrl = {
       resizeUp: null,
       resizeItem: null,
       oldWidth: 0,
+      filterSymbol: false,
+      filterWindow: null,
+      __headers: []
     }
   },
   methods: {
+    selectAll() {
+      if (this.$data.__headers.every(item => item.checked)) {
+        this.$data.__headers.forEach(item => {
+          if (item.name !== 'Title') {
+            item.checked = false
+          }
+        })
+      } else {
+        this.$data.__headers.forEach(item => item.checked = true)
+      }
+    },
+    openFilterWindow() {
+      this.filterSymbol = true
+      this.$data.__headers = JSON.parse(JSON.stringify(this.$store.state.headers))
+      Vue.nextTick(() => {
+        if (!this.filterWindow) {
+          var H5Window = this.$store.state.editor.Controls.H5Window
+          this.filterWindow = new H5Window({
+            content: $('.header_filter_container')[0],
+            title: 'Column Filter'
+          })
+        }
+        this.filterWindow.show()
+      })
+    },
+    closeFilter() {
+      this.filterWindow.hide()
+    },
+    saveFilter() {
+      var indexArr = []
+      this.$data.__headers.forEach((item, index) => {
+        if (item.checked) {
+          indexArr.push(index)
+        }
+      })
+      this.$store.commit({
+        type: types.SET_HEADERFILTER,
+        data: indexArr
+      })
+      this.filterWindow.hide()
+    },
     dragstart(event, header) {
       if (header.name === 'Title') {
         return false
@@ -83,11 +129,17 @@ const list_material_header_ctrl = {
       //var header = util.getListHeader(_this.x, _this.headers)
 
       if (header != _this.dragItem) {
-        var index = _this.headers.indexOf(header)
+        var index = _this.$store.state.headers.indexOf(header)
         if (index > _this.index)
           index -= 1
-        _this.headers.remove(_this.dragItem)
-        _this.headers.splice(index, 0, _this.dragItem)
+        // 待替换为mutation
+        _this.$store.commit({
+          type: types.SWAP_HEADERITEMS,
+          data: {
+            item: _this.dragItem,
+            index: index
+          }
+        })
         _this.index = index + 1;
       }
     }
@@ -109,15 +161,21 @@ const list_material_header_ctrl = {
     }
   },
   computed: {
+    cheaders() {
+      return this.$data.__headers
+    },
+    selectedAllSymbol() {
+      return this.cheaders.every(item => item.checked)
+    },
     headers() {
-      return this.$store.state.headers
+      return this.$store.state.headers.filter(item => item.checked)
     },
     headerWidth() {
       return this.headers.reduce((item1, item2) => {
           return {
             width: item1.width + item2.width
           }
-        }).width + 120
+        }).width + 121
     }
   }
 }

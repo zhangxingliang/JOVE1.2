@@ -89,14 +89,14 @@ const list_material_ctrl = {
       return this.$store.state.editor
     },
     headers() {
-      return this.$store.state.headers
+      return this.$store.state.headers.filter(item => item.checked)
     },
     headerWidth() {
       return this.headers.reduce((item1, item2) => {
           return {
             width: item1.width + item2.width
           }
-        }).width + 121
+        }).width + 122
     }
   }
 }

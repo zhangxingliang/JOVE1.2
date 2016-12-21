@@ -58,8 +58,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 }
 .right_container .toolbar_box
 {
-  height: 38px;
-  line-height: 38px;
+  height: 39px;
+  line-height: 39px;
   background:#1f1f1f;
   border-bottom:1px #000 solid;
   border-top:1px #1a1a1a solid;
@@ -100,6 +100,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   border-top: 1px solid #101010;
   position: absolute;
   bottom: 0;
+  height:42px;
 }
 
 .materials_container
@@ -176,6 +177,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     float:right;
     margin-right:5px;
     cursor:pointer;
+    display: none;
 }
 .list_top_icon_disabled {
     background:url(../images/list_unse.jpg);
@@ -196,7 +198,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
     height:25px;
 }
 .timeline_icon {
-    background:url(../images/timeline_se.jpg);
+    background:url(../images/player_mv.jpg);
     width:40px;
     height:25px;
     float:right;
@@ -205,7 +207,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 }
 
 .timeline_icon_disabled {
-    background:url(../images/timeline_unse.jpg);
+    background:url(../images/player_sv.jpg);
     width:40px;
     height:25px;
 }
@@ -338,8 +340,8 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   bottom: 0;
   top: 50px;
   left: auto;
-  width: 860px;
-  z-index: 12345;
+  width: 890px;
+  z-index: 33;
   background: #161616;
   transition: all .2s;
   transition-delay: .1s;

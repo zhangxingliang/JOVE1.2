@@ -71,7 +71,27 @@
   </template>
   <template id=list_material_header_ctrl>
       <div class="list_header_container" :style="{width: headerWidth+'px'}">
+        <div class="header_filter_container" v-show="filterSymbol">
+          <div class="header_all_box">
+          <input type="checkbox" id="checkAll" v-on:change="selectAll" :checked="selectedAllSymbol"/><label for="checkAll">All</label>
+          </div>
+          <div calss="header_filter_content">
+            <div class="header_filter_item">
+              <input type="checkbox" disabled="disabled" checked="true"/>
+              <label>Stamp</label>
+            </div>
+            <div class="header_filter_item" v-for="header in cheaders">
+              <input type="checkbox" :id="'check_'+header.attr" :disabled="header.name === 'Title'" v-model="header.checked"/>
+              <label :for="'check_'+header.attr">{{header.name}}</label>
+            </div>
+          </div>
+          <div class="mp-foot header_filter_foot">
+            <button class="mp-btn cancel" v-on:click="closeFilter">Cancel</button>
+            <button class="mp-btn ok" v-on:click="saveFilter">Confirm</button>
+          </div>
+        </div>
         <div class="list_header_item fl list_header_stamp">
+          <span class="list_header_filter fl" v-on:click="openFilterWindow"></span>
           <span>Stamp</span>
         </div>
         <!--div class="list_header_item fl list_header_title" :style="{width: titleWidth + 'px'}">
@@ -87,7 +107,7 @@
           <span class="drag_area fr" v-on:mousedown.stop="resize($event, header)"></span>
           <span>{{header.name}}</span>
         </div>
-        <div class="list_header_item dragging_item" v-show="dragging" :style="{left: x + 'px'}">
+        <div class="list_header_item dragging_item" v-show="dragging" :style="{left: x + 'px', width: dragItem.width + 'px'}">
           <span>{{dragName}}</span>
         </div>
       </div>
@@ -168,7 +188,7 @@
         <div class="marker_icon">
           <img draggable="false" class="marker_img" :src="material.iconfilename"/>
         </div>
-        <span>{{material.name}}</span>
+        <span>{{material.typeName}}</span>
       </div>
       <div class="marker_pos">
         <ul v-if="material.isSMarker">
@@ -206,12 +226,12 @@
         </ul>
         </vue-nice-scrollbar>
       <!--/div-->
-      <div class="totalDiskSpace" id ="userStorage">
+      <div class="totalDiskSpace" id ="userStorage" style="height:42px;">
       </div>
     </div>
     <div id="stage_wrapper" class="right_container" :style="{left:(folderBlockStatus?200:0)+'px'}">
       <div class="top_box">
-        <div id="div_fullTextSearch"></div>
+        <div id="div_fullTextSearch" style="margin-top:5px; margin-right:3px;"></div>
         <input type="button" class="advance_search" value="Advance Search" v-on:click="advanceSearch"/>
         <input type="button" class="task_monitor" value="Task Monitor" v-on:click="taskMonitor"/>
         <div class="materials_count fr">
@@ -279,7 +299,7 @@
       <div id="player">
       </div>
     </div>
-    <div id="editor" class="h5editor ani"></div>
+    <div id="editor" class="h5editor ani" v-on:click.capture="showMV"></div>
   </div>
   <script src="./js/app.js"></script>
 </body>

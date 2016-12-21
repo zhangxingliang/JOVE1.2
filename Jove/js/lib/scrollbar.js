@@ -189,7 +189,8 @@
       },
       watch: {
         scrollContentWidth: function(oldVal, newVal) {
-          this.hMovement = 0
+            this.normalizeHorizontal(0);
+            this.hMovement = 0;
         }
       },
       methods: {
@@ -433,7 +434,8 @@
         calculateSize: function calculateSize() {
           this.height = this.container.height / this.content.height * 100;
           if (this.height > 100) {
-            this.onChangePosition(0, 'vertical');
+              this.onChangePosition(0, 'vertical');
+              this.onChangePosition(0, 'horizontal');
           }
         },
         startDrag: function startDrag(e) {

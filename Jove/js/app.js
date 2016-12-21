@@ -92,10 +92,13 @@ const app = new Vue({
   },
   methods: {
     swithListThumb(symbol) {
-      this.listSymbol = symbol
-      Vue.nextTick(() => {
-        editor.initDrag()
-      })
+      if (this.materials.length > 0 && this.materials[0].type === 'marker') {
+      } else {
+        this.listSymbol = symbol
+        Vue.nextTick(() => {
+          editor.initDrag()
+        })
+      }
     },
     hideMenu() {
       this.userOperationStatus = this.sortByStatus = false
@@ -132,6 +135,11 @@ const app = new Vue({
           type: types.ACTIVE_SVPLAYER
         })
       }
+    },
+    showMV() {
+      this.$store.commit({
+        type: types.DISACTIVE_SVPLAYER
+      })
     },
     toggleInfoBlock() {
       if (this.infoBlockStatus) {
@@ -185,10 +193,18 @@ const app = new Vue({
   created() {
     // init
     var _this = this;
+    var headerArr = JSON.parse(util.getCookie('item_headers'))
+    if (util.isArray(headerArr)) {
+      this.$store.commit({
+        type: types.SET_HEADERFILTER,
+        data: headerArr
+      })
+    }
+
     h5.onReady(function(H5Editor) {
       var opt = {
         elementId: 'editor',
-        resize: true,
+        resize: false,
         topElementId: 'stage_wrapper',
         playerElementId: 'player',
         mlElementId: 'resourceList',
@@ -197,7 +213,7 @@ const app = new Vue({
         useCros: true,
         logger: new TimelinePlayer.Logger("debug"),
         panelOptions: {
-          minWidth: 860,
+          minWidth: 890,
           initWidth: 450,
           playerPanel: {
             minWidth: 250
@@ -373,7 +389,132 @@ const app = new Vue({
     document.querySelector('html').appendChild(format)
   },
   mounted() {
-    // normal folder
+    // 注册消息
+    var _this = this
+    window.addEventListener("message", function(event) {
+      if (event.data.isShortCutKey) {
+        switch (event.data.code) {
+          case 32: {
+            window.frames[0].postMessage({
+              ep: "JOVE",
+              operation: "Space"
+            }, '*');
+            break;
+          }
+          case 36: {
+            window.frames[0].postMessage({
+              ep: "JOVE",
+              operation: "Home"
+            }, '*');
+            break;
+          }
+          case 37: {
+            window.frames[0].postMessage({
+              ep: "JOVE",
+              operation: "LastFrame"
+            }, '*');
+            break;
+          }
+          case 39: {
+            window.frames[0].postMessage({
+              ep: "JOVE",
+              operation: "NextFrame"
+            }, '*');
+            break;
+          }
+          case 35: {
+            window.frames[0].postMessage({
+              ep: "JOVE",
+              operation: "End"
+            }, '*');
+            break;
+          }
+        }
+        return;
+      }
+      var data = JSON.parse(event.data);
+      if (!(data.in != -1 && data.out != -1) || (parseInt(data.in) >= parseInt(data.out))) {
+        if (data.in == -1 && data.out == -1) {
+        } else {
+          util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].canNotAdd, 'warn', 'OK');
+          return;
+        }
+      }
+      data.id = data.guid;
+      data.clipid = data.guid;
+      data.channel = "2";
+      data.sourceid = '32'
+      _this.$store.dispatch({
+        type: types.GET_OBJECT_INFO,
+        data: data
+      }).then(res => {
+        if (res.data.Code === '0') {
+          var framerate = 25.0;
+          var r = res.data;
+          data.title = r.Ext.entity.name;
+          data.isImage = false;
+          if (r.Ext.entity.iconfilename) {
+            data.icon = r.Ext.entity.iconfilename
+          }
+          data.sourceid = "32";
+          if (r.Ext.entity.subtype == 4) {
+            data.audio = true;
+          } else {
+            data.audio = false;
+            if (r.Ext.entity.subtype == 32) {
+              data.isImage = true;
+            }
+          }
+          data.createdate = r.Ext.entity.createdate.formatDate();
+          data.from = 0;
+          if (r.Ext.entity.item && r.Ext.entity.item.videostandard) {
+            var vs = ETGetVideoFrameRate(r.Ext.entity.item.videostandard);
+            framerate = vs.nTimeRate / vs.nTimeScale;
+            if (framerate == 29.97) {
+              framerate = 30;
+            }
+          }
+          if (r.Ext.entity.item && r.Ext.entity.item.filestatus & (FileStatus.ET_Obj_FS_HA_ALL | FileStatus.ET_Obj_FS_LA_ALL | FileStatus.ET_Obj_FS_HA_SEG | FileStatus.ET_Obj_FS_LA_SEG) == 0) {
+            item.channel = null;
+          }
+          if (data.isImage) {
+            data.duration = 10;
+            _this.editor.addTrackEvent('image', data);
+          } else if (data.audio) {
+            data.channel = "1";
+            data.in = r.Ext.entity.item.trimin / 10000000;
+            data.out = r.Ext.entity.item.trimout / 10000000;
+            data.duration = data.out - data.in
+            data.from = data.in;
+            data.end = data.out;
+            _this.editor.addTrackEvent('audio', data);
+          } else {
+            var a = data.in,
+              b = data.out;
+            data.in = r.Ext.entity.item.trimin / 10000000;
+            data.out = r.Ext.entity.item.trimout / 10000000;
+            data.from = a / framerate;
+            data.end = b / framerate;
+            if (a == -1) {
+              data.from = data.in;
+              data.end = data.out;
+            }
+            data.duration = data.out - data.in;
+            _this.editor.addTrackEvent('video', data);
+          }
+        }
+      });
+    });
+    window.addEventListener("keyup", function(event) {
+      var keycode = event.keyCode;
+      var targetTag = event.target.tagName.toUpperCase();
+      if (keycode == 8 && targetTag != 'INPUT' && targetTag != 'TEXTAREA') {
+        _this.$store.commit({
+          type: types.BACK_UP
+        });
+      }
+    });
+
     this.$store.dispatch({
       type: types.LOGIN,
       data: _userToken

@@ -8508,15 +8508,19 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
 
             this.hide = function () {
                 handlerElement.width(0);
-                firstElement.css({ right: 0 + 'px' });
-                _this.dispatchEvent("resize");
+                //firstElement.css({ right: 0 + 'px' });
+                $('#resourceList').css({ right: 644 + 'px' });
+                $('#player').css({ right:  -250 + 'px' });
+                //_this.dispatchEvent("resize");
             }
             this.show = function () {
                 handlerElement.width(250);
                 firstElement.css({ right: 250 + 'px' });
                 var width = firstElement.width();
-                handlerElement.css({ left: width });
-                _this.dispatchEvent("resize");
+                handlerElement.css({ right: 0 + 'px' });
+                $('#resourceList').css({ right: 894 + 'px' });
+                $('#player').css({ right: 0 + 'px' });
+                //_this.dispatchEvent("resize");
             }
             this.minimize = function (state) {
                 minimized = state;
@@ -8608,21 +8612,24 @@ h5.define('templates/H5PlayerLayout', [], function () {
                     <div class="h5-player-title"><span id="mvTimeLineTitle">Unnamed</span></div>\
                              <div style="top: -9px; right: 4px; position: absolute; width: 260px; ">\
                             <font class="code_small" style="color:#646464;">DURATION</font>\
-                            <font class="code_small" style="margin-right:60px;">POSITION</font>\
+                            <font class="code_small" style="margin-right:42px;">POSITION</font>\
                             </div>\
-                            <div style="top: 6px; right: -2px; position: absolute; width: 236px;">\
+                            <div style="top: 6px; right: -2px; position: absolute; width:auto; ">\
                                 <div class="duration">\
                                     00:00:00:00\
-                                </div>\
-                                <div class="duration_mark">\
-                                    /\
                                 </div>\
                                 <div class="code">\
                                     00:05:12:30\
                                 </div>\
                             </div>\
                     </div>\
-                     <div class="h5-player-toolbar"><span class="glyphicon glyphicon-play toolbar-btn-play" id="play" title="Play/Pause(Space)">p</span><span class="glyphicon glyphicon-fast-backward toolbar-btn-play" id="startframe"  title="To the beginning(Home)">h</span><span class="glyphicon glyphicon-step-backward toolbar-btn-play" id="prevframe" title="Last frame(←)">l</span><span class="glyphicon glyphicon-step-forward toolbar-btn-play"id="nextframe" title="Next frame(→)">n</span><span class="glyphicon glyphicon-fast-forward toolbar-btn-play" id="endframe" title="To the end(End)">e</span></div>\
+                     <div class="h5-player-toolbar">\
+                    <span class="glyphicon glyphicon-fast-backward toolbar-btn-play" id="startframe"  title="To the beginning(Home)"></span>\
+                         <span class="glyphicon glyphicon-step-backward toolbar-btn-play" id="prevframe" title="Last frame(←)"></span>\
+                        <span class="glyphicon glyphicon-play toolbar-btn-play" id="play" title="Play/Pause(Space)"></span>\
+                        <span class="glyphicon glyphicon-step-forward toolbar-btn-play"id="nextframe" title="Next frame(→)"></span>\
+                        <span class="glyphicon glyphicon-fast-forward toolbar-btn-play" id="endframe" title="To the end(End)"></span>\
+                      </div>\
                     <div id="h5-video-panel" class="video-panel">\
                         <div class="loading hidden">\
                             <div class="loadingWrapper">\
@@ -8646,6 +8653,7 @@ h5.define('templates/H5PlayerLayout', [], function () {
             </div>\
         </div>';
 });
+
 h5.define('util/H5Scrollbar', ["jquery", "util/Object"], function ($, Obj) {
 
     var VERTICAL_SIZE_REDUCTION_FACTOR = 3,
@@ -10543,7 +10551,9 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
 
           function onDragEnter(e) {
 
-              $('#mv').trigger("click");
+              store.commit({
+                  type: types.DISACTIVE_SVPLAYER
+              })
               var transferData, helper;
               if (_hoverClass) {
                   element.classList.add(_hoverClass);
@@ -11447,7 +11457,9 @@ h5.define('timeline/H5TrackEvent', ["jquery","util/Object", "util/util",
               _this.update(inputOptions);
 
               _element.addEventListener("mousedown", function (e) {
-                  $('#mv').trigger("click");
+                  store.commit({
+                      type: types.DISACTIVE_SVPLAYER
+                  })
                   _this.dispatchEvent("trackeventmousedown", { originalEvent: e, trackEvent: _trackEvent });
               }, true);
               _element.addEventListener("mouseup", function (e) {
@@ -17153,7 +17165,7 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                         else if (this.trackType === 'VA') {
                             levent =  app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
                         }
-                        if (levent.popcornOptions.start === event.popcornOptions.start) {
+                        if (levent && levent.popcornOptions.start === event.popcornOptions.start) {
                             return levent
                         }
                     }
@@ -30630,7 +30642,7 @@ h5.define('editor/TrackEventEditor', [
                       }
                   }
                   else if (propertyName == "name") {
-                      document.querySelector("#mvTimeLineTitle").innerText = element.value;
+                      document.querySelector("#currenttitle").innerText = element.value;
                   }
                   var val = element.value,
                       updateOptions = {};
@@ -30721,7 +30733,7 @@ h5.define('editor/TrackEventEditor', [
                           }
                       }
                       if (propertyName == "name") {
-                          document.querySelector("#mvTimeLineTitle").innerText = val;
+                          document.querySelector("#currenttitle").innerText = val;
                       }
                       ignoreChange = true;
                   });
@@ -30757,7 +30769,7 @@ h5.define('editor/TrackEventEditor', [
                           }
                           if (propertyName == "name") {
                               if (val) {
-                                  document.querySelector("#mvTimeLineTitle").innerText = val;
+                                  document.querySelector("#currenttitle").innerText = val;
                               }
                           }
                           ignoreChange = true;
@@ -33822,8 +33834,8 @@ h5.define("util/H5Window", ["jquery", "util/Object", "util/util", "templates/H5W
 
             _this.show = function () {
 
-
-
+                //背景模糊
+                //$('#app').css('filter', 'blur(5px)');
                 document.body.appendChild(_element);
                 document.body.appendChild(_modalDiv);
 
@@ -33853,6 +33865,8 @@ h5.define("util/H5Window", ["jquery", "util/Object", "util/util", "templates/H5W
             };
 
             _this.hide = function () {
+
+                //$('#app').css('filter', 'blur(0)');
                 try{
                     document.querySelector(".saveplugin").querySelector(".path").value = "";
                 }
@@ -34257,7 +34271,9 @@ h5.define('plug/ShortcutKey', ["jquery", "util/Object", "util/util", "util/H5Win
                 });
                 //标记点(M)
                 _this.Register("", "M", function () {
-                    $("#mv").trigger("click");
+                    store.commit({
+                        type: types.DISACTIVE_SVPLAYER
+                    })
                     if (app.media.duration <= 0)
                         return;
                     app.media.pause();
@@ -35782,8 +35798,8 @@ h5.define('H5Editor', ['jquery',
 
                 var panelOptions = opt.panelOptions || {};
                 var defaultOptions = {
-                    minWidth: 860,   //播放器最小宽度
-                    initWidth: Math.max( player.width(), 680),//播放器初始宽度
+                    minWidth: 890,   //播放器最小宽度
+                    initWidth: Math.max( player.width(), 640),//播放器初始宽度
                     slidingElement: playerLeft[0],
                     parentElement: player[0],
                     infoPanel: {
@@ -35922,7 +35938,7 @@ h5.define('H5Editor', ['jquery',
 
                     var name = "Unnamed";
                     _name_no++;
-                    document.querySelector("#mvTimeLineTitle").innerText = name;
+                    //document.querySelector("#currenttitle").innerText = name;
                     this.timeLineId = '';
                     this.edlPath = '';
                     var initTracks = ['GC', 'GC', 'PIC', 'VA'];

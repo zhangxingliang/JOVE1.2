@@ -65,6 +65,7 @@ const mutations = {
       state.svplayerStyle = {
         right: 0 + 'px'
       }
+      state.editor.media.pause();
       state.svplayerStatus = true
     } else {
       state.svplayerStyle = {
@@ -75,6 +76,10 @@ const mutations = {
   [types.DISACTIVE_SVPLAYER](state, payload) {
     if (state.resourceBlockStatus) {
       state.svplayerStatus = false
+      window.frames[0].postMessage({
+        ep: "JOVE",
+        operation: "pause"
+      }, '*');
     } else {
 
     }
@@ -115,5 +120,19 @@ const mutations = {
   },
   [types.SET_ORDERTYPE](state, payload) {
     state.listOrder = payload.data
+  },
+  [types.SET_HEADERFILTER](state, payload) {
+    state.headers.forEach((item, index) => {
+      if (payload.data.indexOf(index) > -1) {
+        item.checked = true
+      } else {
+        item.checked = false
+      }
+    })
+    util.setCookie('item_headers', JSON.stringify(payload.data))
+  },
+  [types.SWAP_HEADERITEMS](state, payload) {
+    state.headers.remove(payload.data.item)
+    state.headers.splice(payload.data.index, 0, payload.data.item)
   },
 }
