@@ -1,6 +1,8 @@
 const mutations = {
   [types.SET_MATERIALS](state, payload) {
     if (payload.target.guid === 1 || payload.target.guid === 2) {
+      payload.target.favorites = payload.data
+    } else if (payload.target.guid === -1) {
       payload.target.searchResult = payload.data
     } else {
       payload.target.children = payload.data
@@ -137,5 +139,19 @@ const mutations = {
   },
   [types.SET_HEADERS](state, payload) {
     state.headers = payload.data
+  },
+  [types.ADD_FAVORITE](state, payload) {
+    state.nodes.push({
+      name: _language[_curLang].fav,
+      selected: false,
+      checked: false,
+      open: false,
+      guid: -1,
+      path: _rootPath + '/' + _language[_curLang].fav,
+      floor: 1,
+      type: "folder",
+      children: [],
+      favorites: []
+    })
   },
 }

@@ -10,6 +10,8 @@ const app = new Vue({
     sortSymbol: true,
     typeSymbol: false,
     listSymbol: true,
+    taskMonitorUrl: '',
+    taskMonitorWindow: null,
   },
   components: {
     'tree-ctrl': tree_ctrl,
@@ -22,6 +24,9 @@ const app = new Vue({
     'list-material-ctrl': list_material_ctrl,
   },
   computed: {
+    dict() {
+      return this.$store.state.dict
+    },
     currentCtrl() {
       if (this.materials.length > 0 && this.materials[0].type === 'marker') {
         this.listSymbol = false;
@@ -188,11 +193,22 @@ const app = new Vue({
         $(this).advancedSearch();
       } catch (e) {}
     },
-    taskMonitor() {}
+    taskMonitor() {
+      if (this.taskMonitorWindow) {
+      } else {
+        var H5Window = this.editor.Controls.H5Window
+        this.taskMonitorWindow = new H5Window({
+          content: $('.taskmonitorifm')[0],
+          title: this.dict.taskmonitor
+        })
+      }
+      this.taskMonitorWindow.show()
+    }
   },
   created() {
     // init
     var _this = this;
+    // 读取cookie中保存的列信�?
     var headerArr = JSON.parse(util.getCookie('item_headers'))
     if (util.isArray(headerArr)) {
       this.$store.commit({
@@ -200,7 +216,12 @@ const app = new Vue({
         data: headerArr
       })
     }
-
+    // 收藏夹功�?
+    if (window.golbalSetting.FAVSWITCH) {
+      _this.$store.commit({
+        type: types.ADD_FAVORITE
+      })
+    }
     h5.onReady(function(H5Editor) {
       var opt = {
         elementId: 'editor',
@@ -520,6 +541,7 @@ const app = new Vue({
       data: _userToken
     }).then(() => {
       var _this = this;
+      _this.taskMonitorUrl = _tkUrl + "TaskMonitor.html?UserCode=" + $.base64.encode(_this.userInfo.userCode)
       var fulltext = document.createElement("script")
       fulltext.setAttribute("src", golbalSetting.CM + "/js/plugins/jquery.fulltextsearch.js" + version)
       document.querySelector('html').appendChild(fulltext)

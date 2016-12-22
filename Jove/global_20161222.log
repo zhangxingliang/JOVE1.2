@@ -1,4 +1,4 @@
-2016 12 22 16:16:54.732		<?xml version="1.0" encoding="UTF-8"?>
+2016 12 22 19:10:12.412		<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<NEBULA_VIP showname="Hive集群虚拟IP">172.16.168.205</NEBULA_VIP>
 	<LOCAL_IP showname="本机IP">172.16.173.16</LOCAL_IP>
@@ -16,9 +16,9 @@
   <PLAYOUTPORT>9035</PLAYOUTPORT>
 </config>
 
-2016 12 22 16:16:55.126		start... = SocketServer, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = WEBCM
-2016 12 22 16:16:55.136		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"WEBCM","tool":"DEFAULT","paramname":"SocketServer"}
-2016 12 22 16:16:55.689		return data = {
+2016 12 22 19:12:07.217		start... = SocketServer, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = WEBCM
+2016 12 22 19:12:07.218		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"WEBCM","tool":"DEFAULT","paramname":"SocketServer"}
+2016 12 22 19:12:07.444		return data = {
   "code": "0",
   "ext": {
     "paramname": "SocketServer",
@@ -26,9 +26,9 @@
     "paramdescription": "CMServer-windows ip address"
   }
 }
-2016 12 22 16:16:55.694		start... = InstalledFontCollection, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
-2016 12 22 16:16:55.694		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"InstalledFontCollection"}
-2016 12 22 16:16:55.797		return data = {
+2016 12 22 19:12:08.084		start... = InstalledFontCollection, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2016 12 22 19:12:08.085		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"InstalledFontCollection"}
+2016 12 22 19:12:08.160		return data = {
   "code": "0",
   "ext": {
     "paramname": "InstalledFontCollection",
@@ -36,9 +36,9 @@
     "paramdescription": "System Installed Font Collection"
   }
 }
-2016 12 22 16:16:55.809		start... = ET_LANGUAGE, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = MATERIALLIST
-2016 12 22 16:16:55.810		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"MATERIALLIST","tool":"DEFAULT","paramname":"ET_LANGUAGE"}
-2016 12 22 16:16:55.880		return data = {
+2016 12 22 19:12:08.522		start... = ET_LANGUAGE, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = MATERIALLIST
+2016 12 22 19:12:08.523		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"MATERIALLIST","tool":"DEFAULT","paramname":"ET_LANGUAGE"}
+2016 12 22 19:12:08.575		return data = {
   "code": "0",
   "ext": {
     "paramname": "ET_LANGUAGE",
@@ -46,27 +46,21 @@
     "paramdescription": ""
   }
 }
-2016 12 22 16:16:55.884		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
-2016 12 22 16:16:55.885		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
-2016 12 22 16:16:55.946		return data = {
+2016 12 22 19:12:08.714		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2016 12 22 19:12:08.714		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
+2016 12 22 19:12:08.778		return data = {
   "code": "1",
   "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"Parameter \\\"transCodeTemplate\\\" does not exists in application \\\"DEFAULT\\\"\",\"status\":404}"
 }
-2016 12 22 16:19:13.742		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
-2016 12 22 16:19:13.743		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
-2016 12 22 16:19:13.950		return data = {
+2016 12 22 19:13:20.591		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2016 12 22 19:13:20.592		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
+2016 12 22 19:13:20.641		return data = {
   "code": "1",
-  "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"Parameter \\\"transCodeTemplate\\\" does not exists in application \\\"DEFAULT\\\"\",\"status\":404}"
+  "msg": "hiveerror:{\"code\":\"CRITICAL_ERROR\",\"message\":\"[API Error] 0: ;Error getting response stream (ReadDone4): ServerProtocolViolation;Input string was not in a correct format.\",\"status\":500}"
 }
-2016 12 22 16:19:37.916		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
-2016 12 22 16:19:37.918		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
-2016 12 22 16:19:37.963		return data = {
+2016 12 22 19:14:05.757		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2016 12 22 19:14:05.760		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
+2016 12 22 19:14:05.913		return data = {
   "code": "1",
-  "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"Parameter \\\"transCodeTemplate\\\" does not exists in application \\\"DEFAULT\\\"\",\"status\":404}"
-}
-2016 12 22 16:21:02.016		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
-2016 12 22 16:21:02.018		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
-2016 12 22 16:21:02.078		return data = {
-  "code": "1",
-  "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"Parameter \\\"transCodeTemplate\\\" does not exists in application \\\"DEFAULT\\\"\",\"status\":404}"
+  "msg": "hiveerror:{\"code\":\"CRITICAL_ERROR\",\"message\":\"[API Error] 0: ;Error getting response stream (ReadDone4): ServerProtocolViolation;Input string was not in a correct format.\",\"status\":500}"
 }

@@ -602,3 +602,9 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 {
   background: url(../images/list_over.jpg)no-repeat;
 }
+.taskmonitorifm
+{
+	width: 900px;
+  height: 650px;
+	border:none;
+}

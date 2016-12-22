@@ -51,6 +51,10 @@ const material_ctrl = {
               this.editor.edlPath = res.data.Ext.entity.folderpath
               this.editor.media.currentTime = 0
               this.editor.editor.openTrackEventProperty(this.editor.media)
+              $('#mvTimeLineTitle')[0].innerText = json.name
+              this.$store.commit({
+                type: types.DISACTIVE_SVPLAYER
+              })
             } else {
               util.alert(this.editor.Controls.Dialog, _language[_curLang].tip, _language[_curLang].loadTimelineFailed, 'warn', 'OK')
             }

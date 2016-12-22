@@ -35,6 +35,19 @@ const tree_ctrl = {
             editor.initDrag()
           })
         })
+      } else if (this.node.guid === -1) {
+        this.$store.dispatch({
+          type: types.GET_FAVORITERESULT,
+        }).then(() => {
+          this.$store.commit({
+            type: types.GET_NAVPATH,
+            target: this.node,
+            data: []
+          })
+          Vue.nextTick(() => {
+            editor.initDrag()
+          })
+        })
       } else {
         // normal folder
         this.$store.dispatch({
@@ -53,13 +66,6 @@ const tree_ctrl = {
       }
     },
     dblclick: function(node) {
-      if (this.node.guid === 1) {
-        this.$store.dispatch({
-          type: types.GET_SEARCHMODEL,
-          source: this.node
-        }).then(() => {
-        })
-      }
       this.$store.dispatch({
         type: types.TOGGLE_FOLDER,
         source: this.node

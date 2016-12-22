@@ -128,7 +128,7 @@ const createPlugin = function(editor, store) {
                   if (r.Ext) {
                     editor.timeLineId = r.Ext.contentid;
                     editor.edlPath = _rootPath + _inputPath.value;
-                    //document.querySelector("#mvTimeLineTitle").innerText = _inputTitle.value;
+                    $("#mvTimeLineTitle")[0].innerText = _inputTitle.value;
                     editor.media.update({
                       name: _inputTitle.value.trim()
                     });

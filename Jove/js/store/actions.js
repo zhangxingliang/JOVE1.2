@@ -60,6 +60,8 @@ const actions = {
       })
     } else if (payload.source.guid === 2) {
 
+    } else if (payload.source.guid === -1) {
+
     } else {
       context.dispatch({
         type: types.GET_MATERIALS,
@@ -242,5 +244,21 @@ const actions = {
       util.deleteMaterial(context.state.nodes, payload.data)
     }
   },
-  [types.CLIP_MATERIALS](context, payload) {}
+  [types.GET_FAVORITERESULT](context, payload) {
+    var URL = util.getUrl('Cm/GetFavoriteObject', {
+      usertoken: _userToken,
+      usercode: context.state.userInfo.userCode,
+      siteCode: _siteCode
+    })
+    return new Promise((resolve, reject) => {
+      axios.get(URL).then(res => {
+        context.commit({
+          type: types.SET_MATERIALS,
+          target: payload.source,
+          data: util.parseData(res.data, payload.source)
+        })
+        resolve()
+      })
+    })
+  }
 }

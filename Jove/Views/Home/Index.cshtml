@@ -217,7 +217,7 @@
     </div>
     <div class="left_container" :style="{left:(folderBlockStatus?0:-200)+'px'}">
       <div class="logo_box">
-        <span>Web Quick Editing</span>
+        <span>{{dict.pageTitle}}</span>
       </div>
       <!--div class="folder_box"-->
         <vue-nice-scrollbar class="folder_box" :speed="150">
@@ -232,8 +232,8 @@
     <div id="stage_wrapper" class="right_container" :style="{left:(folderBlockStatus?200:0)+'px'}">
       <div class="top_box">
         <div id="div_fullTextSearch" style="margin-top:5px; margin-right:3px;"></div>
-        <input type="button" class="advance_search" value="Advance Search" v-on:click="advanceSearch"/>
-        <input type="button" class="task_monitor" value="Task Monitor" v-on:click="taskMonitor"/>
+        <input type="button" class="advance_search" :value="dict.advancesearch" v-on:click="advanceSearch"/>
+        <input type="button" class="task_monitor" :value="dict.taskmonitor" v-on:click="taskMonitor"/>
         <div class="materials_count fr">
             <div class="hidden_bar">
                 <span class="xx_icon fr" v-on:click="userOperationStatus = !userOperationStatus">
@@ -241,8 +241,8 @@
                   <div v-show="userOperationStatus" style="display: none;">
                     <div class="triangle_top user_operation"></div>
                     <ul class="operation_box user_operation">
-                      <li class="operation_item" v-on:click.stop="logout">Logout</li>
-                      <li class="operation_item">Help</li>
+                      <li class="operation_item" v-on:click.stop="logout">{{dict.logout}}</li>
+                      <li class="operation_item">{{dict.help}}</li>
                     </ul>
                   </div>
                 </transition>
@@ -267,20 +267,20 @@
         <div class="toolbar_box">
           <nav-path-ctrl></nav-path-ctrl>
           <div class="materials_count fr">
-            <span class="text_nomarl">Items</span>
+            <span class="text_nomarl">{{dict.items}}</span>
             <span class="text_strong">{{materialsCount}}</span>
             <span class="list_icon" :class="{list_icon_active:listSymbol}" v-on:click="swithListThumb(true)"></span>
             <span class="thumbnail_icon" :class="{thumbnail_icon_active:!listSymbol}" v-on:click="swithListThumb(false)"></span>
-            <span class="sortby_icon"  v-on:click="sortByStatus = !sortByStatus">
+            <span class="sortby_icon" v-show="!listSymbol" v-on:click="sortByStatus = !sortByStatus" :title="dict.sort">
               <transition name="fade">
               <div class="menu_box" v-show="sortByStatus"  style="display: none;">
                 <div class="triangle_top sort_by"></div>
                 <ul class="operation_box sort_by">
-                  <li class="operation_item" v-on:click.stop="orderBy('title', true)">Title ↓</li>
-                  <li class="operation_item" v-on:click.stop="orderBy('title', false)">Title ↑</li>
-                  <li class="operation_item" v-on:click.stop="orderBy('createTime', true)">Create Time ↓</li>
-                  <li class="operation_item" v-on:click.stop="orderBy('createTime', false)">Create Time ↑</li>
-                  <li class="operation_item" v-on:click.stop="orderBy('type')">Type</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('title', true)">{{dict.title + '  ↑'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('title', false)">{{dict.title + '  ↓'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('createTime', true)">{{dict.createTime + '  ↑'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('createTime', false)">{{dict.createTime + '  ↓'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('type')">{{dict.type}}</li>
                 </ul>
               </div>
               </transition>
@@ -300,6 +300,7 @@
       </div>
     </div>
     <div id="editor" class="h5editor ani" v-on:click.capture="showMV"></div>
+    <iframe class="taskmonitorifm" :src="taskMonitorUrl"></iframe>
   </div>
   <script src="./js/app.js"></script>
 </body>

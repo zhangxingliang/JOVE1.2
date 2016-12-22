@@ -68,6 +68,7 @@ const state = {
     type: 'title',
     symbol: true,
   },
+  dict: _language[_curLang],
   headers: [
     {
       name: 'Title',
