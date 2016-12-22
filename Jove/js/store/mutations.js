@@ -129,10 +129,13 @@ const mutations = {
         item.checked = false
       }
     })
-    util.setCookie('item_headers', JSON.stringify(payload.data))
+    util.setCookie('item_headers', JSON.stringify(state.headers))
   },
   [types.SWAP_HEADERITEMS](state, payload) {
     state.headers.remove(payload.data.item)
     state.headers.splice(payload.data.index, 0, payload.data.item)
+  },
+  [types.SET_HEADERS](state, payload) {
+    state.headers = payload.data
   },
 }

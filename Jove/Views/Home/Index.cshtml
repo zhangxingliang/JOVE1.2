@@ -137,7 +137,7 @@
               <span class="list_status_item i" :class="{i1:!material.I}"></span>
             </div>
           </div>
-          <img draggable="false" class="list_material_icon_img" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+          <img draggable="false" class="list_material_icon_img drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
           <span class="list_material_icon_span" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
         </div>
         <!--div class="list_material_info fl"><span :title="material.name">{{material.name}}</span></div-->
@@ -171,7 +171,7 @@
         </div>
       </div>
       <div v-on:mousemove="mousemove" class="material_icon_container">
-        <img draggable="false" class="material_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+        <img draggable="false" class="material_icon drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
         <span v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
         <!--img draggable="false" v-if="material.type =='video'" class="preview_img" src="./images/nostamp3.png" :style="{top:top+'px'}">
         <div draggable="false" v-if="material.type =='video'" class="preview_cell" :style="{left:left+'px'}" >

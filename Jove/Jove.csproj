@@ -67,6 +67,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Bin\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -210,7 +211,6 @@
     <Content Include="images\rar.png" />
     <Content Include="images\sequence.png" />
     <Content Include="images\word.png" />
-    <Content Include="index.html" />
     <Content Include="ipconf.xml" />
     <Content Include="Global.asax" />
     <Content Include="Gruntfile.js" />
@@ -232,7 +232,6 @@
     <Content Include="js\store\mutations.js" />
     <Content Include="js\store\mutationTypes.js" />
     <Content Include="js\store\state.js" />
-    <Content Include="lang.html" />
     <Content Include="src\fonts\metro.svg" />
     <Content Include="src\js\metro\global.js" />
     <Content Include="src\js\metro\initiator.js" />

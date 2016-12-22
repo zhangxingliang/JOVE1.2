@@ -2565,6 +2565,26 @@ body {
   width: 60%;
   padding-left: 10px;
   font-size:14px;
+  height: 29px;
+}
+.glyphicon-remove{
+  font-family: FontAwesome;
+font-weight: normal;
+font-style: normal;
+text-decoration: inherit;
+-webkit-font-smoothing: antialiased;
+display: inline;
+width: auto;
+height: auto;
+line-height: normal;
+vertical-align: baseline;
+background-image: none;
+background-position: 0 0;
+background-repeat: repeat;
+margin-top: 0;
+}
+.glyphicon-remove::before{
+  content: "\f014";
 }
 .h5 .markpoint.active {
   background-color: #e86630;
@@ -4205,7 +4225,7 @@ body {
 .h5editor .toobar-container .toolbar-btn:before {
   font-family: "FontAwesome";
   font-size: 20px;
-  color: #696969;
+  color: #cfd2d4;
   line-height: 25px;
   -webkit-transition: font-size 0.3s ease-in-out, color 0.3s;
   -moz-transition: font-size 0.3s ease-in-out, color 0.3s;
@@ -4234,6 +4254,14 @@ body {
   top: 10px;
   margin-top: 75%;
   margin-bottom: auto;
+}
+.buttonSelected
+{
+  color: #f5a623;
+}
+.h5editor .toobar-container .link:before {
+  color: inherit;
+  content: '\f0c1';
 }
 .h5editor .toobar-container .info:before {
   content: '\f040';

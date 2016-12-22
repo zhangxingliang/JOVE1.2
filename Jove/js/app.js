@@ -196,7 +196,7 @@ const app = new Vue({
     var headerArr = JSON.parse(util.getCookie('item_headers'))
     if (util.isArray(headerArr)) {
       this.$store.commit({
-        type: types.SET_HEADERFILTER,
+        type: types.SET_HEADERS,
         data: headerArr
       })
     }

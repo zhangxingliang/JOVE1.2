@@ -10240,11 +10240,13 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                   // we're resizing wrt the left side of the element here, _iterationBlockX is used to find the
                   // left side of the resizing element, and subsequently, a corresponding width value.
                   if (_iterationBlockX === null) {
+                      var oldLeft = parseFloat(element.style.left);
                       element.style.left = newX + "px";
                       element.style.width = newW + _padding + "px";
                       if (_linkedElement) {
                           _linkedElement.style.left = newX + "px";
-                          _linkedElement.style.width = newW + _padding + "px";
+                          var oldWidth = parseFloat(_linkedElement.style.width);
+                          _linkedElement.style.width = oldWidth - (newX - oldLeft) + _padding + "px";
                       }
                       _elementRect = element.getBoundingClientRect();
 
@@ -10254,12 +10256,13 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                   else {
                       newX = _iterationBlockX;
                       newW = originalWidth + (originalPosition - newX);   //_iterationBlockX - originalPosition;
-
+                      var oldLeft = parseInt(element.style.left);
                       element.style.left = newX + "px";
                       element.style.width = newW + _padding + "px";
                       if (_linkedElement) {
                           _linkedElement.style.left = newX + "px";
-                          _linkedElement.style.width = newW + _padding + "px";
+                          var oldWidth = parseFloat(_linkedElement.style.width);
+                          _linkedElement.style.width = oldWidth - (newX - oldLeft) + _padding + "px";
                       }
                       _elementRect = element.getBoundingClientRect();
 
@@ -10366,18 +10369,23 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                   // we're resizing wrt the right side of the element here, _iterationBlockX is used to find the
                   // width of the resizing element.
                   if (_iterationBlockX === null) {
+                      var oldWidth = parseInt(element.style.width);
                       element.style.width = newW + "px";
+
                       if (_linkedElement) {
-                          _linkedElement.style.width = newW + "px";
+                          var oldLinkedWidth = parseInt(_linkedElement.style.width);
+                          _linkedElement.style.width = oldLinkedWidth + (newW - oldWidth) + "px";
                       }
                       _elementRect = element.getBoundingClientRect();
                       _lastDims[1] = newW;
                   }
                   else {
                       newW = _iterationBlockX - originalPosition;
+                      var oldWidth = parseInt(element.style.width);
                       element.style.width = newW + "px";
                       if (_linkedElement) {
-                          _linkedElement.style.width = newW + "px";
+                          var oldLinkedWidth = parseInt(_linkedElement.style.width);
+                          _linkedElement.style.width = oldLinkedWidth + (newW - oldWidth) + "px";
                       }
                       _elementRect = element.getBoundingClientRect();
                       _lastDims[1] = newW;
@@ -10466,7 +10474,8 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               // document.querySelector(".hoverifm").style.display = "block";
               __currentDraggingHelper = __helpers[_id];
               e.dataTransfer.effectAllowed = "all";
-              //e.dataTransfer.setDragImage($('.material_icon',e.target)[0], 74, 41);
+              var dragIcon = $('.drag_icon', e.target);
+              e.dataTransfer.setDragImage(dragIcon[0], dragIcon.width() / 2, dragIcon.height() / 2);
 
               _onStart(e, __helpers[_id]);
 
@@ -13872,6 +13881,9 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                         if (x + w >= max) {
                             resizeEvent.blockIteration(max);
                         }
+                        else if (min && x + w <= min) {
+                            resizeEvent.blockIteration(min);
+                        }
                         else {
                             endTime = util.roundTime(app.pixelToTime(x + w) / 1000);
                             app.media.currentTime = endTime;
@@ -13901,27 +13913,68 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                         //左侧x的最小值
                         //max = app.timeToPixel(((trackEvent.popcornOptions.end + (trackEvent.popcornOptions.from - trackEvent.clipdata.from))*1000));
                         //max = trackEvent.view.element.offsetLeft - app.timeToPixel((trackEvent.popcornOptions.from - trackEvent.clipdata.from) * 1000);
-                        max = Math.max(0,trackEvent.view.element.offsetLeft - app.timeToPixel(trackEvent.popcornOptions.from * 1000));
-
+                        //add by zxl  linked
+                        var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+                        if (linkedTrackEvent && app.media.isLinked) {
+                            max = Math.max(0, trackEvent.view.element.offsetLeft - app.timeToPixel(Math.min(trackEvent.popcornOptions.from, linkedTrackEvent.popcornOptions.from) * 1000));
+                        }
+                        else {
+                            max = Math.max(0, trackEvent.view.element.offsetLeft - app.timeToPixel(trackEvent.popcornOptions.from * 1000));
+                        }
+                        
                         // Only use the left handler.
                         trackEventView.setResizeHandler(onTrackEventResizedLeft);
                     }
                     else {
-                        // Use trackEvents.reduce to find a valid maximum right value.
-                        _nextEventMax = trackEvents.reduce(function (previousValue, otherTrackEvent) {
-                            var popcornOptions = otherTrackEvent.popcornOptions;
+                        var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+                        if (linkedTrackEvent && app.media.isLinked) {
+                            var linkedTrackEvents = linkedTrackEvent.track.trackEvents;
+                            var _nextLinkedEventMax = linkedTrackEvents.reduce(function (previousValue, otherTrackEvent) {
+                                var popcornOptions = otherTrackEvent.popcornOptions;
 
-                            // [ otherEvent ] [ otherEvent ] [ thisEvent ] -->| [ otherEvent ]
-                            return (otherTrackEvent !== trackEvent &&
-                                      popcornOptions.start <= previousValue &&
-                                      popcornOptions.start >= trackEventEnd) ?
-                                  (trackEvent.popcornOptions.start + (trackEvent.clipdata.duration - trackEvent.popcornOptions.from)) : previousValue;
-                            //popcornOptions.start : previousValue;
-                        }, (trackEvent.popcornOptions.start + (trackEvent.clipdata.duration - trackEvent.popcornOptions.from)));
+                                // [ otherEvent ] [ otherEvent ] [ thisEvent ] -->| [ otherEvent ]
+                                return (otherTrackEvent !== linkedTrackEvent &&
+                                          popcornOptions.start <= previousValue &&
+                                          popcornOptions.start >= linkedTrackEvent.popcornOptions.end) ?
+                                      (linkedTrackEvent.popcornOptions.start + (linkedTrackEvent.clipdata.duration - linkedTrackEvent.popcornOptions.from)) : previousValue;
+                                //popcornOptions.start : previousValue;
+                            }, (linkedTrackEvent.popcornOptions.start + (linkedTrackEvent.clipdata.duration - linkedTrackEvent.popcornOptions.from)));
+                            var maxLinkedMoveDistance = _nextLinkedEventMax - linkedTrackEvent.popcornOptions.end;
+                            // Use trackEvents.reduce to find a valid maximum right value.
+                            _nextEventMax = trackEvents.reduce(function (previousValue, otherTrackEvent) {
+                                var popcornOptions = otherTrackEvent.popcornOptions;
 
-                        // Rebase min value on pixels instead of time.
-                        // Use clientLeft to compensate for border (https://developer.mozilla.org/en-US/docs/DOM/element.clientLeft).
-                        max = app.timeToPixel(_nextEventMax * 1000);
+                                // [ otherEvent ] [ otherEvent ] [ thisEvent ] -->| [ otherEvent ]
+                                return (otherTrackEvent !== trackEvent &&
+                                          popcornOptions.start <= previousValue &&
+                                          popcornOptions.start >= trackEventEnd) ?
+                                      (trackEvent.popcornOptions.start + (trackEvent.clipdata.duration - trackEvent.popcornOptions.from)) : previousValue;
+                                //popcornOptions.start : previousValue;
+                            }, (trackEvent.popcornOptions.start + (trackEvent.clipdata.duration - trackEvent.popcornOptions.from)));
+                            max = app.timeToPixel(Math.min(_nextEventMax, trackEvent.popcornOptions.end + maxLinkedMoveDistance) * 1000);
+                            var len = trackEvent.popcornOptions.end - trackEvent.popcornOptions.start;
+                            var linkedLen = linkedTrackEvent.popcornOptions.end - linkedTrackEvent.popcornOptions.start;
+                            if (linkedLen < len) {
+                                min = app.timeToPixel((trackEvent.popcornOptions.end - linkedLen)*1000);
+                            }
+                        }
+                        else {
+                            // Use trackEvents.reduce to find a valid maximum right value.
+                            _nextEventMax = trackEvents.reduce(function (previousValue, otherTrackEvent) {
+                                var popcornOptions = otherTrackEvent.popcornOptions;
+
+                                // [ otherEvent ] [ otherEvent ] [ thisEvent ] -->| [ otherEvent ]
+                                return (otherTrackEvent !== trackEvent &&
+                                          popcornOptions.start <= previousValue &&
+                                          popcornOptions.start >= trackEventEnd) ?
+                                      (trackEvent.popcornOptions.start + (trackEvent.clipdata.duration - trackEvent.popcornOptions.from)) : previousValue;
+                                //popcornOptions.start : previousValue;
+                            }, (trackEvent.popcornOptions.start + (trackEvent.clipdata.duration - trackEvent.popcornOptions.from)));
+
+                            // Rebase min value on pixels instead of time.
+                            // Use clientLeft to compensate for border (https://developer.mozilla.org/en-US/docs/DOM/element.clientLeft).
+                            max = app.timeToPixel(_nextEventMax * 1000);
+                        }
 
                         // Only use the right handler.
                         trackEventView.setResizeHandler(onTrackEventResizedRight);
@@ -13949,7 +14002,14 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                                     });
                                 });
                             }
-
+                            var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+                            if (linkedTrackEvent && app.media.isLinked) {
+                                var newLinkedPopcornOptions = {};
+                                newLinkedPopcornOptions.start = startTime;
+                                var moveLen = trackEvent.popcornOptions.end - endTime;
+                                newLinkedPopcornOptions.end = linkedTrackEvent.popcornOptions.end - moveLen;
+                                linkedTrackEvent.update(newLinkedPopcornOptions);
+                            }
                         }
                         else {
                             newPopcornOptions.start = startTime;
@@ -13959,14 +14019,23 @@ h5.define('core/VideoTrackEventPlugin', ["jquery", "core/TrackEventPluginBase", 
                             var from = trackEvent.popcornOptions.from + (oldlen - newlen);
 
                             newPopcornOptions.from = Math.max(from, 0);
+                            //更新linked te
+                            var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+                            if (linkedTrackEvent && app.media.isLinked) {
+                                var newLinkedPopcornOptions = {};
+                                newLinkedPopcornOptions.start = startTime;
+                                var linkedFrom = linkedTrackEvent.popcornOptions.from + (oldlen - newlen);
+                                newLinkedPopcornOptions.from = Math.max(linkedFrom, 0);
+                                linkedTrackEvent.update(newLinkedPopcornOptions);
+                            }
                         }
 
-                        var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
+                       // var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
                         trackEvent.update(newPopcornOptions);
 
-                        if (linkedTrackEvent && app.media.isLinked) {
-                            linkedTrackEvent.update(newPopcornOptions);
-                        }
+                        //if (linkedTrackEvent && app.media.isLinked) {
+                        //    linkedTrackEvent.update(newPopcornOptions);
+                        //}
                         media.updateDuration();
 
 
@@ -34269,6 +34338,10 @@ h5.define('plug/ShortcutKey', ["jquery", "util/Object", "util/util", "util/H5Win
                 _this.Register("", "Delete", function () {
                     $(".toolbar-btn.delete").click();
                 });
+                //成组(Group)
+                _this.Register("", "=", function () {
+                    $(".toolbar-btn.link").click();
+                });
                 //标记点(M)
                 _this.Register("", "M", function () {
                     store.commit({
@@ -35183,10 +35256,11 @@ h5.define("h5plugin/StandardToolbarButtonPlugin", ["core/EditorPluginBase",
                 split.appendChild(new H5ToolbarButton({ split: true }).element);
                 var linkedElement = _this.createToolbarButton("h5-tb-btn-delete"),
                 liinkedButton = new H5ToolbarButton({
-                    'class': 'info',
-                    title: lang[_curLang].modifyE,
+                    'class': 'link',
+                    title: lang[_curLang].linkTrack,
                     click: function () {
                         app.media.isLinked = !app.media.isLinked;
+                        $('.link').toggleClass('buttonSelected')
                         //app.editor.openTrackEventProperty(app.media);
                     }
                 });

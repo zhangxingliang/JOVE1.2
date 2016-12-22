@@ -225,6 +225,7 @@ window._language = {
         "smark": "Scene Mark",
         "cmark": "Change Mark",
         "fav": "Favorite",
+        "linkTrack": "Group V/A(=)",
         "isShowVideoStandard": false,
         "isShowSizes": false
     },
@@ -433,6 +434,7 @@ window._language = {
         "cmark": "转场标记",
         "isShowVideoStandard": false,
         "isShowSizes": false,
-        "fav": "收藏夹"
+        "fav": "收藏夹",
+        "linkTrack": "素材成组(=)",
     }
 }

@@ -34,3 +34,5 @@ E:\工作\Jove\Jove\bin\zh-Hans\System.Web.WebPages.Razor.resources.dll
 E:\工作\Jove\Jove\obj\Debug\Jove.csprojResolveAssemblyReference.cache
 E:\工作\Jove\Jove\obj\Debug\Jove.dll
 E:\工作\Jove\Jove\obj\Debug\Jove.pdb
+E:\工作\Jove\Jove\bin\System.Net.Http.Formatting.dll
+E:\工作\Jove\Jove\bin\System.Net.Http.Formatting.xml

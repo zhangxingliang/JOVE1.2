@@ -24,7 +24,8 @@ const list_material_header_ctrl = {
       oldWidth: 0,
       filterSymbol: false,
       filterWindow: null,
-      __headers: []
+      __headers: [],
+      lastX: 0
     }
   },
   methods: {
@@ -86,6 +87,7 @@ const list_material_header_ctrl = {
       this.x = eventLeft - this.stampLeft // foldertree + stamp
       this.offset = (event.x - eventLeft) % ele.width()
       this.dragging = true
+      this.lastX = event.x
       window.addEventListener('mousemove', this.mousemove)
       window.addEventListener('mouseup', this.mouseup)
     },
@@ -110,6 +112,7 @@ const list_material_header_ctrl = {
     var _this = this
     this.mousemove = function(event) {
       var header
+      var right = false
       var min = _this.stampWidth
       var x = Math.min(_this.headers.reduce((item1, item2) => {
           return {
@@ -117,21 +120,30 @@ const list_material_header_ctrl = {
           }
         }
         ).width + min, Math.max(event.x - _this.stampLeft, min + _this.titleWidth))
-      if (x - _this.offset > _this.x) {
+      //if (x - _this.offset > _this.x) {
+      if (event.x > _this.lastX) {
         // →  30 为缓冲距离
         _this.x = Math.max(x - _this.offset, min + _this.titleWidth)
         header = util.getListHeader(_this.x - min - 30 + _this.targetWidth, _this.headers)
+        right = true
       } else {
         _this.x = Math.max(x - _this.offset, min + _this.titleWidth)
         header = util.getListHeader(_this.x - min + 30, _this.headers)
+        right = false
       }
-
+      _this.lastX = event.x
       //var header = util.getListHeader(_this.x, _this.headers)
 
       if (header != _this.dragItem) {
         var index = _this.$store.state.headers.indexOf(header)
-        if (index > _this.index)
+        if ((right && index < _this.index) || (!right && index > _this.index))
+          return
+        if (index > _this.index) {
           index -= 1
+          _this.index = index + 1
+        } else {
+          _this.index = index
+        }
         // 待替换为mutation
         _this.$store.commit({
           type: types.SWAP_HEADERITEMS,
@@ -140,22 +152,23 @@ const list_material_header_ctrl = {
             index: index
           }
         })
-        _this.index = index + 1;
       }
     }
     this.mouseup = function(event) {
       _this.dragging = false
       _this.dragItem.name = _this.dragName
       _this.dragItem.dragging = false
+      util.setCookie('item_headers', JSON.stringify(_this.$store.state.headers))
       window.removeEventListener('mousemove', _this.mousemove)
       window.removeEventListener('mouseup', _this.mouseup)
     }
     this.resizeMove = function(event) {
       var newX = event.x
-      _this.resizeItem.width = Math.max(45, _this.oldWidth + newX - _this.resizeX)
+      _this.resizeItem.width = Math.max(70, _this.oldWidth + newX - _this.resizeX)
     }
     this.resizeUp = function(event) {
       _this.resizeItem = null
+      util.setCookie('item_headers', JSON.stringify(_this.$store.state.headers))
       window.removeEventListener('mousemove', _this.resizeMove)
       window.removeEventListener('mouseup', _this.resizeUp)
     }
