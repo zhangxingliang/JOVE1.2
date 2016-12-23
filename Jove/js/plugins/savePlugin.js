@@ -87,18 +87,18 @@ const createPlugin = function(editor, store) {
                   dataType: "json",
                   success: function(data, status) {
                     if (data.Code == "0") {
-                      util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderSuccess, 'warn', 'OK');
+                      util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderSuccess, 'succeed', 'OK');
                     } else {
-                      util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderFailed, 'warn', 'OK');
+                      util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderFailed, 'error', 'OK');
                     }
                   }
                 });
               } else {
-                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderFailed, 'warn', 'OK');
+                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderFailed, 'error', 'OK');
               }
             },
             error: function(r) {
-              util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderFailed, 'warn', 'OK');
+              util.alert(Dialog, _language[_curLang].tip, _language[_curLang].renderFailed, 'error', 'OK');
             }
           });
         } else {
@@ -136,13 +136,13 @@ const createPlugin = function(editor, store) {
                 } else {
                   editor.isCreating = false;
                 }
-                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].saveTileLineSuccess, 'warn', 'OK');
+                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].saveTileLineSuccess, 'succeed', 'OK');
               } else {
-                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].saveTileLineFailed, 'warn', 'OK');
+                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].saveTileLineFailed, 'error', 'OK');
               }
             },
             error: function(r) {
-              util.alert(Dialog, _language[_curLang].tip, _language[_curLang].saveTileLineFailed, 'warn', 'OK');
+              util.alert(Dialog, _language[_curLang].tip, _language[_curLang].saveTileLineFailed, 'error', 'OK');
             }
           });
         }
@@ -249,13 +249,13 @@ const createPlugin = function(editor, store) {
             success: function(r) {
               if (r.Code == "0") {
                 editor.isCreating = false;
-                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].updateSuccessfully, 'warn', 'OK');
+                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].updateSuccessfully, 'succeed', 'OK');
               } else {
-                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].updatefailed, 'warn', 'OK');
+                util.alert(Dialog, _language[_curLang].tip, _language[_curLang].updatefailed, 'error', 'OK');
               }
             },
             error: function(r) {
-              util.alert(Dialog, _language[_curLang].tip, _language[_curLang].updatefailed, 'warn', 'OK');
+              util.alert(Dialog, _language[_curLang].tip, _language[_curLang].updatefailed, 'error', 'OK');
             }
           });
         } else {

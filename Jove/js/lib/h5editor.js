@@ -33952,6 +33952,7 @@ h5.define("util/H5Window", ["jquery", "util/Object", "util/util", "templates/H5W
             }
 
             _closeElement.addEventListener("click", function () {
+                _this.pointData = null;
                 _this.hide();
             });
 

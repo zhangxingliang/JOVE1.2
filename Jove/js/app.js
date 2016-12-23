@@ -368,7 +368,7 @@ const app = new Vue({
       })
     });
     var ui = document.createElement("script")
-    ui.setAttribute("src", "/app/lib/js/jquery-ui.js" + version)
+    ui.setAttribute("src", "/js/lib/jquery-ui.js" + version)
     document.querySelector('head').appendChild(ui)
 
     var fulltextcss = document.createElement("link")
@@ -562,9 +562,10 @@ const app = new Vue({
                 target: _this.nodes[1],
                 data: util.parseData(data, _this.$store.state.nodes[1])
               })
-              _this.$store.dispatch({
-                type: types.GET_MATERIALS,
-                source: _this.nodes[1]
+              _this.$store.commit({
+                type: types.GET_NAVPATH,
+                target: _this.$store.getters.searchResult,
+                data: []
               })
             };
             fulltext.onload = fulltext.onreadystatechange = null;

@@ -4,34 +4,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link href="~/css/rest.css" rel="stylesheet" />
-    <link href="~/css/H5Editor.css" rel="stylesheet" />
-    <link href="~/css/main.css" rel="stylesheet" />
-    <link href="~/css/components.css" rel="stylesheet" />
-    <script src="~/Home/Par" ></script>
-    <script src="~/js/config/golbalSettings.js"></script>
-    <script src="~/js/lib/util.js"></script>
-    <script src="~/js/lib/vue.js"></script>
-    <script src="~/js/lib/scrollbar.js"></script>
-    <script src="~/js/lib/vuex.js"></script>
-    <script src="~/js/lib/vue-router.js"></script>
-    <script src="~/js/lib/axios.js"></script>
-    <script src="~/js/lib/h5editor.js"></script>
-    <script src="~/js/store/mutationTypes.js"></script>
-    <script src="~/js/store/mutations.js"></script>
-    <script src="~/js/store/actions.js"></script>
-    <script src="~/js/store/state.js"></script>
-    <script src="~/js/store/getters.js"></script>
-    <script src="~/js/plugins/notifyPlugin.js"></script>
-    <script src="~/js/plugins/searchPlugin.js"></script>
-    <script src="~/js/store/index.js"></script>
-    <script src="~/js/components/tree_ctrl.js"></script>
-    <script src="~/js/components/navPath_ctrl.js"></script>
-    <script src="~/js/components/material_ctrl.js"></script>
-    <script src="~/js/components/marker_ctrl.js"></script>
-    <script src="~/js/components/list_material_header_ctrl.js"></script>
-    <script src="~/js/components/list_material_ctrl.js"></script>
-    <script src="~/js/plugins/savePlugin.js"></script>
+    <!-- build:css css/combined.css -->
+    <link href="../../css/rest.css" rel="stylesheet" />
+    <link href="../../css/H5Editor.css" rel="stylesheet" />
+    <link href="../../css/main.css" rel="stylesheet" />
+    <link href="../../css/components.css" rel="stylesheet" />
+    <!-- endbuild -->
+    <script src="../../Home/Par" ></script>
+    <!-- build:js scripts/combined.js -->
+    <script src="../../js/config/golbalSettings.js"></script>
+    <script src="../../js/lib/util.js"></script>
+    <script src="../../js/lib/vue.js"></script>
+    <script src="../../js/lib/scrollbar.js"></script>
+    <script src="../../js/lib/vuex.js"></script>
+    <script src="../../js/lib/axios.js"></script>
+    <script src="../../js/lib/h5editor.js"></script>
+    <script src="../../js/store/mutationTypes.js"></script>
+    <script src="../../js/store/mutations.js"></script>
+    <script src="../../js/store/actions.js"></script>
+    <script src="../../js/store/state.js"></script>
+    <script src="../../js/store/getters.js"></script>
+    <script src="../../js/plugins/notifyPlugin.js"></script>
+    <script src="../../js/plugins/searchPlugin.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/components/tree_ctrl.js"></script>
+    <script src="../../js/components/navPath_ctrl.js"></script>
+    <script src="../../js/components/material_ctrl.js"></script>
+    <script src="../../js/components/marker_ctrl.js"></script>
+    <script src="../../js/components/list_material_header_ctrl.js"></script>
+    <script src="../../js/components/list_material_ctrl.js"></script>
+    <script src="../../js/plugins/savePlugin.js"></script>
+    <!-- endbuild -->
     <title>Web Quick Editing</title>
 </head>
 <body style="background:#1b1b1b;">
@@ -138,7 +141,7 @@
             </div>
           </div>
           <img draggable="false" class="list_material_icon_img drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
-          <span class="list_material_icon_span" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
+          <span class="list_material_icon_span drag_icon" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
         </div>
         <!--div class="list_material_info fl"><span :title="material.name">{{material.name}}</span></div-->
         <div class="list_material_attr fl" v-for="header in headers" :style="{width: header.width + 'px'}">
@@ -172,7 +175,7 @@
       </div>
       <div v-on:mousemove="mousemove" class="material_icon_container">
         <img draggable="false" class="material_icon drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
-        <span v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
+        <span class="drag_icon" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
         <!--img draggable="false" v-if="material.type =='video'" class="preview_img" src="./images/nostamp3.png" :style="{top:top+'px'}">
         <div draggable="false" v-if="material.type =='video'" class="preview_cell" :style="{left:left+'px'}" >
         </div-->

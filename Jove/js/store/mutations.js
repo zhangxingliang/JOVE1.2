@@ -1,9 +1,9 @@
 const mutations = {
   [types.SET_MATERIALS](state, payload) {
     if (payload.target.guid === 1 || payload.target.guid === 2) {
-      payload.target.favorites = payload.data
-    } else if (payload.target.guid === -1) {
       payload.target.searchResult = payload.data
+    } else if (payload.target.guid === -1) {
+      payload.target.favorites = payload.data
     } else {
       payload.target.children = payload.data
     }

@@ -119,7 +119,7 @@ const util = {
         })).reverse()
       }
       return arr
-    } else if (type === 'typeIndex') {
+    } else if (type === 'type') {
       if (symbol) {
         arr.sort((item1, item2) => {
           return item1.typeIndex - item2.typeIndex

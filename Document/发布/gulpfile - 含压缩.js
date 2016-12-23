@@ -7,20 +7,6 @@ var autoprefix = require('gulp-autoprefixer');
 var cleanCSS = require('gulp-clean-css');
 
 gulp.task('asset',function() {
-	//requireJS 加版本号
-    gulp.src("./Jove/app/*.js")
-        .pipe(assetRev({
-			requireJSPaths:['./lib/js',
-						'./controllers',
-						'./directives',
-						'./services',
-						'./h5',
-						'./',
-						'./h5/template'],
-			requireJSConfig:'main.js'
-			}))
-        .pipe(gulp.dest('./Jove/app/'));
-		
 		//index.cshtml加版本号
     gulp.src("./Jove/Views/Home/*.cshtml")
         .pipe(assetRev({rootPath:'./Jove'}))
@@ -28,21 +14,21 @@ gulp.task('asset',function() {
 });
 
 gulp.task('scripts', function() {
-  gulp.src(['./Jove/app/**/*.js'])
+  gulp.src(['./Jove/js/**/*.js'])
     //.pipe(concat('all.js'))
     .pipe(stripDebug())
     .pipe(uglify())
-    .pipe(gulp.dest('./Jove/app/'));
+    .pipe(gulp.dest('./Jove/js/'));
 });
 
 
 // CSS concat, auto-prefix and minify
 gulp.task('styles', function() {
-  gulp.src(['./Jove/app/css/*.css'])
+  gulp.src(['./Jove/css/*.css'])
     //.pipe(concat('styles.css'))
     .pipe(autoprefix('last 2 versions'))
     .pipe(cleanCSS())
-    .pipe(gulp.dest('./Jove/app/css/'));
+    .pipe(gulp.dest('./Jove/css/'));
 });
 
 // default gulp task
