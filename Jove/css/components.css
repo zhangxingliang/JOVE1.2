@@ -503,11 +503,12 @@
   display: inline-block;
   text-align: center;
   text-overflow: ellipsis;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  background: #464646;
+  border-left: #101010 solid 1px;
+  box-sizing: border-box;
   white-space: nowrap;
   width: 200px;
-  box-shadow: 1px 0px 0 0px #1b1b1b;
-  -webkit-box-shadow: 1px 0px 0 0px #1b1b1b;
   position: relative;
   cursor: default;
 }
@@ -594,6 +595,7 @@
 .list_header_stamp
 {
   width: 121px;
+  border-left: none;
 }
 .list_header_item_dragging
 {
@@ -635,8 +637,9 @@
 }
 .drag_area
 {
-  width: 3px;
+  width: 6px;
   height: 30px;
+  right: -3px;
   position: relative;
   z-index: 1;
   cursor: w-resize;

@@ -5205,6 +5205,7 @@ var TimelinePlayer = EventObject.extend({
             _tracksCanvas = [],
             _suspend = false,
             _offlineCanvasContext = null,
+            _lastRect = {w:1000,h:1000}, // 上一次的幅面，用于确定是否需要清空画面
             _backgrundPlayer = null, //一个空的播放器，用于时间线非连续情况下的持续播放
             _currentTrackEvents = []; //保存处于当前播放位置的trackEvent
 
@@ -5801,7 +5802,7 @@ var TimelinePlayer = EventObject.extend({
             var _currentTime = val;
             _ended = false;
             _error = null;
-
+            
             _this.dispatchEvent("waiting");
             _this.dispatchEvent("timeupdate");
 
@@ -5893,6 +5894,7 @@ var TimelinePlayer = EventObject.extend({
 
         function drawFrame() {
             var flag = false;
+            var rect = null;
             if (_currentTrackEvents.length == 0 || !_options.useCanvas) {
                 //防止播放完视频后仍MV显示视频画面  2016.9.22 zxl
                 _canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
@@ -5963,7 +5965,7 @@ var TimelinePlayer = EventObject.extend({
                         for (var i = 0; i < trackGroup.video.length; i++) {
                             var trackEvent = trackGroup.video[i];
                             if (trackEvent.draw) {
-                                trackEvent.draw(trackCanvas.context, curTime - trackEvent.startTime, trackGroup.video, trackGroup);
+                                rect = trackEvent.draw(trackCanvas.context, curTime - trackEvent.startTime, trackGroup.video, trackGroup);
                             }
                         }
                     } else {
@@ -6003,6 +6005,12 @@ var TimelinePlayer = EventObject.extend({
 
             if (!flag) {
                 _canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
+            }
+            if(rect && (_lastRect.w > rect.w||_lastRect.h > rect.h)){
+                _canvasContext.clearRect(0, 0, _canvas.width, _canvas.height);
+            }
+            if (rect) {
+                _lastRect = rect;
             }
             _canvasContext.drawImage(_offlineCanvas, 0, 0, _canvas.width, _canvas.height);
            
@@ -6518,7 +6526,7 @@ if (typeof global !== "undefined") {
                         dt = Math.floor((ch - vh * scale) / 2);
                     }
                     context.drawImage(video, dl, dt, dw, dh);
-                    return true;
+                    return {w: dw, h : dh};
                 }
             }
 
@@ -10243,7 +10251,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                       var oldLeft = parseFloat(element.style.left);
                       element.style.left = newX + "px";
                       element.style.width = newW + _padding + "px";
-                      if (_linkedElement) {
+                      if (_linkedElement && app.media.isLinked) {
                           _linkedElement.style.left = newX + "px";
                           var oldWidth = parseFloat(_linkedElement.style.width);
                           _linkedElement.style.width = oldWidth - (newX - oldLeft) + _padding + "px";
@@ -10259,7 +10267,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                       var oldLeft = parseInt(element.style.left);
                       element.style.left = newX + "px";
                       element.style.width = newW + _padding + "px";
-                      if (_linkedElement) {
+                      if (_linkedElement && app.media.isLinked) {
                           _linkedElement.style.left = newX + "px";
                           var oldWidth = parseFloat(_linkedElement.style.width);
                           _linkedElement.style.width = oldWidth - (newX - oldLeft) + _padding + "px";
@@ -10372,7 +10380,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                       var oldWidth = parseInt(element.style.width);
                       element.style.width = newW + "px";
 
-                      if (_linkedElement) {
+                      if (_linkedElement && app.media.isLinked) {
                           var oldLinkedWidth = parseInt(_linkedElement.style.width);
                           _linkedElement.style.width = oldLinkedWidth + (newW - oldWidth) + "px";
                       }
@@ -10383,7 +10391,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
                       newW = _iterationBlockX - originalPosition;
                       var oldWidth = parseInt(element.style.width);
                       element.style.width = newW + "px";
-                      if (_linkedElement) {
+                      if (_linkedElement && app.media.isLinked) {
                           var oldLinkedWidth = parseInt(_linkedElement.style.width);
                           _linkedElement.style.width = oldLinkedWidth + (newW - oldWidth) + "px";
                       }
@@ -19783,7 +19791,6 @@ h5.define('timeline/H5TrackContainer', ["jquery",
              //         tracks[i].deselectEvents(trackEvent);
             //      }
             //  }
-
               trackEvent.selected = true;
               var linkedTrackEvent = trackEvent.track.findLinkedTrackEvent(trackEvent)
               if (linkedTrackEvent && app.media.isLinked)
@@ -36012,7 +36019,7 @@ h5.define('H5Editor', ['jquery',
 
                     var name = "Unnamed";
                     _name_no++;
-                    //document.querySelector("#currenttitle").innerText = name;
+                    $('#mvTimeLineTitle')[0].innerText = name
                     this.timeLineId = '';
                     this.edlPath = '';
                     var initTracks = ['GC', 'GC', 'PIC', 'VA'];

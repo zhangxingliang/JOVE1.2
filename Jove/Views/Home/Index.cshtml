@@ -269,8 +269,8 @@
           <div class="materials_count fr">
             <span class="text_nomarl">{{dict.items}}</span>
             <span class="text_strong">{{materialsCount}}</span>
-            <span class="list_icon" :class="{list_icon_active:listSymbol}" v-on:click="swithListThumb(true)"></span>
-            <span class="thumbnail_icon" :class="{thumbnail_icon_active:!listSymbol}" v-on:click="swithListThumb(false)"></span>
+            <span class="list_icon" :class="{list_icon_active:listSymbol}" v-on:click="switchListThumb(true)"></span>
+            <span class="thumbnail_icon" :class="{thumbnail_icon_active:!listSymbol}" v-on:click="switchListThumb(false)"></span>
             <span class="sortby_icon" v-show="!listSymbol" v-on:click="sortByStatus = !sortByStatus" :title="dict.sort">
               <transition name="fade">
               <div class="menu_box" v-show="sortByStatus"  style="display: none;">

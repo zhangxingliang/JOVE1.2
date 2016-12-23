@@ -1,6 +1,6 @@
 var t = [
   {
-    name: 'MaterialList',
+    name: 'Public',
     selected: false,
     checked: false,
     open: true,

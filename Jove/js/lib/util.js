@@ -455,7 +455,7 @@ const util = {
       })
     } else {
       var folderName = folderList[0]
-      var folder = fNode.children.filter(item => item.name === folderName && item.type === 'folder')[0]
+      var folder = fNode.children.filter(item => item.type === 'folder' && (item.name === folderName || item.path.split('/').pop() === folderName))[0]
       if (folder) {
         store.dispatch({
           type: types.GET_MATERIALS2,

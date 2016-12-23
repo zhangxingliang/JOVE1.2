@@ -181,16 +181,16 @@
         },
         _left() {
           return Math.max(0, Math.min(this.left, this.scrollContentWidth - this.scrollContainerWidth))
-        }
+        },
       },
       components: {
         verticalScrollbar: _verticalScrollbar2.default,
         horizontalScrollbar: _horizontalScrollbar2.default
       },
       watch: {
-        scrollContentWidth: function(oldVal, newVal) {
-            this.normalizeHorizontal(0);
-            this.hMovement = 0;
+        scrollContentHeight: function(oldVal, newVal) {
+          this.normalizeHorizontal(0);
+          this.hMovement = 0;
         }
       },
       methods: {
@@ -312,7 +312,6 @@
 
       mounted: function mounted() {
         this.calculateSize();
-
         window.addEventListener('resize', this.calculateSize);
 
         if (this.ready) {
@@ -434,8 +433,8 @@
         calculateSize: function calculateSize() {
           this.height = this.container.height / this.content.height * 100;
           if (this.height > 100) {
-              this.onChangePosition(0, 'vertical');
-              this.onChangePosition(0, 'horizontal');
+            this.onChangePosition(0, 'vertical');
+            this.onChangePosition(0, 'horizontal');
           }
         },
         startDrag: function startDrag(e) {

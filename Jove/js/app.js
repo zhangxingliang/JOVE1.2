@@ -96,9 +96,10 @@ const app = new Vue({
     },
   },
   methods: {
-    swithListThumb(symbol) {
+    switchListThumb(symbol) {
       if (this.materials.length > 0 && this.materials[0].type === 'marker') {
       } else {
+        var _this = this
         this.listSymbol = symbol
         Vue.nextTick(() => {
           editor.initDrag()
@@ -208,7 +209,7 @@ const app = new Vue({
   created() {
     // init
     var _this = this;
-    // 读取cookie中保存的列信�?
+    // 读取cookie中保存的列信��?
     var headerArr = JSON.parse(util.getCookie('item_headers'))
     if (util.isArray(headerArr)) {
       this.$store.commit({
@@ -216,7 +217,7 @@ const app = new Vue({
         data: headerArr
       })
     }
-    // 收藏夹功�?
+    // 收藏夹功��?
     if (window.golbalSetting.FAVSWITCH) {
       _this.$store.commit({
         type: types.ADD_FAVORITE
