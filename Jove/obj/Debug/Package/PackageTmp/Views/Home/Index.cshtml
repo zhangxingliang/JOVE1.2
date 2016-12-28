@@ -1,0 +1,310 @@
+﻿<!DOCTYPE html>
+<html onselectstart ='return false' onselect='try{document.selection.empty();}catch(e){}' onmouseup='try{document.selection.empty();}catch(e){}'>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- build:css css/combined.css -->
+    <link href="../../css/rest.css" rel="stylesheet" />
+    <link href="../../css/H5Editor.css" rel="stylesheet" />
+    <link href="../../css/main.css" rel="stylesheet" />
+    <link href="../../css/components.css" rel="stylesheet" />
+    <!-- endbuild -->
+    <script src="../../Home/Par" ></script>
+    <!-- build:js scripts/combined.js -->
+    <script src="../../js/config/golbalSettings.js"></script>
+    <script src="../../js/lib/util.js"></script>
+    <script src="../../js/lib/vue.js"></script>
+    <script src="../../js/lib/scrollbar.js"></script>
+    <script src="../../js/lib/vuex.js"></script>
+    <script src="../../js/lib/axios.js"></script>
+    <script src="../../js/lib/h5editor.js"></script>
+    <script src="../../js/store/mutationTypes.js"></script>
+    <script src="../../js/store/mutations.js"></script>
+    <script src="../../js/store/actions.js"></script>
+    <script src="../../js/store/state.js"></script>
+    <script src="../../js/store/getters.js"></script>
+    <script src="../../js/plugins/notifyPlugin.js"></script>
+    <script src="../../js/plugins/searchPlugin.js"></script>
+    <script src="../../js/index.js"></script>
+    <script src="../../js/components/tree_ctrl.js"></script>
+    <script src="../../js/components/navPath_ctrl.js"></script>
+    <script src="../../js/components/material_ctrl.js"></script>
+    <script src="../../js/components/marker_ctrl.js"></script>
+    <script src="../../js/components/list_material_header_ctrl.js"></script>
+    <script src="../../js/components/list_material_ctrl.js"></script>
+    <script src="../../js/plugins/savePlugin.js"></script>
+    <!-- endbuild -->
+    <title>Web Quick Editing</title>
+</head>
+<body style="background:#1b1b1b;">
+  <template id="tree_ctrl">
+    <li>
+      <div :title="node.name" class="folder_container" :class="{folder_selected : node.selected, folder_hover : dragOver}" v-on:click="click" v-on:dblclick="dblclick" :style="{paddingLeft:12 * node.floor + 'px'}">
+        <span class="triangle_icon" :class="node.open ? 'triangle_icon_down' : 'triangle_icon_right'" v-on:click.stop="nodeToggle(node)"></span>
+        <span :class="node.icon" class="folder_icon"> </span>
+        <span class="folder_name">{{node.name}}</span>
+      </div>
+      <ul v-show="node.open">
+        <tree-ctrl :data="n" v-for="n in node.children.filter(item=>item.type == 'folder').sort(sortFunc)"></tree-ctrl>
+      </ul>
+    </li>
+  </template>
+  <template id="tree_ctrl2">
+    <li>
+      <div :title="node.name" class="folder_container" :class="{folder_selected : node.selected}" v-on:click="click" v-on:dblclick="dblclick" :style="{paddingLeft:12 * node.floor + 'px'}">
+        <span class="triangle_icon" :class="node.open ? 'triangle_icon_down' : 'triangle_icon_right'" v-on:click.stop="nodeToggle(node)"></span>
+        <span :class="node.icon" class="folder_icon"> </span>
+        <span class="folder_name">{{node.name}}</span>
+      </div>
+      <ul v-show="node.open">
+        <tree-ctrl2 :data="n" v-for="n in node.children.filter(item=>item.type == 'folder').sort(sortFunc)"></tree-ctrl2>
+      </ul>
+    </li>
+  </template>
+  <template id="nav_path_ctrl">
+    <div class="history_container">
+      <span class="backup_icon" v-on:click="backUp"></span>
+      <ul class="history_item_container">
+        <li class="history_item" v-on:click="click(path)" v-for="path in navPath">
+          <a :title="path.name">{{path.name}}</a>
+        </li>
+      </ul>
+    </div>
+  </template>
+  <template id=list_material_header_ctrl>
+      <div class="list_header_container" :style="{width: headerWidth+'px'}">
+        <div class="header_filter_container" v-show="filterSymbol">
+          <div class="header_all_box">
+          <input type="checkbox" id="checkAll" v-on:change="selectAll" :checked="selectedAllSymbol"/><label for="checkAll">All</label>
+          </div>
+          <div calss="header_filter_content">
+            <div class="header_filter_item">
+              <input type="checkbox" disabled="disabled" checked="true"/>
+              <label>Stamp</label>
+            </div>
+            <div class="header_filter_item" v-for="header in cheaders">
+              <input type="checkbox" :id="'check_'+header.attr" :disabled="header.name === 'Title'" v-model="header.checked"/>
+              <label :for="'check_'+header.attr">{{header.name}}</label>
+            </div>
+          </div>
+          <div class="mp-foot header_filter_foot">
+            <button class="mp-btn cancel" v-on:click="closeFilter">Cancel</button>
+            <button class="mp-btn ok" v-on:click="saveFilter">Confirm</button>
+          </div>
+        </div>
+        <div class="list_header_item fl list_header_stamp">
+          <span class="list_header_filter fl" v-on:click="openFilterWindow"></span>
+          <span>Stamp</span>
+        </div>
+        <!--div class="list_header_item fl list_header_title" :style="{width: titleWidth + 'px'}">
+          <span class="list_sort_btn btn_up" v-on:mousedown.stop="sortBy({attr: 'name'}, true)"></span>
+          <span class="list_sort_btn btn_down"  v-on:mousedown.stop="sortBy({attr: 'name'}, false)"></span>
+          <span class="drag_area fr" v-on:mousedown.stop="resize($event)"></span>
+          <span>Title</span>
+        </div-->
+        <div class="list_header_item fl" :class="{list_header_item_dragging:header.dragging}" v-for="header in headers"
+         v-on:mousedown="dragstart($event, header)" :style="{width: header.width + 'px'}">
+          <span class="list_sort_btn btn_up" v-on:mousedown.stop="sortBy(header, true)"></span>
+          <span class="list_sort_btn btn_down"  v-on:mousedown.stop="sortBy(header, false)"></span>
+          <span class="drag_area fr" v-on:mousedown.stop="resize($event, header)"></span>
+          <span>{{header.name}}</span>
+        </div>
+        <div class="list_header_item dragging_item" v-show="dragging" :style="{left: x + 'px', width: dragItem.width + 'px'}">
+          <span>{{dragName}}</span>
+        </div>
+      </div>
+  </template>
+  <template id="list_material_ctrl">
+      <div class="list_material_content clearfix" :class="[material.type, material.clipping ? 'material_clipping' : '', 'list_material_bgcolor' + index%2]" :style="{width: headerWidth+'px'}" :draggable="material.type =='video' || material.type =='image'" v-on:dblclick="dblclick"
+        :data-channel='material.channel'
+        :data-from="0"
+        :data-duration="material.duration"
+        :data-audio="material.isAudio"
+        :data-type="material.type"
+        :data-id="material.guid"
+        :data-id2="material.id"
+        :data-name="material.name"
+        :data-icon="material.iconfilename"
+        :data-url="material.iconfilename"
+        :data-source-id="material.typeid"
+        :data-createdate ="material.formatDate">
+        <div v-on:mousemove="mousemove" class="list_material_icon_container fl">
+          <div class="material_status">
+            <div v-if="material.type =='video'">
+              <span class="list_status_item wa" :class="{wa1:!material.WA}"></span>
+              <span class="list_status_item hq" :class="{hq1:!material.HQ}"></span>
+              <span class="list_status_item lq" :class="{lq1:!material.LQ}"></span>
+              <span class="list_status_item db" :class="{db1:!material.DB}"></span>
+              <span class="list_status_item p" :class="{p1:!material.P}"></span>
+              <span class="list_status_item i" :class="{i1:!material.I}"></span>
+            </div>
+          </div>
+          <img draggable="false" class="list_material_icon_img drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+          <span class="list_material_icon_span drag_icon" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
+        </div>
+        <!--div class="list_material_info fl"><span :title="material.name">{{material.name}}</span></div-->
+        <div class="list_material_attr fl" v-for="header in headers" :style="{width: header.width + 'px'}">
+          <span>{{material[header.attr]}}</span>
+        </div>
+      </div>
+  </template>
+  <template id="material_ctrl">
+    <div class="material fl" :class="[material.type, material.clipping ? 'material_clipping' : '']" :draggable="material.type =='video' || material.type =='image'" v-on:dblclick="dblclick"
+      :data-channel='material.channel'
+      :data-from="0"
+      :data-duration="material.duration"
+      :data-audio="material.isAudio"
+      :data-type="material.type"
+      :data-id="material.guid"
+      :data-id2="material.id"
+      :data-name="material.name"
+      :data-icon="material.iconfilename"
+      :data-url="material.iconfilename"
+      :data-source-id="material.typeid"
+      :data-createdate ="material.formatDate">
+      <div class="material_status">
+        <div v-if="material.type =='video'">
+          <span class="status_item wa" :class="{wa1:!material.WA}"></span>
+          <span class="status_item hq" :class="{hq1:!material.HQ}"></span>
+          <span class="status_item lq" :class="{lq1:!material.LQ}"></span>
+          <span class="status_item db" :class="{db1:!material.DB}"></span>
+          <span class="status_item p" :class="{p1:!material.P}"></span>
+          <span class="status_item i" :class="{i1:!material.I}"></span>
+        </div>
+      </div>
+      <div v-on:mousemove="mousemove" class="material_icon_container">
+        <img draggable="false" class="material_icon drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
+        <span class="drag_icon" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
+        <!--img draggable="false" v-if="material.type =='video'" class="preview_img" src="./images/nostamp3.png" :style="{top:top+'px'}">
+        <div draggable="false" v-if="material.type =='video'" class="preview_cell" :style="{left:left+'px'}" >
+        </div-->
+      </div>
+      <div class="material_info"><span :title="material.name">{{material.name}}</span></div>
+    </div>
+  </template>
+
+  <template id="marker_ctrl">
+    <div class="marker_container" v-on:dblclick="dblclick">
+      <div class="marker_icon_box">
+        <div class="marker_color" :style="{backgroundColor: material.color}"></div>
+        <div class="marker_icon">
+          <img draggable="false" class="marker_img" :src="material.iconfilename"/>
+        </div>
+        <span>{{material.typeName}}</span>
+      </div>
+      <div class="marker_pos">
+        <ul v-if="material.isSMarker">
+          <li><span class="timeCodeSpan">in</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.inPoint"></li>
+          <li><span class="timeCodeSpan">out</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.outPoint"></li>
+        </ul>
+        <ul v-else>
+          <li><span class="timeCodeSpan">POS</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
+          <li style="visibility: hidden;"><span class="timeCodeSpan">pos</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
+        </ul>
+      </div>
+      <textarea readonly="readonly" :title="material.note" class="marker_comment">{{material.note}}</textarea></div>
+    </div>
+  </template>
+  <div id="app" v-on:click.capture="hideMenu">
+    <div class="save_plugin">
+       <span class="dir_text" style="position: relative;width: 85px;text-align: left; color: #cfd2d4;">Directory</span>
+       <input type="text"  :value="savePath"  class="mp-input path" style="opacity:0;"/>
+       <div class="folder_box">
+        <vue-nice-scrollbar class="folder_box" :speed="150">
+         <ul>
+           <tree-ctrl2  :data="node" v-for="node in savePath"></tree-ctrl2>
+         </ul>
+         </vue-nice-scrollbar>
+       </div>
+    </div>
+    <div class="left_container" :style="{left:(folderBlockStatus?0:-200)+'px'}">
+      <div class="logo_box">
+        <span>{{dict.pageTitle}}</span>
+      </div>
+      <!--div class="folder_box"-->
+        <vue-nice-scrollbar class="folder_box" :speed="150">
+        <ul>
+          <tree-ctrl  :data="node" v-for="node in nodes"></tree-ctrl>
+        </ul>
+        </vue-nice-scrollbar>
+      <!--/div-->
+      <div class="totalDiskSpace" id ="userStorage" style="height:42px;">
+      </div>
+    </div>
+    <div id="stage_wrapper" class="right_container" :style="{left:(folderBlockStatus?200:0)+'px'}">
+      <div class="top_box">
+        <div id="div_fullTextSearch" style="margin-top:5px; margin-right:3px;"></div>
+        <input type="button" class="advance_search" :value="dict.advancesearch" v-on:click="advanceSearch"/>
+        <input type="button" class="task_monitor" :value="dict.taskmonitor" v-on:click="taskMonitor"/>
+        <div class="materials_count fr">
+            <div class="hidden_bar">
+                <span class="xx_icon fr" v-on:click="userOperationStatus = !userOperationStatus">
+                  <transition name="fade">
+                  <div v-show="userOperationStatus" style="display: none;">
+                    <div class="triangle_top user_operation"></div>
+                    <ul class="operation_box user_operation">
+                      <li class="operation_item" v-on:click.stop="logout">{{dict.logout}}</li>
+                      <li class="operation_item">{{dict.help}}</li>
+                    </ul>
+                  </div>
+                </transition>
+                </span>
+                <span class="username_show">{{userInfo.nickName}}</span>
+                <span class="timeline_icon mt15"  :class="{timeline_icon_disabled:svplayerStatus}" v-on:click="toggleSVMV"></span>
+                <span class="info_icon mt15" :class="{info_icon_disabled:!infoBlockStatus}" v-on:click="toggleInfoBlock"></span>
+                <span class="list_top_icon mt15" :class="{list_top_icon_disabled:!resourceBlockStatus}" v-on:click="toggleResourceBlock"></span>
+                <span class="tree_icon mt15" :class="{tree_icon_disabled:!folderBlockStatus}" v-on:click="toggleFolderBlock"></span>
+            </div>
+        </div>
+      </div>
+      <transition name="fade">
+      <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle">
+         <iframe id="previewifm" class="sv_player" :src="previewUrl">
+         </iframe>
+         <div class="sv_marker_list">
+         </div>
+      </div>
+    </transition>
+      <div id="resourceList" class="materials_container" v-show="resourceBlockStatus">
+        <div class="toolbar_box">
+          <nav-path-ctrl></nav-path-ctrl>
+          <div class="materials_count fr">
+            <span class="text_nomarl">{{dict.items}}</span>
+            <span class="text_strong">{{materialsCount}}</span>
+            <span class="list_icon" :class="{list_icon_active:listSymbol}" v-on:click="switchListThumb(true)"></span>
+            <span class="thumbnail_icon" :class="{thumbnail_icon_active:!listSymbol}" v-on:click="switchListThumb(false)"></span>
+            <span class="sortby_icon" v-show="!listSymbol" v-on:click="sortByStatus = !sortByStatus" :title="dict.sort">
+              <transition name="fade">
+              <div class="menu_box" v-show="sortByStatus"  style="display: none;">
+                <div class="triangle_top sort_by"></div>
+                <ul class="operation_box sort_by">
+                  <li class="operation_item" v-on:click.stop="orderBy('title', true)">{{dict.title + '  ↑'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('title', false)">{{dict.title + '  ↓'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('createTime', true)">{{dict.createTime + '  ↑'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('createTime', false)">{{dict.createTime + '  ↓'}}</li>
+                  <li class="operation_item" v-on:click.stop="orderBy('type')">{{dict.type}}</li>
+                </ul>
+              </div>
+              </transition>
+            </span>
+            <span class="refresh_icon" v-on:click="refreshMaterial"></span>
+          </div>
+        </div>
+        <vue-nice-scrollbar class="scrollbar_container" :speed="150">
+          <div class="material_box clearfix" :class="{list_material_box:listSymbol, marker_material_box: currentCtrl=='marker-ctrl'}">
+            <list-material-header-ctrl v-show="listSymbol"></list-material-header-ctrl>
+            <component :is="currentCtrl" :data="m" :index="index" v-for="(m, index) in _materials" keep-alive>
+            </component>
+          </div>
+        </vue-nice-scrollbar >
+      </div>
+      <div id="player">
+      </div>
+    </div>
+    <div id="editor" class="h5editor ani" v-on:click.capture="showMV"></div>
+    <iframe class="taskmonitorifm" :src="taskMonitorUrl"></iframe>
+  </div>
+  <script src="./js/app.js"></script>
+</body>
+</html>

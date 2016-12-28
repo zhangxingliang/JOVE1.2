@@ -32,7 +32,7 @@ const list_material_header_ctrl = {
     selectAll() {
       if (this.$data.__headers.every(item => item.checked)) {
         this.$data.__headers.forEach(item => {
-          if (item.name !== 'Title') {
+          if (item.attr !== 'name') {
             item.checked = false
           }
         })
@@ -48,7 +48,7 @@ const list_material_header_ctrl = {
           var H5Window = this.$store.state.editor.Controls.H5Window
           this.filterWindow = new H5Window({
             content: $('.header_filter_container')[0],
-            title: 'Column Filter'
+            title: this.dict.columnFilter
           })
         }
         this.filterWindow.show()
@@ -71,7 +71,7 @@ const list_material_header_ctrl = {
       this.filterWindow.hide()
     },
     dragstart(event, header) {
-      if (header.name === 'Title') {
+      if (header.attr === 'name') {
         return false
       }
       var ele = event.target.tagName === 'DIV' ? $(event.target) : $(event.target).parent()
@@ -189,6 +189,9 @@ const list_material_header_ctrl = {
             width: item1.width + item2.width
           }
         }).width + 121
+    },
+    dict() {
+      return this.$store.state.dict
     }
   }
 }

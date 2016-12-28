@@ -51,6 +51,7 @@ Array.prototype.unique = function() {
   return r;
 }
 String.prototype.formatDate = function() {
+  if (/:/g.test(this)) return this.replace('/["\']/g', '')
   var sec = this.match(/\d+/g)
   var dt = new Date()
   dt.setTime(sec)
@@ -514,8 +515,71 @@ const util = {
 }
 function sortLikeWinBy(attr) {
   return function(str1, str2) {
-    var a = str1[attr].toUpperCase();
-    var b = str2[attr].toUpperCase();
+    try {
+      if (str1[attr] === undefined)
+        str1[attr] = '';
+      if (str2[attr] === undefined)
+        str2[attr] = '';
+      var a = str1[attr].toUpperCase();
+      var b = str2[attr].toUpperCase();
+      var reg = /[0-9]+/g;
+      var lista = a.match(reg);
+      var listb = b.match(reg);
+      if (!lista || !listb) {
+        return CommonCompare(a, b);
+      }
+      for (var i = 0, minLen = Math.min(lista.length, listb.length); i < minLen; i++) {
+        //数字所在位置序号
+        var indexa = a.indexOf(lista[i]);
+        var indexb = b.indexOf(listb[i]);
+        //数字前面的前缀
+        var prefixa = a.substring(0, indexa);
+        var prefixb = b.substring(0, indexb);
+        //数字的string
+        var stra = lista[i];
+        var strb = listb[i];
+        //数字的值
+        var numa = parseInt(stra);
+        var numb = parseInt(strb);
+        //如果数字的序号不等或前缀不等，属于前缀不同的情况，直接比较
+        if (indexa != indexb || prefixa != prefixb) {
+          return CommonCompare(a, b);
+        } else {
+          //数字的string全等
+          if (stra === strb) {
+            //如果是最后一个数字，比较数字的后缀
+            if (i == minLen - 1) {
+              return CommonCompare(a.substring(indexa + 1), b.substring(indexb + 1));
+            }
+            //如果不是最后一个数字，则循环跳转到下一个数字，并去掉前面相同的部分
+            else {
+              a = a.substring(indexa + stra.length);
+              b = b.substring(indexa + stra.length);
+            }
+          }
+          //如果数字的string不全等，但值相等
+          else if (numa == numb) {
+            //直接比较数字前缀0的个数，多的更小
+            return strb.lastIndexOf(numb + '') - stra.lastIndexOf(numa + '');
+          } else {
+            //如果数字不等，直接比较数字大小
+            return numa - numb;
+          }
+        }
+      }
+    } catch (e) {
+      return -1;
+    }
+  }
+}
+function SortLikeWin(str1, str2) {
+  try {
+    if (str1.name === undefined)
+      str1.name = '';
+    if (str2.name === undefined)
+      str2.name = '';
+    var a = str1.name.toUpperCase();
+    var b = str2.name.toUpperCase();
     var reg = /[0-9]+/g;
     var lista = a.match(reg);
     var listb = b.match(reg);
@@ -561,55 +625,8 @@ function sortLikeWinBy(attr) {
         }
       }
     }
-  }
-}
-function SortLikeWin(str1, str2) {
-  var a = str1.name.toUpperCase();
-  var b = str2.name.toUpperCase();
-  var reg = /[0-9]+/g;
-  var lista = a.match(reg);
-  var listb = b.match(reg);
-  if (!lista || !listb) {
-    return CommonCompare(a, b);
-  }
-  for (var i = 0, minLen = Math.min(lista.length, listb.length); i < minLen; i++) {
-    //数字所在位置序号
-    var indexa = a.indexOf(lista[i]);
-    var indexb = b.indexOf(listb[i]);
-    //数字前面的前缀
-    var prefixa = a.substring(0, indexa);
-    var prefixb = b.substring(0, indexb);
-    //数字的string
-    var stra = lista[i];
-    var strb = listb[i];
-    //数字的值
-    var numa = parseInt(stra);
-    var numb = parseInt(strb);
-    //如果数字的序号不等或前缀不等，属于前缀不同的情况，直接比较
-    if (indexa != indexb || prefixa != prefixb) {
-      return CommonCompare(a, b);
-    } else {
-      //数字的string全等
-      if (stra === strb) {
-        //如果是最后一个数字，比较数字的后缀
-        if (i == minLen - 1) {
-          return CommonCompare(a.substring(indexa + 1), b.substring(indexb + 1));
-        }
-        //如果不是最后一个数字，则循环跳转到下一个数字，并去掉前面相同的部分
-        else {
-          a = a.substring(indexa + stra.length);
-          b = b.substring(indexa + stra.length);
-        }
-      }
-      //如果数字的string不全等，但值相等
-      else if (numa == numb) {
-        //直接比较数字前缀0的个数，多的更小
-        return strb.lastIndexOf(numb + '') - stra.lastIndexOf(numa + '');
-      } else {
-        //如果数字不等，直接比较数字大小
-        return numa - numb;
-      }
-    }
+  } catch (e) {
+    return -1;
   }
 }
 function CommonCompare(a, b) {
@@ -1094,16 +1111,24 @@ function GetTimeStringByFrameNum(lFrameNum, lNtscTcMode, videoStandard, framerat
   return (hour < 10 ? '0' + hour : hour) + ":" + (min < 10 ? '0' + min : min) + (df ? "." : ":") + (sec < 10 ? '0' + sec : sec) + ":" + (frm < 10 ? '0' + frm : frm);
 }
 util.setCookie = function(name, value) {
-  var Days = 30;
-  var exp = new Date();
-  exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-  document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+  if (localStorage && localStorage.setItem) {
+    localStorage.setItem(name, value);
+  } else {
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+    document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+  }
 }
 util.getCookie = function(name) {
-  var arr,
-    reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-  if (arr = document.cookie.match(reg))
-    return unescape(arr[2]);
-  else
-    return null;
+  if (localStorage && localStorage.getItem) {
+    return localStorage.getItem(name);
+  } else {
+    var arr,
+      reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg))
+      return unescape(arr[2]);
+    else
+      return null;
+  }
 }

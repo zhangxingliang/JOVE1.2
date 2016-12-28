@@ -94,7 +94,7 @@
           </div>
         </div>
         <div class="list_header_item fl list_header_stamp">
-          <span class="list_header_filter fl" v-on:click="openFilterWindow"></span>
+          <span class="list_header_filter fl" v-on:click="openFilterWindow" :title="dict.columnFilter"></span>
           <span>Stamp</span>
         </div>
         <!--div class="list_header_item fl list_header_title" :style="{width: titleWidth + 'px'}">
@@ -136,8 +136,8 @@
               <span class="list_status_item hq" :class="{hq1:!material.HQ}"></span>
               <span class="list_status_item lq" :class="{lq1:!material.LQ}"></span>
               <span class="list_status_item db" :class="{db1:!material.DB}"></span>
-              <span class="list_status_item p" :class="{p1:!material.P}"></span>
-              <span class="list_status_item i" :class="{i1:!material.I}"></span>
+              <span class="list_status_item p" :class="{p1:!material.P}" :title="material.Ptitle"></span>
+              <span class="list_status_item i" :class="{i1:!material.I}" :title="material.Ititle"></span>
             </div>
           </div>
           <img draggable="false" class="list_material_icon_img drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
@@ -169,8 +169,8 @@
           <span class="status_item hq" :class="{hq1:!material.HQ}"></span>
           <span class="status_item lq" :class="{lq1:!material.LQ}"></span>
           <span class="status_item db" :class="{db1:!material.DB}"></span>
-          <span class="status_item p" :class="{p1:!material.P}"></span>
-          <span class="status_item i" :class="{i1:!material.I}"></span>
+          <span class="status_item p" :class="{p1:!material.P}" :title="material.Ptitle"></span>
+          <span class="status_item i" :class="{i1:!material.I}" :title="material.Ititle"></span>
         </div>
       </div>
       <div v-on:mousemove="mousemove" class="material_icon_container">
@@ -195,12 +195,12 @@
       </div>
       <div class="marker_pos">
         <ul v-if="material.isSMarker">
-          <li><span class="timeCodeSpan">in</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.inPoint"></li>
-          <li><span class="timeCodeSpan">out</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.outPoint"></li>
+          <li><span class="timeCodeSpan">{{dict.in}}</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.inPoint"></li>
+          <li><span class="timeCodeSpan">{{dict.out}}</span><input  class="markTimeCode" readonly="readonly" type="text"  :value="material.outPoint"></li>
         </ul>
         <ul v-else>
-          <li><span class="timeCodeSpan">POS</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
-          <li style="visibility: hidden;"><span class="timeCodeSpan">pos</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
+          <li><span class="timeCodeSpan">{{dict.pos}}</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
+          <li style="visibility: hidden;"><span class="timeCodeSpan">{{dict.pos}}</span><input class="markTimeCode" readonly="readonly" type="text" :value="material.pos"></li>
         </ul>
       </div>
       <textarea readonly="readonly" :title="material.note" class="marker_comment">{{material.note}}</textarea></div>
@@ -208,7 +208,7 @@
   </template>
   <div id="app" v-on:click.capture="hideMenu">
     <div class="save_plugin">
-       <span class="dir_text" style="position: relative;width: 85px;text-align: left; color: #cfd2d4;">Directory</span>
+       <span class="dir_text" style="position: relative;width: 85px;text-align: left; color: #cfd2d4;">{{dict.directory}}</span>
        <input type="text"  :value="savePath"  class="mp-input path" style="opacity:0;"/>
        <div class="folder_box">
         <vue-nice-scrollbar class="folder_box" :speed="150">
@@ -251,10 +251,10 @@
                 </transition>
                 </span>
                 <span class="username_show">{{userInfo.nickName}}</span>
-                <span class="timeline_icon mt15"  :class="{timeline_icon_disabled:svplayerStatus}" v-on:click="toggleSVMV"></span>
-                <span class="info_icon mt15" :class="{info_icon_disabled:!infoBlockStatus}" v-on:click="toggleInfoBlock"></span>
+                <span class="timeline_icon mt15"  :class="{timeline_icon_disabled:svplayerStatus}" v-on:click="toggleSVMV" :title="dict.toggleSVMV"></span>
+                <span class="info_icon mt15" :class="{info_icon_disabled:!infoBlockStatus}" v-on:click="toggleInfoBlock" :title="dict.toggleInfo"></span>
                 <span class="list_top_icon mt15" :class="{list_top_icon_disabled:!resourceBlockStatus}" v-on:click="toggleResourceBlock"></span>
-                <span class="tree_icon mt15" :class="{tree_icon_disabled:!folderBlockStatus}" v-on:click="toggleFolderBlock"></span>
+                <span class="tree_icon mt15" :class="{tree_icon_disabled:!folderBlockStatus}" v-on:click="toggleFolderBlock" :title="dict.toggleFolder"></span>
             </div>
         </div>
       </div>

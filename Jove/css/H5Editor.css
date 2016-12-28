@@ -5878,19 +5878,6 @@ margin-top: 0;
 .glyphicon-fast-backward {
     width:34px;
     height:34px;
-    background:url(../images/tostart_normal.jpg) no-repeat;
-    border:0;
-    outline:none;
-    cursor:pointer;
-    display:inline-block;
-   margin-bottom:10px;
-}
-    .glyphicon-fast-backward:hover {
-        background: url(../images/tostart_over.jpg) no-repeat;
-    }
-.glyphicon-step-backward {
-    width:34px;
-    height:34px;
     background:url(../images/btn5_normal.jpg) no-repeat;
     border:0;
     outline:none;
@@ -5898,8 +5885,21 @@ margin-top: 0;
     display:inline-block;
    margin-bottom:10px;
 }
+    .glyphicon-fast-backward:hover {
+      background: url(../images/btn5_over.jpg) no-repeat;
+    }
+.glyphicon-step-backward {
+    width:34px;
+    height:34px;
+    border:0;
+    outline:none;
+    background:url(../images/tostart_normal.jpg) no-repeat;
+    cursor:pointer;
+    display:inline-block;
+   margin-bottom:10px;
+}
     .glyphicon-step-backward:hover {
-        background: url(../images/btn5_over.jpg) no-repeat;
+        background: url(../images/tostart_over.jpg) no-repeat;
     }
 .glyphicon-step-forward {
     width:34px;

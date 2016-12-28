@@ -17113,10 +17113,9 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                         }
                         return trackEvent;
                     };
-
+                    var id = -1;
                     // 将一个TrackEvent从当前位置移动到 另一个项之前
                     this.moveTrackEvent = function (oldTrackEvent, newAfterTrackEvent, ignoreUndo) {
-
                         var idx = _trackEvents.indexOf(oldTrackEvent);
 
                         if (idx < 0 )
@@ -17138,7 +17137,12 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
 
 
                         if (!ignoreUndo) {
-                            app.undo.push(lang[_curLang].adjustItemLoc);
+                            if (id == -1) {
+                                id = setTimeout(function () {
+                                    app.undo.push(lang[_curLang].adjustItemLoc);
+                                    id = -1;
+                                }, 50)
+                            }
                         }
 
                     };
@@ -18674,6 +18678,16 @@ h5.define('core/Media', [
                           _this.currentTime = _duration - 0.04;
                       };
 
+                      this.findTracks = function (trackType) {
+                          var tracks = [];
+                          _tracks.forEach(function (item, index) {
+                              if (item.trackType == trackType) {
+                                  tracks.push(item);
+                              }
+                          })
+                          return tracks;
+                      };
+
                       this.findTrack = function (trackType) {
                           var track;
                           track = util.first(_tracks, function (track) {
@@ -19802,14 +19816,14 @@ h5.define('timeline/H5TrackContainer', ["jquery",
                   window.removeEventListener("mouseup", onTrackEventMouseUp, false);
                   window.removeEventListener("mousemove", onTrackEventDragStarted, false);
 
-                  if (!originalEvent.shiftKey) {
-                      tracks = _media.tracks;
-                      for (i = 0, length = tracks.length; i < length; i++) {
-                          tracks[i].deselectEvents(trackEvent);
-                      }
-                  } else if (trackEvent.selected && wasSelected) {
-                      trackEvent.selected = false;
-                  }
+                  //if (!originalEvent.shiftKey) {
+                  //    tracks = _media.tracks;
+                  //    for (i = 0, length = tracks.length; i < length; i++) {
+                  //        tracks[i].deselectEvents(trackEvent);
+                  //    }
+                  //} else if (trackEvent.selected && wasSelected) {
+                  //    trackEvent.selected = false;
+                  //}
               }
 
               function onTrackEventDragStarted() {

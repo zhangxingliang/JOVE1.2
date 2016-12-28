@@ -209,7 +209,6 @@ const app = new Vue({
   created() {
     // init
     var _this = this;
-    // 读取cookie中保存的列信��?
     var headerArr = JSON.parse(util.getCookie('item_headers'))
     if (util.isArray(headerArr)) {
       this.$store.commit({
@@ -217,7 +216,6 @@ const app = new Vue({
         data: headerArr
       })
     }
-    // 收藏夹功��?
     if (window.golbalSetting.FAVSWITCH) {
       _this.$store.commit({
         type: types.ADD_FAVORITE
@@ -411,7 +409,6 @@ const app = new Vue({
     document.querySelector('html').appendChild(format)
   },
   mounted() {
-    // 注册消息
     var _this = this
     window.addEventListener("message", function(event) {
       if (event.data.isShortCutKey) {

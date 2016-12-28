@@ -28,6 +28,9 @@ const marker_ctrl = {
   computed: {
     material() {
       return this.data
+    },
+    dict() {
+      return this.$store.state.dict
     }
   }
 }
