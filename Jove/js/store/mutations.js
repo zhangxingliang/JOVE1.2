@@ -38,6 +38,9 @@ const mutations = {
     payload.target.selected = true;
     state.navPath.length = 0 ;
     util.getHistories(payload.target, state.navPath);
+    Vue.nextTick(() => {
+      editor.initDrag()
+    })
   },
   [types.SET_USERINFO](state, payload) {
     state.userInfo = payload.data

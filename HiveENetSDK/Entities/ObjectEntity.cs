@@ -10,6 +10,12 @@ namespace HiveENetSDK
     {
         public string iconfilename { get; set; }
 
+        public string archivestatus { get; set; }
+
+        public string lowgroupstatus { get; set; }
+
+        public string highgroupstatus { get; set; }
+
         public string id { get; set; }
 
         public string guid { get; set; }
@@ -31,6 +37,8 @@ namespace HiveENetSDK
         public string creator { get; set; }
 
         public string modifier { get; set; }
+
+        public string deleteflag { get; set; }
 
         public DateTime createdate { get; set; }
 

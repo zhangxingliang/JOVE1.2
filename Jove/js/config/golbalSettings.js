@@ -233,7 +233,8 @@ window._language = {
     "columnFilter": "Column Filter",
     "toggleSVMV": "Toggle SV/MV",
     "toggleInfo": "Toggle MV Info Page",
-    "toggleFolder": "Toggle Folder Page"
+    "toggleFolder": "Toggle Folder Page",
+    "archived": "The high-res of material is archived. Do you want to continue with low-res?"
   },
   "zh": {
     "content": "内容",
@@ -446,6 +447,7 @@ window._language = {
     "columnFilter": "筛选列",
     "toggleSVMV": "切换SV/MV",
     "toggleInfo": "切换MV信息",
-    "toggleFolder": "切换文件夹"
+    "toggleFolder": "切换文件夹",
+    "archived": "The high-res of material is archived. Do you want to continue with low-res?"
   }
 }

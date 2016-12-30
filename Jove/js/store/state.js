@@ -113,6 +113,13 @@ const state = {
       checked: true,
     },
     {
+      name: 'Storage Status',
+      attr: 'onlinstatus',
+      width: 200,
+      dragging: false,
+      checked: true,
+    },
+    {
       name: 'HV',
       attr: 'hv',
       width: 100,

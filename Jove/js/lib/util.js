@@ -312,8 +312,7 @@ const util = {
           node.iconfilename = item.entity.iconfilename ? util.getIconFilename(item.entity.iconfilename) : ''
           node.subtype = item.entity.subtype
           util.extendData(item, node)
-          //try
-          {
+          try {
             if (node.type === 'video') {
               if (item.entity.item) {
                 node.duration = item.entity.item.length / 10000000
@@ -346,7 +345,7 @@ const util = {
                 }
               }
             }
-          } // catch (e) {}
+          } catch (e) {}
           node.floor = floor
           node.selected = false
           node.father = father
@@ -874,7 +873,7 @@ util.extendData = function(sdata, node) {
     if (clipData.creator.length == 32) {
       node.creatorName = getUserNameByUserCode(clipData.creator, _userToken);
     } else {
-      nodecreatorName = clipData.creator;
+      node.creatorName = clipData.creator;
     }
   }
   //修改者
@@ -885,6 +884,11 @@ util.extendData = function(sdata, node) {
       node.modifierName = clipData.modifier;
     }
   }
+  //  Storage Status
+  if (clipData.type == "32") {
+    node.onlinstatus = (clipData.archivestatus == undefined ? "Online" : (clipData.archivestatus == "online_deleted" ? "Archived" : "Online"))
+  }
+
   //素材状态
   var clipStatus = "";
   if (clipData.item != undefined) {
@@ -956,7 +960,7 @@ util.extendData = function(sdata, node) {
   }
   node.comments = clipData.note;
   node.modificationDate = clipData.modifydate.formatDate();
-  node.clipStatus = GetClipStatus(clipData.status);
+  //node.clipStatus = GetClipStatus(clipData.status);
   node.rights = clipData.rights;
 
   if (node.type === 'image') {

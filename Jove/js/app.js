@@ -261,29 +261,45 @@ const app = new Vue({
         }).then(res => {
           if (res.data.Code === '0') {
             var entity = res.data.Ext
-            if (!entity.streammedia || !entity.streammedia[0] || !entity.entity.item.clipfile.length) {
-              util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
-            } else {
-              // pic
-              if (entity.entity.type == "32" && entity.entity.subtype == "32") {
-                callback(true, {
-                  source: entity.streammedia[0].filepath,
-                  duration: 10
-                })
-              } else {
-                // video
-                if (data.in != undefined) {
-                  callback(true, {
-                    source: entity.streammedia[0].filepath,
-                    duration: data.out - data.in
-                  })
-                } else {
-                  callback(true, {
-                    source: entity.streammedia[0].filepath,
-                    duration: entity.entity.item.length / 10000000
-                  })
+            if (entity.entity.archivestatus == "online_deleted") {
+              var dialog
+              dialog = new _this.editor.Controls.Dialog({
+                title: lang[_curLang].tip,
+                content: lang[_curLang].archived,
+                style: 'question',
+                button: lang[_curLang].confirmFlag,
+                ok: function() {
+                  if (!entity.streammedia || !entity.streammedia[0] || !entity.entity.item.clipfile.length) {
+                    util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
+                  } else {
+                    // pic
+                    if (entity.entity.type == "32" && entity.entity.subtype == "32") {
+                      callback(true, {
+                        source: entity.streammedia[0].filepath,
+                        duration: 10
+                      })
+                    } else {
+                      // video
+                      if (data.in != undefined) {
+                        callback(true, {
+                          source: entity.streammedia[0].filepath,
+                          duration: data.out - data.in
+                        })
+                      } else {
+                        callback(true, {
+                          source: entity.streammedia[0].filepath,
+                          duration: entity.entity.item.length / 10000000
+                        })
+                      }
+                    }
+                  }
+                },
+                cancel: function() {
+                  callback(false, null)
+                  return
                 }
-              }
+              })
+              dialog.open()
             }
           } else {
             util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].getClipInfoFailed, 'warn', 'OK')

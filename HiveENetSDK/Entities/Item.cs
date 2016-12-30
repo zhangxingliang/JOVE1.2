@@ -147,5 +147,7 @@ namespace HiveENetSDK
         /// 
         /// </summary>
         public long vtrout { get; set; }
+
+        public string capturestatus { get; set; }
     }
 }

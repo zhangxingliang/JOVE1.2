@@ -28,6 +28,12 @@ namespace HiveENetSDK
         /// </summary>
         public string type { get; set; }
 
+        public string archivestatus { get; set; }
+
+        public string lowgroupstatus { get; set; }
+
+        public string highgroupstatus { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -163,6 +169,8 @@ namespace HiveENetSDK
         /// </summary>
         public string markout { get; set; }
 
+
+        public int deleteflag { get; set; }
         /// <summary>
         /// 
         /// </summary>

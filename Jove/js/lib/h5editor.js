@@ -6454,6 +6454,7 @@ if (typeof global !== "undefined") {
                    _this.dispatchEvent("waiting");
                });
                v.addEventListener("canplaythrough", function () {
+                   if(!app.media.paused)
                    _this.dispatchEvent("canplaythrough");
                });
                v.addEventListener("seeked", function () {
@@ -10205,6 +10206,9 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               if (_linkedTrackEvent && app.media.isLinked) {
                   _linkedElement = _linkedTrackEvent.view.element;
               }
+              else {
+                  _linkedElement = null;
+              }
               var originalRect = element.getBoundingClientRect(),
                   originalPosition = element.offsetLeft,
                   originalWidth = element.clientWidth,
@@ -10338,6 +10342,9 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               _linkedTrackEvent = _trackEvent.track.findLinkedTrackEvent(_trackEvent);
               if (_linkedTrackEvent  && app.media.isLinked) {
                   _linkedElement = _linkedTrackEvent.view.element;
+              }
+              else {
+                  _linkedElement = null;
               }
               var originalPosition = element.offsetLeft,
                   originalWidth = element.offsetWidth,
@@ -17246,7 +17253,7 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                         else if (this.trackType === 'VA') {
                             levent =  app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
                         }
-                        if (levent && levent.popcornOptions.start === event.popcornOptions.start) {
+                        if (levent && levent.popcornOptions.start === event.popcornOptions.start && levent.popcornOptions.end === event.popcornOptions.end) {
                             return levent
                         }
                     }
@@ -22248,11 +22255,11 @@ h5.define('plug/Dialog', ["jquery", "util/Object", "templates/DialogLayout", "ut
                     var _okbtnElement = $(_okbtnHtml)[0];
                     $(parentElement).append(_okbtnElement);
                     _okbtnElement.addEventListener("click", function () {
+                        _this.close();
                         if (typeof _options.ok === 'function') {
                             //存在且是function
                             _options.ok();
                         }
-                        _this.close();
                     })
 
                     if (_cancelbtnHtml) {
