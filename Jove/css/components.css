@@ -134,7 +134,7 @@
   width: 150px;
   height: 130px;
   box-sizing: border-box;
-  margin: 8px 8px;
+  margin: 8px 7px;
   background: #393939;
   position: relative;
   border: 1px solid #393939;
@@ -694,7 +694,7 @@
   height: 33px;
   line-height: 33px;
   padding-left: 10px;
-  background:#191919;
+  background:#313131;
   border-bottom:1px #1f1f1f solid;
   line-height:30px;
 }
@@ -709,4 +709,80 @@
 }
 .header_filter_content {
     height:270px;
+}
+.sv_marker_container
+{
+  height: 160px;
+  padding: 0 4px;
+  background: #404040;
+  border:1px solid transparent;
+  margin-bottom: 2px;
+}
+.sv_marker_container:hover{
+  border: 1px solid #f5a623;
+}
+.sv_marker_title_container
+{
+  line-height: 30px;
+}
+.sv_marker_icon_box
+{
+  position: relative;
+  height: 65px;
+}
+.sv_marker_color
+{
+  width: 10px;
+  height: 65px;
+}
+.sv_marker_icon
+{
+  vertical-align: middle;
+  text-align: center;
+  width: 120px;
+  height: 65px;
+  background: #2e2e2e;
+}
+.sv_marker_pos
+{
+  width: 110px;
+}
+.sv_timeCodeSpan
+{
+
+}
+.sv_markTimeCode
+{
+  font-size: 12px;
+  color: #fff;
+  background: #303030;
+  border: none;
+  resize: none;
+  outline: none;
+  font-family: Arial;
+  text-align: center;
+  width: 65px;
+  margin-left: 5px;
+  height: 30px;
+}
+.sv_marker_comment
+{
+  overflow: hidden;
+  height: 45px;
+  color: #fff;
+  padding: 5px;
+  margin-top: 5px;
+  font-family: inherit;
+  background: #303030;
+  display: block;
+  width: 230px;
+  border: none;
+  resize: none;
+}
+.list_material_clipping
+{
+  width: 6px;
+  height: 65px;
+  position: absolute;
+  background: rgba(195,87,0,1);
 }

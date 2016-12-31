@@ -9,6 +9,7 @@
     <link href="../../css/H5Editor.css" rel="stylesheet" />
     <link href="../../css/main.css" rel="stylesheet" />
     <link href="../../css/components.css" rel="stylesheet" />
+    <link href="../../css/jquery-ui.custom.css" rel="stylesheet" />
     <!-- endbuild -->
     <script src="../../Home/Par" ></script>
     <!-- build:js scripts/combined.js -->
@@ -31,6 +32,7 @@
     <script src="../../js/components/navPath_ctrl.js"></script>
     <script src="../../js/components/material_ctrl.js"></script>
     <script src="../../js/components/marker_ctrl.js"></script>
+    <script src="../../js/components/sv_marker_ctrl.js"></script>
     <script src="../../js/components/list_material_header_ctrl.js"></script>
     <script src="../../js/components/list_material_ctrl.js"></script>
     <script src="../../js/plugins/savePlugin.js"></script>
@@ -140,6 +142,7 @@
               <span class="list_status_item i" :class="{i1:!material.I}" :title="material.Ititle"></span>
             </div>
           </div>
+          <div class="list_material_clipping" v-if="material.clipping"></div>
           <img draggable="false" class="list_material_icon_img drag_icon" v-if="material.iconfilename" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'">
           <span class="list_material_icon_span drag_icon" v-else :style="{background: 'url(./images/' + material.bgtype + '.png) no-repeat center center'}" ></span>
         </div>
@@ -183,13 +186,35 @@
       <div class="material_info"><span :title="material.name">{{material.name}}</span></div>
     </div>
   </template>
-
+  <template id="sv_marker_ctrl">
+    <div class="sv_marker_container" v-on:dblclick="dblclick(material)">
+      <div class="sv_marker_title_container">
+        <span>{{material.typeName}}</span>
+      </div>
+      <div class="sv_marker_icon_box">
+        <div class="sv_marker_color fl" :style="{backgroundColor: material.color}"></div>
+        <div class="sv_marker_icon fl">
+          <img draggable="false" class="sv_marker_img" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'" style="max-width: 120px;max-height: 65px;"/>
+        </div>
+        <div class="sv_marker_pos fl">
+          <div v-if="material.isSMarker">
+            <div class="fr" style="margin-bottom: 5px"><span class="sv_timeCodeSpan">{{dict.in}}</span><input  class="sv_markTimeCode" readonly="readonly" type="text"  :value="material.inPoint"></div>
+            <div class="fr"><span class="sv_timeCodeSpan">{{dict.out}}</span><input  class="sv_markTimeCode" readonly="readonly" type="text"  :value="material.outPoint"></div>
+          </div>
+          <div v-else>
+            <div class="fr"><span class="sv_timeCodeSpan">{{dict.pos}}</span><input class="sv_markTimeCode" readonly="readonly" type="text" :value="material.pos"></div>
+          </div>
+        </div>
+      </div>
+      <textarea readonly="readonly" :title="material.note" class="sv_marker_comment">{{material.note}}</textarea></div>
+    </div>
+  </template>
   <template id="marker_ctrl">
     <div class="marker_container" v-on:dblclick="dblclick">
       <div class="marker_icon_box">
         <div class="marker_color" :style="{backgroundColor: material.color}"></div>
         <div class="marker_icon">
-          <img draggable="false" class="marker_img" :src="material.iconfilename"/>
+          <img draggable="false" class="marker_img" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'"/>
         </div>
         <span>{{material.typeName}}</span>
       </div>
@@ -259,10 +284,24 @@
         </div>
       </div>
       <transition name="fade">
-      <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle">
+      <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle" v-on:drop.prevent="dropInSV">
          <iframe id="previewifm" class="sv_player" :src="previewUrl">
          </iframe>
          <div class="sv_marker_list">
+           <div class="sv_marker_title_box">
+             <span>{{dict.markPoint}}</span>
+           </div>
+             <div class="sv_marker_nav clearfix">
+              <div :class="{markSelected: esMarkerSymbol}" class="sv_marker_nav_item fl" v-on:click="esMarkerSymbol = !esMarkerSymbol">Essence Mark</div>
+              <div :class="{markSelected: scMarkerSymbol}" class="sv_marker_nav_item fl" v-on:click="scMarkerSymbol = !scMarkerSymbol">Scene Mark</div>
+              <div :class="{markSelected: chMarkerSymbol}" class="sv_marker_nav_item fl" v-on:click="chMarkerSymbol = !chMarkerSymbol">Change Mark</div>
+            </div>
+            <vue-nice-scrollbar :speed="150" style="height:calc(100% - 80px);">
+              <div class="sv_marker_box">
+                <sv-marker-ctrl :data="m" v-for="m in _svMarkerList">
+                </sv-marker-ctrl>
+              </div>
+          </vue-nice-scrollbar>
          </div>
       </div>
     </transition>

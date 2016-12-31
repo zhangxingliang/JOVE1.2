@@ -12,6 +12,12 @@ const app = new Vue({
     listSymbol: true,
     taskMonitorUrl: '',
     taskMonitorWindow: null,
+    svplayerStyle: {
+      right: '0'
+    },
+    esMarkerSymbol: true,
+    scMarkerSymbol: true,
+    chMarkerSymbol: true,
   },
   components: {
     'tree-ctrl': tree_ctrl,
@@ -22,8 +28,12 @@ const app = new Vue({
     'tree-ctrl2': tree_ctrl2,
     'list-material-header-ctrl': list_material_header_ctrl,
     'list-material-ctrl': list_material_ctrl,
+    'sv-marker-ctrl': sv_marker_ctrl,
   },
   computed: {
+    _svMarkerList() {
+      return this.$store.state.svMarkerList.filter(item => this[item.tag + 'Symbol'])
+    },
     dict() {
       return this.$store.state.dict
     },
@@ -91,11 +101,14 @@ const app = new Vue({
     svplayerStatus() {
       return this.$store.state.svplayerStatus
     },
-    svplayerStyle() {
-      return this.$store.state.svplayerStyle
-    },
   },
   methods: {
+    dropInSV(event) {
+      var data = JSON.parse(ev.dataTransfer.getData("Text"));
+      document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&id=' + data.data.clipid + '&uk=' + _userToken);
+      $scope.previewGuid = data.data.clipid;
+      $scope.getMarkerList(data.data.clipid);
+    },
     switchListThumb(symbol) {
       if (this.materials.length > 0 && this.materials[0].type === 'marker') {
       } else {
@@ -150,8 +163,10 @@ const app = new Vue({
     toggleInfoBlock() {
       if (this.infoBlockStatus) {
         _infoResizer.hide()
+        this.svplayerStyle.right = '-250px'
       } else {
         _infoResizer.show()
+        this.svplayerStyle.right = 0
       }
       this.infoBlockStatus = !this.infoBlockStatus
     },
@@ -300,6 +315,31 @@ const app = new Vue({
                 }
               })
               dialog.open()
+            } else {
+              if (!entity.streammedia || !entity.streammedia[0] || !entity.entity.item.clipfile.length) {
+                util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
+              } else {
+                // pic
+                if (entity.entity.type == "32" && entity.entity.subtype == "32") {
+                  callback(true, {
+                    source: entity.streammedia[0].filepath,
+                    duration: 10
+                  })
+                } else {
+                  // video
+                  if (data.in != undefined) {
+                    callback(true, {
+                      source: entity.streammedia[0].filepath,
+                      duration: data.out - data.in
+                    })
+                  } else {
+                    callback(true, {
+                      source: entity.streammedia[0].filepath,
+                      duration: entity.entity.item.length / 10000000
+                    })
+                  }
+                }
+              }
             }
           } else {
             util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].getClipInfoFailed, 'warn', 'OK')
@@ -555,7 +595,9 @@ const app = new Vue({
       data: _userToken
     }).then(() => {
       var _this = this;
-      _this.taskMonitorUrl = _tkUrl + "TaskMonitor.html?UserCode=" + $.base64.encode(_this.userInfo.userCode)
+      setTimeout(() => {
+        _this.taskMonitorUrl = _tkUrl + "TaskMonitor.html?UserCode=" + $.base64.encode(_this.userInfo.userCode)
+      }, 1000);
       var fulltext = document.createElement("script")
       fulltext.setAttribute("src", golbalSetting.CM + "/js/plugins/jquery.fulltextsearch.js" + version)
       document.querySelector('html').appendChild(fulltext)

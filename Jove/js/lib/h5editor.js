@@ -8518,7 +8518,7 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
             this.hide = function () {
                 handlerElement.width(0);
                 //firstElement.css({ right: 0 + 'px' });
-                $('#resourceList').css({ right: 644 + 'px' });
+                $('#resourceList').css({ right: 640 + 'px' });
                 $('#player').css({ right:  -250 + 'px' });
                 //_this.dispatchEvent("resize");
             }
@@ -8527,7 +8527,7 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                 firstElement.css({ right: 250 + 'px' });
                 var width = firstElement.width();
                 handlerElement.css({ right: 0 + 'px' });
-                $('#resourceList').css({ right: 894 + 'px' });
+                $('#resourceList').css({ right: 890 + 'px' });
                 $('#player').css({ right: 0 + 'px' });
                 //_this.dispatchEvent("resize");
             }

@@ -213,21 +213,43 @@ const actions = {
     })
   },
   [types.REFRESH_MATERIAL](context, payload) {
-    var URL = util.getUrl('Cm/GetClipList')
-    return new Promise((resolve, reject) => {
-      axios.post(URL, {
-        usertoken: _userToken,
-        path: payload.source.path,
-        siteCode: _siteCode
-      }).then(res => {
-        context.commit({
-          type: types.SET_MATERIALS,
-          target: payload.source,
-          data: util.parseData(res.data, payload.source)
+    if (payload.source.guid === 1) {
+
+    } else if (payload.source.guid === 2) {
+      return new Promise((resolve, reject) => {
+        context.dispatch({
+          type: types.GET_SEARCHRESULT,
+          source: payload.source
+        }).then(() => {
+          resolve()
         })
-        resolve()
       })
-    })
+    } else if (payload.source.guid === -1) {
+      return new Promise((resolve, reject) => {
+        context.dispatch({
+          type: types.GET_FAVORITERESULT,
+          source: payload.source
+        }).then(() => {
+          resolve()
+        })
+      })
+    } else {
+      var URL = util.getUrl('Cm/GetClipList')
+      return new Promise((resolve, reject) => {
+        axios.post(URL, {
+          usertoken: _userToken,
+          path: payload.source.path,
+          siteCode: _siteCode
+        }).then(res => {
+          context.commit({
+            type: types.SET_MATERIALS,
+            target: payload.source,
+            data: util.parseData(res.data, payload.source)
+          })
+          resolve()
+        })
+      })
+    }
   },
   [types.UPDATE_MATERIALS](context, payload) {
     var tarr = payload.data.type.split('.')
@@ -242,6 +264,21 @@ const actions = {
       })
     } else if (tarr[2] == 'RECYCLED' || tarr[2] == 'MOVED') {
       util.deleteMaterial(context.state.nodes, payload.data)
+    }
+    //for sv material
+    if (context.state.previewUrl.indexOf(payload.data.guid) > 0) {
+      context.dispatch({
+        type: types.GET_OBJECT_INFO,
+        data: {
+          clipid: payload.data.guid,
+          sourceid: '32'
+        }
+      }).then((res) => {
+        context.commit({
+          type: types.SET_SVMARKERS,
+          data: util.getMarkerList(res.data.Ext)
+        })
+      })
     }
   },
   [types.GET_FAVORITERESULT](context, payload) {

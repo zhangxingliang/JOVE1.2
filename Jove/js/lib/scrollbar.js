@@ -307,6 +307,7 @@
           var next = vScrollbar / 100 * (orientation == 'vertical' ? this.scrollContentHeight : this.scrollContentWidth);
           if (orientation == 'vertical') this.normalizeVertical(next);
           if (orientation == 'horizontal') this.normalizeHorizontal(next);
+          this.moveTheScrollbar();
         }
       },
 
@@ -426,12 +427,21 @@
             if (val.height != old.height) this.calculateSize();
           },
           deep: true
+        },
+        container: {
+          handler: function(val, old) {
+            if (val.width != old.width) this.calculateSize();
+          },
+          deep: true
         }
       },
 
       methods: {
         calculateSize: function calculateSize() {
           this.height = this.container.height / this.content.height * 100;
+          if (this.height + this.scrolling.v > 100) {
+            this.onChangePosition(100 - this.height, 'vertical');
+          }
           if (this.height > 100) {
             this.onChangePosition(0, 'vertical');
             this.onChangePosition(0, 'horizontal');
@@ -618,6 +628,12 @@
             if (val.width != old.width) this.calculateSize();
           },
           deep: true
+        },
+        container: {
+          handler: function(val, old) {
+            if (val.width != old.width) this.calculateSize();
+          },
+          deep: true
         }
       },
 
@@ -682,6 +698,9 @@
         },
         calculateSize: function calculateSize() {
           this.width = this.container.width / this.content.width * 100;
+          if (this.width + this.scrolling.h > 100) {
+            this.onChangePosition(100 - this.width, 'horizontal');
+          }
           if (this.width > 100) {
             this.onChangePosition(0, 'horizontal');
           }

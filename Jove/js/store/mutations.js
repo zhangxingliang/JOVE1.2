@@ -66,17 +66,17 @@ const mutations = {
     state.previewUrl = payload.data
   },
   [types.ACTIVE_SVPLAYER](state, payload) {
-    if (state.resourceBlockStatus) {
+    /*if (state.resourceBlockStatus) {
       state.svplayerStyle = {
         right: 0 + 'px'
-      }
-      state.editor.media.pause();
-      state.svplayerStatus = true
-    } else {
-      state.svplayerStyle = {
-        right: '860px'
-      }
+      }*/
+    state.editor.media.pause();
+    state.svplayerStatus = true
+  /*} else {
+    state.svplayerStyle = {
+      right: '860px'
     }
+  }*/
   },
   [types.DISACTIVE_SVPLAYER](state, payload) {
     if (state.resourceBlockStatus) {
@@ -89,7 +89,7 @@ const mutations = {
 
     }
   },
-  [types.MOVE_SVPLAYER](state, payload) {
+  /*[types.MOVE_SVPLAYER](state, payload) {
     state.svplayerStyle = {
       right: 0 + 'px'
     }
@@ -111,7 +111,7 @@ const mutations = {
       }
     }
     state.resourceBlockStatus = !state.resourceBlockStatus
-  },
+  },*/
   [types.SET_ALWAYSGET](state, payload) {
     state.alwaysGet = payload.data
   },
@@ -157,4 +157,7 @@ const mutations = {
       favorites: []
     })
   },
+  [types.SET_SVMARKERS](state, payload) {
+    state.svMarkerList = payload.data
+  }
 }

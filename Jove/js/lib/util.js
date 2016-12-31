@@ -1136,3 +1136,71 @@ util.getCookie = function(name) {
       return null;
   }
 }
+util.getMarkerList = function(data) {
+  var outmarkers = [];
+  var marklist = data.entity.item.markpoints;
+  var framerate = 25.0;
+  if (data.entity.item && data.entity.item.videostandard) {
+    var vs = ETGetVideoFrameRate(data.entity.item.videostandard);
+    framerate = vs.nTimeRate / vs.nTimeScale;
+    marklist.forEach((item, index) => {
+      if (item.color) {
+        var RedColor = (item.color & 0x0000ff);
+        var Gcolor = ((item.color & 0x00ff00) >> 8);
+        var Bcolor = ((item.color & 0xff0000) >> 16);
+        item.bgcolor = {
+          background: 'rgb(' + RedColor + "," + Gcolor + "," + Bcolor + ')'
+        };
+      } else {
+
+      }
+      if (item.type == "4") {
+        item.typeName = "Scene Mark";
+        item.tag = 'scMarker'
+        item.isSMarker = true;
+        item.inPoint = util.frameToTime(item.keyframe, framerate);
+        item.outPoint = util.frameToTime(item.endkeyframe, framerate);
+        item.name = '4';
+        item.color = 'rgb(100,100,100)';
+        item.time = item.keyframe / framerate;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+        item.intime = item.keyframe / framerate;
+        item.outtime = item.endkeyframe / framerate;
+      //var outmarker = angular.copy(item);
+      //outmarker.time = item.endkeyframe / framerate;
+      //  outmarker.guid = new Date().getTime() * 2;
+      //outmarkers.push(outmarker);
+      } else if (item.type == "8") {
+        item.typeName = "Esscene Mark";
+        item.tag = 'esMarker'
+        item.pos = util.frameToTime(item.keyframe, framerate);
+        item.name = '5';
+        item.color = 'rgb(150,150,100)';
+        item.time = item.keyframe / framerate;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+      } else if (item.type == "65536") {
+        item.typeName = "Logging Mark";
+        item.tag = 'loMarker'
+        item.pos = util.frameToTime(item.keyframe, framerate);
+        item.name = '6';
+        item.color = 'rgb(150,100,150)';
+        item.time = item.keyframe / framerate;;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+      } else if (item.type == "131072") {
+        item.typeName = "Change Mark";
+        item.flag = 'chMarker'
+        item.pos = util.frameToTime(item.keyframe, framerate);
+        item.name = '7';
+        item.color = 'rgb(250,150,200)';
+        item.time = item.keyframe / framerate;;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+      }
+      item.iconfilename = util.getIconFilename(item.iconfilename)
+    });
+  }
+  return marklist;
+}

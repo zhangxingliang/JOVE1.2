@@ -56,11 +56,8 @@ const state = {
   },
   editor: {},
   previewBaseUrl: golbalSetting.CM + '/ModulePage/webpreview.html',
-  previewUrl: golbalSetting.CM + '/ModulePage/webpreview.html',
+  previewUrl: golbalSetting.CM + '/ModulePage/webpreview.html?type=32&ep=JOVE',
   svplayerStatus: false,
-  svplayerStyle: {
-    right: '860px'
-  },
   resourceBlockStatus: true,
   alwaysGet: false,
   saveFolder: {},
@@ -69,6 +66,7 @@ const state = {
     symbol: true,
   },
   dict: _language[_curLang],
+  svMarkerList: [],
   headers: [
     {
       name: 'Title',

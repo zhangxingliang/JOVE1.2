@@ -329,9 +329,9 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 	}
 .sv_player
 {
-  border: none;
+    border: none;
 	width: 645px;
-	height: 470px;
+	height: 100%;
 	position: relative;
 }
 .sv_container
@@ -607,4 +607,50 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
 	width: 900px;
   height: 650px;
 	border:none;
+}
+.sv_marker_list
+{
+  position: absolute;
+  right: 0;
+  width: 250px;
+  top: 0;
+  bottom: 0;
+  background: #303030;
+}
+.sv_marker_title_box
+{
+  line-height: 43px;
+  font-size: 15px;
+  color: #9b9b9b;
+  padding: 0 24px;
+  background-color: #2d2d2d;
+  text-transform: uppercase;
+  border-bottom: 1px solid #1a1a1a;
+  border-top: 1px solid #1a1a1a;
+}
+.sv_marker_nav
+{
+  line-height: 35px;
+  background: #303030;
+  padding:5px;
+}
+.sv_marker_nav_item
+{
+  display: inline-block;
+  background-color: #424242;
+  width: 75px;
+  font-size: 12px;
+  line-height: 25px;
+  text-align: center;
+  margin: 0 2.5px;
+  cursor: pointer;
+}
+.markSelected
+{
+  background: #f5a623;
+  color:#000;
+}
+.sv_marker_box
+{
+
 }
