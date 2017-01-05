@@ -58,7 +58,7 @@ String.prototype.formatDate = function() {
   return dt.getFullYear() + '-' + (dt.getMonth() + 1).fixZero() + '-' + dt.getDate().fixZero() + ' ' + dt.getHours().fixZero() + ':' + dt.getMinutes().fixZero() + ':' + dt.getSeconds().fixZero()
 }
 Number.prototype.fixZero = function() {
-  if (/\^d{1}$/.test(this)) {
+  if (this < 10) {
     return '0' + this
   }
   return this
@@ -193,11 +193,11 @@ const util = {
       m,
       s,
       f
-    f = (Math.round(frame % frameRate)).fixZero()
-    h = (Math.floor(frame / (frameRate * 60 * 60))).fixZero()
-    m = (Math.floor(frame / (frameRate * 60)) % 60).fixZero()
-    s = (Math.floor(frame / (frameRate)) % 60).fixZero()
-    return h + ':' + m + ':' + s + '.' + f
+    f = (Math.round(frame % frameRate))
+    h = (Math.floor(frame / (frameRate * 60 * 60)))
+    m = (Math.floor(frame / (frameRate * 60)) % 60)
+    s = (Math.floor(frame / (frameRate)) % 60)
+    return h.fixZero() + ':' + m.fixZero() + ':' + s.fixZero() + '.' + f.fixZero()
   },
   parseData: function(arr, father, option) {
     var newArr = []
@@ -1203,4 +1203,18 @@ util.getMarkerList = function(data) {
     });
   }
   return marklist;
+}
+util.getPadding = function(width, itemWidth, l) {
+  var padding = 7;
+  var maxCount = Math.floor(width / itemWidth);
+  var diff = width % itemWidth;
+  if (diff < padding * 2 * (maxCount + 1)) {
+    maxCount--;
+    diff += itemWidth;
+  }
+  if (l < maxCount) {
+    return padding;
+  }
+  padding = diff / (2 * (maxCount + 1));
+  return padding;
 }

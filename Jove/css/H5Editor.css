@@ -1868,7 +1868,7 @@ body {
 }
 .h5 .scroll-bar {
   position: absolute;
-  background: #cacaca;
+  background: #333333;
   overflow: hidden;
 }
 .h5 .scroll-bar-v {
@@ -1886,7 +1886,7 @@ body {
   height: 10px;
   top: 1px;
   position: absolute;
-  background: #ffffff;
+  background: #828282;
 }
 .h5 .scroll-handle:hover,
 .h5 .scroll-handle.scollbar-active {
@@ -1899,8 +1899,8 @@ body {
   top: 0;
   visibility: hidden;
   opacity: 0;
-  border-left: solid 1px #cacaca;
-  border-right: solid 1px #cacaca;
+  border-left: solid 1px #1b1b1b;
+  border-right: solid 1px #1b1b1b;
 }
 .h5.window {
   position: absolute;
@@ -3556,13 +3556,13 @@ margin-top: 0;
   top: 0px;
 }
 .h5editor .timebar-container .time-bar .pos-container .time-tooltip {
-  width: 70px;
-  margin-left: -35px;
-  padding: 10px;
-  font-size: 11px;
-  line-height: 10px;
-  top: -34px;
-  height: 30px;
+    width: 70px;
+    margin-left: -35px;
+    padding: 10px 3px 1px 3px;
+    font-size: 14px;
+    line-height: 10px;
+    top: -34px;
+    height: 29px;
 }
 .h5editor .timebar-container .time-bar .pos-container .selection-box {
   position: absolute;
@@ -4511,7 +4511,7 @@ margin-top: 0;
 }
 .h5.h5-player-wrapper {
   position: absolute;
-  right: 1px;
+  right: 0;
   top: 51px;
   bottom: 0px;
   transition: all .2s;

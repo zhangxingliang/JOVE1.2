@@ -60,6 +60,7 @@ const state = {
   svplayerStatus: false,
   resourceBlockStatus: true,
   alwaysGet: false,
+  thumbPadding: 7,
   saveFolder: {},
   listOrder: {
     type: 'title',

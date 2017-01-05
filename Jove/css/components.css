@@ -108,6 +108,8 @@
 .history_item_container
 {
 	position: absolute;
+  overflow: hidden;
+  max-width: calc(100% - 280px)
 }
 .history_item
 {
@@ -415,6 +417,14 @@
 {
   background-position: -70px -12px;
 }
+.list_status_item.online
+{
+  background-position: -84px 0;
+}
+.list_status_item.online1
+{
+  background-position: -84px -12px;
+}
 .list_status_item.p1
 {
   background-position: -42px -12px;
@@ -446,6 +456,14 @@
 .status_item.i
 {
   background-position: -38px 0;
+}
+.status_item.online
+{
+  background-position: -114px 0;
+}
+.status_item.online1
+{
+  background-position: -114px -16px;
 }
 .status_item.wa1
 {
@@ -712,7 +730,7 @@
 }
 .sv_marker_container
 {
-  height: 160px;
+  height: 150px;
   padding: 0 4px;
   background: #404040;
   border:1px solid transparent;
@@ -724,28 +742,30 @@
 .sv_marker_title_container
 {
   line-height: 30px;
+  color:#fff;
+  padding-left:3px;
 }
 .sv_marker_icon_box
 {
   position: relative;
-  height: 65px;
+  height: 55px;
 }
 .sv_marker_color
 {
   width: 10px;
-  height: 65px;
+  height: 56px;
 }
 .sv_marker_icon
 {
   vertical-align: middle;
   text-align: center;
-  width: 120px;
-  height: 65px;
+  width: 100px;
+  height: 56px;
   background: #2e2e2e;
 }
 .sv_marker_pos
 {
-  width: 110px;
+  width: 118px;
 }
 .sv_timeCodeSpan
 {
@@ -755,15 +775,15 @@
 {
   font-size: 12px;
   color: #fff;
-  background: #303030;
-  border: none;
+    background: #212121;
+  border: 1px #161616 solid;  border: none;
   resize: none;
   outline: none;
   font-family: Arial;
   text-align: center;
-  width: 65px;
+  width: 80px;
   margin-left: 5px;
-  height: 30px;
+  height: 25px;
 }
 .sv_marker_comment
 {
@@ -773,9 +793,9 @@
   padding: 5px;
   margin-top: 5px;
   font-family: inherit;
-  background: #303030;
-  display: block;
-  width: 230px;
+  background: #212121;
+  border: 1px #161616 solid;  display: block;
+  width: 220px;
   border: none;
   resize: none;
 }

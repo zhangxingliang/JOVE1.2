@@ -101,13 +101,25 @@ const app = new Vue({
     svplayerStatus() {
       return this.$store.state.svplayerStatus
     },
+    thumbPadding() {
+      if (this.currentCtrl == 'material-ctrl') {
+        return this.$store.state.thumbPadding
+      } else {
+        return 0
+      }
+    }
   },
   methods: {
     dropInSV(event) {
-      var data = JSON.parse(ev.dataTransfer.getData("Text"));
-      document.querySelector("#previewifm").setAttribute('src', _previewUrl + '?type=32&ep=JOVE&id=' + data.data.clipid + '&uk=' + _userToken);
-      $scope.previewGuid = data.data.clipid;
-      $scope.getMarkerList(data.data.clipid);
+      var data = JSON.parse(event.dataTransfer.getData("Text"));
+      var url = this.$store.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + data.data.clipid + '&uk=' + _userToken + '&h=' + $('.sv_container').height();
+      this.$store.commit({
+        type: types.SET_PREVIEWURL,
+        data: url
+      })
+    },
+    dropOverSV(event) {
+      event.dataTransfer.dragEffect = 'copy';
     },
     switchListThumb(symbol) {
       if (this.materials.length > 0 && this.materials[0].type === 'marker') {
@@ -169,13 +181,20 @@ const app = new Vue({
         this.svplayerStyle.right = 0
       }
       this.infoBlockStatus = !this.infoBlockStatus
+      Vue.nextTick(() => {
+        this.$store.commit({
+          type: types.SET_THUMBPADDING
+        })
+      })
     },
     toggleResourceBlock() {
       if (this.folderBlockStatus && this.resourceBlockStatus) {
         this.folderBlockStatus = false
       }
-      this.$store.commit({
-        type: types.TOGGLE_RESOURCEBLOCKSTATUS
+      Vue.nextTick(() => {
+        this.$store.commit({
+          type: types.TOGGLE_RESOURCEBLOCKSTATUS
+        })
       })
     },
     toggleFolderBlock() {
@@ -185,6 +204,11 @@ const app = new Vue({
         })
       }
       this.folderBlockStatus = !this.folderBlockStatus
+      Vue.nextTick(() => {
+        this.$store.commit({
+          type: types.SET_THUMBPADDING
+        })
+      })
     },
     advanceSearch() {
       try {
@@ -466,6 +490,13 @@ const app = new Vue({
   },
   mounted() {
     var _this = this
+    var resizeCallback = util.throttle(100, function(e) {
+      console.log(1);
+      _this.$store.commit({
+        type: types.SET_THUMBPADDING,
+      })
+    }, true)
+    window.addEventListener('resize', resizeCallback)
     window.addEventListener("message", function(event) {
       if (event.data.isShortCutKey) {
         switch (event.data.code) {

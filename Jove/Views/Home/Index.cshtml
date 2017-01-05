@@ -134,12 +134,13 @@
         <div v-on:mousemove="mousemove" class="list_material_icon_container fl">
           <div class="material_status">
             <div v-if="material.type =='video'">
-              <span class="list_status_item wa" :class="{wa1:!material.WA}"></span>
               <span class="list_status_item hq" :class="{hq1:!material.HQ}"></span>
               <span class="list_status_item lq" :class="{lq1:!material.LQ}"></span>
+              <span class="list_status_item i" :class="{i1:!material.I}" :title="material.Ititle" v-if="material.I"></span>
+              <span class="list_status_item p" :class="{p1:!material.P}" :title="material.Ptitle"  v-else></span>
+              <span class="list_status_item wa" :class="{wa1:!material.WA}"></span>
               <span class="list_status_item db" :class="{db1:!material.DB}"></span>
-              <span class="list_status_item p" :class="{p1:!material.P}" :title="material.Ptitle"></span>
-              <span class="list_status_item i" :class="{i1:!material.I}" :title="material.Ititle"></span>
+              <span class="list_status_item online" :class="{online1:material.onlinstatus != 'Online'}"></span>
             </div>
           </div>
           <div class="list_material_clipping" v-if="material.clipping"></div>
@@ -165,15 +166,16 @@
       :data-icon="material.iconfilename"
       :data-url="material.iconfilename"
       :data-source-id="material.typeid"
-      :data-createdate ="material.formatDate">
+      :data-createdate ="material.formatDate" :style="{margin: '7px ' + thumbPadding + 'px'}">
       <div class="material_status">
         <div v-if="material.type =='video'">
-          <span class="status_item wa" :class="{wa1:!material.WA}"></span>
           <span class="status_item hq" :class="{hq1:!material.HQ}"></span>
           <span class="status_item lq" :class="{lq1:!material.LQ}"></span>
+          <span class="status_item i" :class="{i1:!material.I}" :title="material.Ititle" v-if="material.I"></span>
+          <span class="status_item p" :class="{p1:!material.P}" :title="material.Ptitle" v-else></span>
+          <span class="status_item wa" :class="{wa1:!material.WA}"></span>
           <span class="status_item db" :class="{db1:!material.DB}"></span>
-          <span class="status_item p" :class="{p1:!material.P}" :title="material.Ptitle"></span>
-          <span class="status_item i" :class="{i1:!material.I}" :title="material.Ititle"></span>
+          <span class="status_item online" :class="{online1:material.onlinstatus != 'Online'}"></span>
         </div>
       </div>
       <div v-on:mousemove="mousemove" class="material_icon_container">
@@ -192,9 +194,9 @@
         <span>{{material.typeName}}</span>
       </div>
       <div class="sv_marker_icon_box">
-        <div class="sv_marker_color fl" :style="{backgroundColor: material.color}"></div>
+        <div class="sv_marker_color fl" :style="material.bgcolor"></div>
         <div class="sv_marker_icon fl">
-          <img draggable="false" class="sv_marker_img" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'" style="max-width: 120px;max-height: 65px;"/>
+          <img draggable="false" class="sv_marker_img" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'" style="max-width: 100px;max-height: 56px;"/>
         </div>
         <div class="sv_marker_pos fl">
           <div v-if="material.isSMarker">
@@ -284,7 +286,9 @@
         </div>
       </div>
       <transition name="fade">
-      <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle" v-on:drop.prevent="dropInSV">
+      <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle">
+         <div class="hoverifm" v-on:drop.prevent.capture="dropInSV" v-on:dragenter.prevent.stop v-on:dragover.prevent.stop.capture="dropOverSV">
+         </div>
          <iframe id="previewifm" class="sv_player" :src="previewUrl">
          </iframe>
          <div class="sv_marker_list">
@@ -331,7 +335,7 @@
           </div>
         </div>
         <vue-nice-scrollbar class="scrollbar_container" :speed="150">
-          <div class="material_box clearfix" :class="{list_material_box:listSymbol, marker_material_box: currentCtrl=='marker-ctrl'}">
+          <div class="material_box clearfix" :class="{list_material_box:listSymbol, marker_material_box: currentCtrl=='marker-ctrl'}" :style="{paddingLeft: thumbPadding + 'px', paddingRight: thumbPadding + 'px'}">
             <list-material-header-ctrl v-show="listSymbol"></list-material-header-ctrl>
             <component :is="currentCtrl" :data="m" :index="index" v-for="(m, index) in _materials" keep-alive>
             </component>

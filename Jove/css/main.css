@@ -622,7 +622,7 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   line-height: 43px;
   font-size: 15px;
   color: #9b9b9b;
-  padding: 0 24px;
+  padding: 0 10px;
   background-color: #2d2d2d;
   text-transform: uppercase;
   border-bottom: 1px solid #1a1a1a;
@@ -642,15 +642,26 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {-w
   font-size: 12px;
   line-height: 25px;
   text-align: center;
-  margin: 0 2.5px;
+  margin: 0 1px;
   cursor: pointer;
+    padding:0px 1px;
+
 }
 .markSelected
 {
-  background: #f5a623;
-  color:#000;
+  background: #b87b44;
+  color:#fff;
 }
 .sv_marker_box
 {
-
+    width:238px;
+    margin-left:5px;
+}
+.hoverifm
+{
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }

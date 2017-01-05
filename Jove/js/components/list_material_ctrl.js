@@ -61,7 +61,7 @@ const list_material_ctrl = {
           })
         })
       } else {
-        var url = this.$store.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + this.material.guid + '&uk=' + _userToken
+        var url = this.$store.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + this.material.guid + '&uk=' + _userToken + '&h=' + $('.sv_container').height()
         this.$store.commit({
           type: types.SET_PREVIEWURL,
           source: this.material,

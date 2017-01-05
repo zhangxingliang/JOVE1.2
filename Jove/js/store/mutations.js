@@ -7,7 +7,6 @@ const mutations = {
     } else {
       payload.target.children = payload.data
     }
-
   },
   [types.TOGGLE_FOLDER](state, payload) {
     payload.target.open = !payload.target.open
@@ -41,6 +40,8 @@ const mutations = {
     Vue.nextTick(() => {
       editor.initDrag()
     })
+    var width = $('#resourceList').width()
+    state.thumbPadding = util.getPadding(width, 150, state.navPath[state.navPath.length - 1].children.length)
   },
   [types.SET_USERINFO](state, payload) {
     state.userInfo = payload.data
@@ -159,5 +160,11 @@ const mutations = {
   },
   [types.SET_SVMARKERS](state, payload) {
     state.svMarkerList = payload.data
+  },
+  [types.SET_THUMBPADDING](state, payload) {
+    setTimeout(() => {
+      var width = $('#resourceList').width()
+      state.thumbPadding = util.getPadding(width, 150, state.navPath[state.navPath.length - 1].children.length)
+    }, 300)
   }
 }

@@ -10486,7 +10486,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               //    element: element,
               //    pluginOptions: options.pluginOptions
               //};
-              // document.querySelector(".hoverifm").style.display = "block";
+              document.querySelector(".hoverifm").style.display = "block";
               __currentDraggingHelper = __helpers[_id];
               e.dataTransfer.effectAllowed = "all";
               var dragIcon = $('.drag_icon', e.target);
@@ -10512,7 +10512,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
           });
 
           element.addEventListener("dragend", function (e) {
-              // document.querySelector(".hoverifm").style.display = "none";
+              document.querySelector(".hoverifm").style.display = "none";
               __currentDraggingHelper = null;
               _onStop(e, __helpers[_id]);
           });
@@ -17253,7 +17253,7 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                         else if (this.trackType === 'VA') {
                             levent =  app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
                         }
-                        if (levent && levent.popcornOptions.start === event.popcornOptions.start && levent.popcornOptions.end === event.popcornOptions.end) {
+                        if (levent && levent.popcornOptions.start.toFixed(3) === event.popcornOptions.start.toFixed(3) && levent.popcornOptions.end.toFixed(3) === event.popcornOptions.end.toFixed(3)) {
                             return levent
                         }
                     }
@@ -35676,6 +35676,12 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                 //_undoList.splice(0, _current);
                 name = name || lang[_curLang].operation;
                 _id++;
+
+                //每次入栈push操作时，判断_current是否为0，不为0则先删除栈中前面_current个元素，再把新元素入栈，最后把_current置0
+                if (_current > 0) {
+                    _undoList.splice(0, _current);
+                }
+
                 if (!_undoList[0] || (_undoList[0] &&(!deepCompare(_media.json.markPoints, _undoList[0].json.markPoints) || !deepCompare(_media.json.tracks, _undoList[0].json.tracks)))) {
                     _undoList.splice(0, 0, { name: name, id: _id, json: _media.json });
                 }
@@ -35686,6 +35692,7 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                 _this.dispatchEvent("undochanged");
             };
 
+            //undo一次移动一次索引
             _this.undo = function (id) {
                 if (_undoList.length > 0) {
 
@@ -35700,6 +35707,7 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                 }
             };
 
+            //redo一次移动一次索引
             _this.redo = function (id) {
 
                 if (_undoList.length > 0) {
