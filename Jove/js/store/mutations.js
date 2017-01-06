@@ -40,8 +40,22 @@ const mutations = {
     Vue.nextTick(() => {
       editor.initDrag()
     })
+    var currentNode = state.navPath[state.navPath.length - 1]
     var width = $('#resourceList').width()
-    state.thumbPadding = util.getPadding(width, 150, state.navPath[state.navPath.length - 1].children.length)
+    state.thumbPadding = util.getPadding(width, 150, currentNode.children.length)
+    if ([1, 2, -1].indexOf(currentNode.guid) > -1) {
+      $(".advance_search").attr("disabled", "disabled").css("background-color", "#3e3e3e").addClass("transparentHover");
+      $("#fullSearch").attr("disabled", "disabled").css("background-color", "#3e3e3e");
+      $("#div_fullTextSearch").css("background-color", "#3e3e3e");
+      $("#searchBtn").attr("disabled", "disabled");;
+      $("#filterBtn").hide();
+    } else {
+      $(".advance_search").removeAttr("disabled").css("background-color", "#292929").removeClass("transparentHover");
+      $("#fullSearch").removeAttr("disabled").css("background-color", "#292929");
+      $("#div_fullTextSearch").css("background-color", "#292929");
+      $("#searchBtn").removeAttr("disabled");
+      $("#filterBtn").show();
+    }
   },
   [types.SET_USERINFO](state, payload) {
     state.userInfo = payload.data

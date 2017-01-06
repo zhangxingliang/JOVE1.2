@@ -4686,12 +4686,12 @@ margin-top: 0;
   width: 100%;
   white-space: nowrap;
   overflow: visible;
-  border-bottom: solid 1px #bbbabb;
   height: 40px;
   position: relative;
   background: #1f1f1f;
   border-bottom: 1px #000 solid;
   border-top: 1px #1a1a1a solid;
+  box-sizing: border-box;
 }
 .h5 .h5-player-panel .info-panel-wrapper .info-panel .tabcontrol .tabs:before {
   display: table;
@@ -4705,7 +4705,7 @@ margin-top: 0;
   background-color: #1f1f1f;
   border-left: none;
   color: #9b9b9b;
-  height: 40px;
+  height: 38px;
   line-height: 20px;
 }
 .h5 .h5-player-panel .info-panel-wrapper .info-panel .tabcontrol .tabs li.active {
@@ -5640,6 +5640,8 @@ margin-top: 0;
   background: #1f1f1f;
   border-bottom: 1px #000 solid;
   border-top: 1px #1a1a1a solid;
+  border-left: 1px solid #000;
+  box-sizing: border-box;
   padding-left: 10px;
 }
 .h5-player-toolbar
@@ -5653,6 +5655,7 @@ margin-top: 0;
   background: #1f1f1f;
   padding-left: 10px;
   border-top: 1px #000 solid;
+  box-sizing: border-box;
   text-align:center;
 }
 .code_small {
@@ -5925,3 +5928,20 @@ margin-top: 0;
     .glyphicon-fast-forward:hover {
         background: url(../images/btnlast5_over.jpg) no-repeat;
     }
+
+@media screen and (max-width:1600px){
+
+      .h5 .h5-player-panel .video-panel-wrapper{
+			padding-top: 40px;
+			padding-bottom: 60px;
+
+       }
+	.player_top
+	{
+		top: -40px;
+	}
+	.h5-player-toolbar
+	{
+		bottom: -60px;
+	}
+}

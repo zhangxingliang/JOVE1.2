@@ -262,7 +262,7 @@ const util = {
         newArr.push(item);
       })
     } else {
-      var floor = 0
+      var floor
       if (father) {
         floor = father.floor + 1
       }
@@ -346,11 +346,15 @@ const util = {
               }
             }
           } catch (e) {}
-          node.floor = floor
-          node.selected = false
-          node.father = father
-          node.open = false
-          node.children = []
+          if (floor) {
+            node.floor = floor
+          }
+          node.selected = node.selected || false
+          if (father) {
+            node.father = father
+          }
+          node.open = node.open || false
+          node.children = node.children || []
           newArr.push(node)
         })
       //may sort filter by option
@@ -471,18 +475,27 @@ const util = {
       }
     }
   },
-  updateMaterial: function(arr, data) {
+  updateMaterial: function(arr, data, store) {
     arr.forEach(item => {
       if (item.guid === data.guid) {
         item.name = data.name
         item.path = data.folderPath + '/' + item.name
+        store.dispatch({
+          type: types.GET_OBJECT_INFO,
+          data: {
+            clipid: data.guid,
+            sourceid: '32'
+          }
+        }).then((res) => {
+          item = util.parseData([res.data.Ext])[0]
+        })
         if (item.children.length > 0) {
           util.mergeChildrenPath(item.children, item.path)
         }
         return
       }
       if (item.children.length > 0) {
-        util.updateMaterial(item.children, data)
+        util.updateMaterial(item.children, data, store)
       }
     })
   },

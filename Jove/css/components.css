@@ -109,7 +109,7 @@
 {
 	position: absolute;
   overflow: hidden;
-  max-width: calc(100% - 280px)
+  max-width: 100%;
 }
 .history_item
 {
@@ -316,6 +316,7 @@
   max-height: 52px;
   position: relative;
   margin-left: 10px;
+  vertical-align: middle;
 }
 .marker_comment
 {

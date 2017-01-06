@@ -13,12 +13,16 @@ const actions = {
           usertoken: _userToken,
           path: payload.source.path
         }).then(res => {
-          context.commit({
-            type: types.SET_MATERIALS,
-            target: payload.source,
-            data: util.parseData(res.data, payload.source)
-          })
-          resolve()
+          if (res.data) {
+            context.commit({
+              type: types.SET_MATERIALS,
+              target: payload.source,
+              data: util.parseData(res.data, payload.source)
+            })
+            resolve()
+          } else {
+            util.alert(context.state.editor.Controls.Dialog, _language[_curLang].tip, _language[_curLang].getClipListFailed, 'warn', 'OK');
+          }
         })
       })
     }
@@ -37,12 +41,16 @@ const actions = {
           usertoken: _userToken,
           path: payload.source.path
         }).then(res => {
-          context.commit({
-            type: types.SET_MATERIALS,
-            target: payload.source,
-            data: util.parseData(res.data, payload.source)
-          })
-          resolve()
+          if (res.data) {
+            context.commit({
+              type: types.SET_MATERIALS,
+              target: payload.source,
+              data: util.parseData(res.data, payload.source)
+            })
+            resolve()
+          } else {
+            util.alert(context.state.editor.Controls.Dialog, _language[_curLang].tip, _language[_curLang].getClipListFailed, 'warn', 'OK');
+          }
         })
       })
     }
@@ -195,12 +203,16 @@ const actions = {
         success: function(data) {
           if (data.R) {
             var data = JSON.parse(data.R);
-            context.commit({
-              type: types.SET_MATERIALS,
-              target: payload.source,
-              data: util.parseData(data.ext, payload.source, model.searchType)
-            })
-            resolve()
+            if (data.code == '0') {
+              context.commit({
+                type: types.SET_MATERIALS,
+                target: payload.source,
+                data: util.parseData(data.ext, payload.source, model.searchType)
+              })
+              resolve()
+            } else {
+              util.alert(context.state.editor.Controls.Dialog, _language[_curLang].tip, _language[_curLang].getClipListFailed, 'warn', 'OK');
+            }
           }
         }
       })
@@ -254,7 +266,7 @@ const actions = {
   [types.UPDATE_MATERIALS](context, payload) {
     var tarr = payload.data.type.split('.')
     if (tarr[2] === 'UPDATE') {
-      util.updateMaterial(context.state.nodes, payload.data)
+      util.updateMaterial(context.state.nodes, payload.data, contenxt)
     } else if (tarr[2] == 'CREATE' || tarr[2] == 'RECOVERED') {
       util.getMaterialFoder(context.state.nodes, payload.data).then(res => {
         context.dispatch({

@@ -135,6 +135,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="css\H5Editor.css" />
+    <Content Include="css\images\arrow_down.png" />
+    <Content Include="css\images\arrow_right.png" />
     <Content Include="css\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="css\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
     <Content Include="css\images\ui-bg_flat_10_000000_40x100.png" />
@@ -158,6 +160,7 @@
     <Content Include="css\images\ui-tabs_leftarrow.png" />
     <Content Include="css\images\ui-tabs_rightarrow.png" />
     <Content Include="css\jquery-ui.custom.css" />
+    <Content Include="css\jquery.treeview.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\fontawesome-webfont2.svg" />
     <Content Include="images\arrow_down.png" />
@@ -256,6 +259,8 @@
     <Content Include="js\components\navPath_ctrl.js" />
     <Content Include="js\components\tree_ctrl.js" />
     <Content Include="js\lib\jquery-ui.js" />
+    <Content Include="js\lib\jquery.treeview.extension.js" />
+    <Content Include="js\lib\jquery.treeview.js" />
     <Content Include="js\lib\scrollbar.js" />
     <Content Include="js\lib\util.js" />
     <Content Include="js\lib\vue.js" />

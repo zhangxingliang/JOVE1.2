@@ -17248,10 +17248,10 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                     this.findLinkedTrackEvent = function(event){
                         var levent = null;
                         if (this.trackType === 'A') {
-                            levent = app.media.tracks[2].findTrackEventByTime(event.popcornOptions.start)
+                            levent = app.media.tracks[2].findTrackEventByTime(event.popcornOptions.start + 0.04)
                         }
                         else if (this.trackType === 'VA') {
-                            levent =  app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
+                            levent = app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start + 0.04)
                         }
                         if (levent && levent.popcornOptions.start.toFixed(3) === event.popcornOptions.start.toFixed(3) && levent.popcornOptions.end.toFixed(3) === event.popcornOptions.end.toFixed(3)) {
                             return levent
@@ -35683,7 +35683,7 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                 }
 
                 if (!_undoList[0] || (_undoList[0] &&(!deepCompare(_media.json.markPoints, _undoList[0].json.markPoints) || !deepCompare(_media.json.tracks, _undoList[0].json.tracks)))) {
-                    _undoList.splice(0, 0, { name: name, id: _id, json: _media.json });
+                    _undoList.splice(0, 0, { name: name, id: _id, json: JSON.parse(JSON.stringify(_media.json)) });
                 }
                 if (_undoList.length > _maxCount) {
                     _undoList.splice(_undoList.length - 1, 1);
@@ -35700,7 +35700,7 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                         _current++;
 
                         var item = _undoList[_current];
-                        loadTimeline(item.json);
+                        loadTimeline(JSON.parse(JSON.stringify(item.json)));
                         _this.dispatchEvent("undochanged");
                     }
 
@@ -35716,7 +35716,7 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                         _current--;
 
                         var item = _undoList[_current];
-                        loadTimeline(item.json);
+                        loadTimeline(JSON.parse(JSON.stringify(item.json)));
                         _this.dispatchEvent("undochanged");
                     }
                 }

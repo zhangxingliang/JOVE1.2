@@ -117,6 +117,18 @@ const app = new Vue({
         type: types.SET_PREVIEWURL,
         data: url
       })
+      this.$store.dispatch({
+        type: types.GET_OBJECT_INFO,
+        data: {
+          clipid: data.data.clipid,
+          sourceid: '32'
+        }
+      }).then((res) => {
+        this.$store.commit({
+          type: types.SET_SVMARKERS,
+          data: util.getMarkerList(res.data.Ext)
+        })
+      })
     },
     dropOverSV(event) {
       event.dataTransfer.dragEffect = 'copy';
@@ -213,7 +225,7 @@ const app = new Vue({
     advanceSearch() {
       try {
         var _this = this
-        var template = "[{\"tabName\":\"Clip\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\note\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\creator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\createdate\"},{\"fieldName\":\"Modified by\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifier\"},{\"fieldName\":\"Modified Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifydate\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Journalist\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\journallist\"},{\"fieldName\":\"Item Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Category\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\category\"},{\"fieldName\":\"Program Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\programname\"}]},{\"tabName\":\"Folder\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"PGM\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"PGMCreator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"Marker\",\"type\":\"Mark\",\"field\":[{\"fieldName\":\"Comments\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Member\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Action\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"LMCreator\"}]}]";
+        var template = "[{\"tabName\":\"Clip\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\note\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\creator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\createdate\"},{\"fieldName\":\"Modified by\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifier\"},{\"fieldName\":\"Modified Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifydate\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Journalist\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\journallist\"},{\"fieldName\":\"Item Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Category\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\category\"},{\"fieldName\":\"Program Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\programname\"},{\"fieldName\": \"Storage Status\",\"type\": \"List\",\"defaultValue\": \"All\",\"Values\": \"All,Online,Archived\",\"Key\": \"entity\\archivestatus\" }]},{\"tabName\":\"Folder\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"PGM\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"PGMCreator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"Marker\",\"type\":\"Mark\",\"field\":[{\"fieldName\":\"Comments\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Member\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Action\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"LMCreator\"}]}]";
         $.fn.advancedSearch.defaults.usertoken = _userToken;
         $.fn.advancedSearch.defaults.sitecode = _siteCode;
         $.fn.advancedSearch.defaults.loginname = _this.$store.state.userInfo.loginName;
@@ -491,11 +503,25 @@ const app = new Vue({
   mounted() {
     var _this = this
     var resizeCallback = util.throttle(100, function(e) {
-      console.log(1);
       _this.$store.commit({
         type: types.SET_THUMBPADDING,
       })
+      var url = _this.$store.state.previewUrl
+      url = url.replace(/&h=(\d+)*/, '&h=' + $('.sv_container').height())
+      _this.$store.commit({
+        type: types.SET_PREVIEWURL,
+        source: this.material,
+        data: url
+      })
     }, true)
+    Vue.nextTick(() => {
+      var url = this.$store.state.previewUrl + '&h=' + $('.sv_container').height()
+      _this.$store.commit({
+        type: types.SET_PREVIEWURL,
+        source: this.material,
+        data: url
+      })
+    })
     window.addEventListener('resize', resizeCallback)
     window.addEventListener("message", function(event) {
       if (event.data.isShortCutKey) {

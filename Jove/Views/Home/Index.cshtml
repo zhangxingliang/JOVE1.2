@@ -10,6 +10,7 @@
     <link href="../../css/main.css" rel="stylesheet" />
     <link href="../../css/components.css" rel="stylesheet" />
     <link href="../../css/jquery-ui.custom.css" rel="stylesheet" />
+    <link href="../../css/jquery.treeview.css" rel="stylesheet" />
     <!-- endbuild -->
     <script src="../../Home/Par" ></script>
     <!-- build:js scripts/combined.js -->
@@ -20,6 +21,8 @@
     <script src="../../js/lib/vuex.js"></script>
     <script src="../../js/lib/axios.js"></script>
     <script src="../../js/lib/h5editor.js"></script>
+    <script src="../../js/lib/jquery.treeview.js"></script>
+    <script src="../../js/lib/jquery.treeview.extension.js"></script>
     <script src="../../js/store/mutationTypes.js"></script>
     <script src="../../js/store/mutations.js"></script>
     <script src="../../js/store/actions.js"></script>
@@ -214,7 +217,7 @@
   <template id="marker_ctrl">
     <div class="marker_container" v-on:dblclick="dblclick">
       <div class="marker_icon_box">
-        <div class="marker_color" :style="{backgroundColor: material.color}"></div>
+        <div class="marker_color" :style="material.bgcolor"></div>
         <div class="marker_icon">
           <img draggable="false" class="marker_img" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'"/>
         </div>
@@ -264,7 +267,7 @@
         <div id="div_fullTextSearch" style="margin-top:5px; margin-right:3px;"></div>
         <input type="button" class="advance_search" :value="dict.advancesearch" v-on:click="advanceSearch"/>
         <input type="button" class="task_monitor" :value="dict.taskmonitor" v-on:click="taskMonitor"/>
-        <div class="materials_count fr">
+        <div class="fr">
             <div class="hidden_bar">
                 <span class="xx_icon fr" v-on:click="userOperationStatus = !userOperationStatus">
                   <transition name="fade">
