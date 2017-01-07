@@ -68,6 +68,7 @@ const state = {
   },
   dict: _language[_curLang],
   svMarkerList: [],
+  selectedNode: null,
   headers: [
     {
       name: 'Title',

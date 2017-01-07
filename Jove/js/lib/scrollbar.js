@@ -433,6 +433,28 @@
             if (val.width != old.width) this.calculateSize();
           },
           deep: true
+        },
+        currentNode: {
+          handler: function(val, old) {
+            Vue.nextTick(() => {
+              if (val != old && this.container.height == $('.folder_box ').height()) {
+                var top = $('.folder_selected ').position().top;
+                var offsetTop = $('.folder_selected ').offset().top;
+                if (offsetTop > this.container.height + 20) {
+                  this.onChangePosition((top - 540) / this.content.height * 100, 'vertical');
+                } else if (offsetTop < 62) {
+                  this.onChangePosition(Math.max(0, (top - 30) / this.content.height * 100), 'vertical');
+                }
+              }
+            })
+          },
+          deep: true
+        }
+      },
+
+      computed: {
+        currentNode() {
+          return this.$store.state.selectedNode
         }
       },
 

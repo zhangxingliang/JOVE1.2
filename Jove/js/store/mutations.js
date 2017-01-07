@@ -14,6 +14,9 @@ const mutations = {
   [types.EXPAND_FOLDER](state, payload) {
     payload.target.open = true
   },
+  [types.CLOSE_FOLDER](state, payload) {
+    payload.target.open = false
+  },
   [types.MOVE_MATERIALS](state, payload) {
     payload.data.forEach(item => {
       item.floor = payload.target.floor + 1
@@ -27,14 +30,24 @@ const mutations = {
     var l = state.navPath.length
     if (l > 1) {
       state.navPath.splice(-1, 1)[0].selected = false
+      state.navPath.splice(-1, 1)[0].checked = false
     }
+    if (state.selectedNode)
+      state.selectedNode = false
     state.histories[state.histories.length - 1].selected = true
+    state.histories[state.histories.length - 1].checked = true
+    state.selectedNode = state.histories[state.histories.length - 1]
   },
   [types.GET_NAVPATH](state, payload) {
     if (state.navPath.length) {
-      state.navPath[state.navPath.length - 1].selected = false;
+      state.navPath[state.navPath.length - 1].selected = false
+      state.navPath[state.navPath.length - 1].checked = false
     }
+    if (state.selectedNode)
+      state.selectedNode.checked = false
     payload.target.selected = true;
+    payload.target.checked = true;
+    state.selectedNode = payload.target
     state.navPath.length = 0 ;
     util.getHistories(payload.target, state.navPath);
     Vue.nextTick(() => {
@@ -180,5 +193,49 @@ const mutations = {
       var width = $('#resourceList').width()
       state.thumbPadding = util.getPadding(width, 150, state.navPath[state.navPath.length - 1].children.length)
     }, 300)
-  }
+  },
+  [types.NEXT_ITEM](state, payload) {
+    var node = util.getNextItem(payload.source)
+    if (state.selectedNode) {
+      state.selectedNode.checked = false
+      state.selectedNode.selected = false
+    } else {
+      state.navPath[state.navPath.length - 1].checked = false
+      state.navPath[state.navPath.length - 1].selected = false
+    }
+    if (node) {
+      state.selectedNode = node
+    } else if (payload.source.guid === 1 && state.nodes.length > 2) {
+      state.selectedNode = state.nodes[2]
+    } else if (payload.source.guid !== -1) {
+      state.selectedNode = state.nodes[1]
+    }
+    if (state.selectedNode) {
+      state.selectedNode.checked = true
+      state.selectedNode.selected = true
+    }
+
+  },
+  [types.PREV_ITEM](state, payload) {
+    var node = util.getPrevItem(payload.source)
+    if (state.selectedNode) {
+      state.selectedNode.checked = false
+      state.selectedNode.selected = false
+    } else {
+      state.navPath[state.navPath.length - 1].checked = false
+      state.navPath[state.navPath.length - 1].selected = false
+    }
+    if (node) {
+      state.selectedNode = node
+    } else if (payload.source.guid === -1) {
+      state.selectedNode = util.getLastItem(state.nodes[1])
+    } else if (payload.source.guid === 1) {
+      state.selectedNode = util.getLastItem(state.nodes[0])
+    }
+    if (state.selectedNode) {
+      state.selectedNode.checked = true
+      state.selectedNode.selected = true
+    }
+
+  },
 }

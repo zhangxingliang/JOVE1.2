@@ -31,6 +31,9 @@ const app = new Vue({
     'sv-marker-ctrl': sv_marker_ctrl,
   },
   computed: {
+    selectedNode() {
+      return this.$store.getters.selectedNode
+    },
     _svMarkerList() {
       return this.$store.state.svMarkerList.filter(item => this[item.tag + 'Symbol'])
     },
@@ -637,13 +640,77 @@ const app = new Vue({
         }
       });
     });
-    window.addEventListener("keyup", function(event) {
+    window.addEventListener("keydown", function(event) {
       var keycode = event.keyCode;
       var targetTag = event.target.tagName.toUpperCase();
-      if (keycode == 8 && targetTag != 'INPUT' && targetTag != 'TEXTAREA') {
-        _this.$store.commit({
-          type: types.BACK_UP
-        });
+      if (targetTag != 'INPUT' && targetTag != 'TEXTAREA') {
+        if (keycode == 38) {
+          _this.$store.commit({
+            type: types.PREV_ITEM,
+            source: _this.selectedNode
+          })
+        } else if (keycode == 40) {
+          _this.$store.commit({
+            type: types.NEXT_ITEM,
+            source: _this.selectedNode
+          })
+        } else if (keycode == 39) {
+          _this.$store.dispatch({
+            type: types.EXPAND_FOLDER,
+            source: _this.selectedNode
+          });
+        } else if (keycode == 37) {
+          _this.$store.commit({
+            type: types.CLOSE_FOLDER,
+            target: _this.selectedNode
+          })
+        } else if (keycode == 13) {
+          if (_this.selectedNode.guid === 1) {
+            _this.$store.commit({
+              type: types.GET_NAVPATH,
+              target: _this.selectedNode,
+              data: []
+            })
+          } else if (_this.selectedNode.guid === 2) {
+            _this.$store.dispatch({
+              type: types.GET_SEARCHRESULT,
+              source: _this.selectedNode
+            }).then(() => {
+              _this.$store.commit({
+                type: types.GET_NAVPATH,
+                target: _this.selectedNode,
+                data: []
+              })
+            })
+          } else if (_this.selectedNode.guid === -1) {
+            _this.$store.dispatch({
+              type: types.GET_FAVORITERESULT,
+              source: _this.selectedNode
+            }).then(() => {
+              _this.$store.commit({
+                type: types.GET_NAVPATH,
+                target: _this.selectedNode,
+                data: []
+              })
+            })
+          } else {
+            // normal folder
+            _this.$store.dispatch({
+              type: types.GET_MATERIALS,
+              source: _this.selectedNode
+            }).then(() => {
+              _this.$store.commit({
+                type: types.GET_NAVPATH,
+                target: _this.selectedNode,
+                data: []
+              })
+            })
+          }
+        } else if (keycode == 8) {
+          _this.$store.commit({
+            type: types.BACK_UP
+          })
+        }
       }
     });
 

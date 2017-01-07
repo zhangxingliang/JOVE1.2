@@ -1,4 +1,4 @@
-2017 01 06 18:06:00.796		<?xml version="1.0" encoding="UTF-8"?>
+2017 01 06 20:20:11.727		<?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<NEBULA_VIP showname="Hive集群虚拟IP">172.16.168.205</NEBULA_VIP>
 	<LOCAL_IP showname="本机IP">172.16.173.16</LOCAL_IP>
@@ -16,3 +16,57 @@
   <PLAYOUTPORT>9035</PLAYOUTPORT>
 </config>
 
+2017 01 06 20:20:12.674		start... = SocketServer, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = WEBCM
+2017 01 06 20:20:12.692		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"WEBCM","tool":"DEFAULT","paramname":"SocketServer"}
+2017 01 06 20:20:13.679		return data = {
+  "code": "0",
+  "ext": {
+    "paramname": "SocketServer",
+    "paramvalue": "ws://172.16.134.20:3130",
+    "paramdescription": "CMServer-windows ip address"
+  }
+}
+2017 01 06 20:20:13.683		start... = InstalledFontCollection, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2017 01 06 20:20:13.684		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"InstalledFontCollection"}
+2017 01 06 20:20:13.765		return data = {
+  "code": "0",
+  "ext": {
+    "paramname": "InstalledFontCollection",
+    "paramvalue": "Aharoni;Andalus;Angsana New;AngsanaUPC;Aparajita;Arabic Typesetting;Arial;Arial Black;Batang;BatangChe;Browallia New;BrowalliaUPC;Calibri;Cambria;Cambria Math;Candara;Comic Sans MS;Consolas;Constantia;Corbel;Cordia New;CordiaUPC;Courier New;DaunPenh;David;DFKai-SB;DilleniaUPC;DokChampa;Dotum;DotumChe;Ebrima;Estrangelo Edessa;EucrosiaUPC;Euphemia;FangSong;Franklin Gothic Medium;FrankRuehl;FreesiaUPC;Gabriola;Gautami;Georgia;Gisha;Gulim;GulimChe;Gungsuh;GungsuhChe;Impact;IrisUPC;Iskoola Pota;JasmineUPC;KaiTi;Kalinga;Kartika;Khmer UI;KodchiangUPC;Kokila;Lao UI;Latha;Leelawadee;Levenim MT;LilyUPC;Lucida Console;Lucida Sans Unicode;Malgun Gothic;Mangal;Marlett;Meiryo;Meiryo UI;Microsoft Himalaya;Microsoft JhengHei;Microsoft New Tai Lue;Microsoft PhagsPa;Microsoft Sans Serif;Microsoft Tai Le;Microsoft Uighur;Microsoft YaHei;Microsoft Yi Baiti;MingLiU;MingLiU-ExtB;MingLiU_HKSCS;MingLiU_HKSCS-ExtB;Miriam;Miriam Fixed;Mongolian Baiti;MoolBoran;MS Gothic;MS Mincho;MS PGothic;MS PMincho;MS UI Gothic;MV Boli;Narkisim;NSimSun;Nyala;Palatino Linotype;Plantagenet Cherokee;PMingLiU;PMingLiU-ExtB;Raavi;Rod;Sakkal Majalla;Segoe Print;Segoe Script;Segoe UI;Segoe UI Light;Segoe UI Semibold;Segoe UI Symbol;Shonar Bangla;Shruti;SimHei;Simplified Arabic;Simplified Arabic Fixed;SimSun;SimSun-ExtB;Sylfaen;Symbol;Tahoma;Times New Roman;Traditional Arabic;Trebuchet MS;Tunga;Utsaah;Vani;Verdana;Vijaya;Vrinda;Webdings;Wingdings;Yle Bd;Yle Bl;Yle Condensed Bd;Yle Condensed Bl;Yle Condensed Li;Yle Condensed Md;Yle Condensed Rg;Yle Condensed Th;Yle Li;Yle Md;Yle Rg;Yle Th",
+    "paramdescription": "System Installed Font Collection"
+  }
+}
+2017 01 06 20:20:13.769		start... = ET_LANGUAGE, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = MATERIALLIST
+2017 01 06 20:20:13.769		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"MATERIALLIST","tool":"DEFAULT","paramname":"ET_LANGUAGE"}
+2017 01 06 20:20:13.819		return data = {
+  "code": "0",
+  "ext": {
+    "paramname": "ET_LANGUAGE",
+    "paramvalue": "en",
+    "paramdescription": ""
+  }
+}
+2017 01 06 20:20:13.824		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2017 01 06 20:20:13.824		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
+2017 01 06 20:20:13.892		return data = {
+  "code": "1",
+  "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"系统“DEFAULT”的参数“transCodeTemplate”不存在\",\"status\":404}"
+}
+2017 01 06 20:21:14.769		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2017 01 06 20:21:14.770		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
+2017 01 06 20:21:14.903		return data = {
+  "code": "1",
+  "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"系统“DEFAULT”的参数“transCodeTemplate”不存在\",\"status\":404}"
+}
+2017 01 06 20:24:49.091		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2017 01 06 20:24:49.093		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
+2017 01 06 20:24:49.152		return data = {
+  "code": "1",
+  "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"系统“DEFAULT”的参数“transCodeTemplate”不存在\",\"status\":404}"
+}
+2017 01 06 20:25:52.667		start... = transCodeTemplate, userToken = bd5c23e46ed7e288c30a7a8e1670a46e ,_system = JOVE
+2017 01 06 20:25:52.667		url = http://172.16.168.205:9023/CMApi/api/basic/config/getsysparam?usertoken=bd5c23e46ed7e288c30a7a8e1670a46e,upload data = {"system":"JOVE","tool":"DEFAULT","paramname":"transCodeTemplate"}
+2017 01 06 20:25:52.732		return data = {
+  "code": "1",
+  "msg": "hiveerror: not found 404,result：{\"code\":\"SYSTEM_ERROR_KEY_DOESNT_EXISTS\",\"message\":\"系统“DEFAULT”的参数“transCodeTemplate”不存在\",\"status\":404}"
+}

@@ -354,6 +354,7 @@ const util = {
             node.father = father
           }
           node.open = node.open || false
+          node.checked = node.checked || false
           node.children = node.children || []
           newArr.push(node)
         })
@@ -1230,4 +1231,41 @@ util.getPadding = function(width, itemWidth, l) {
   }
   padding = diff / (2 * (maxCount + 1));
   return padding;
+}
+util.getNextItem = function(node, isdeep) {
+  var father = node.father
+  if (node.open && node.children.filter(item => item.type === 'folder').sort(SortLikeWin).length && !isdeep) {
+    return node.children.filter(item => item.type === 'folder').sort(SortLikeWin)[0]
+  } else if (node.father) {
+    var folders = node.father.children.filter(item => item.type === 'folder').sort(SortLikeWin)
+    var index = folders.indexOf(node)
+    if (index < folders.length - 1) {
+      return folders[index + 1]
+    } else if (node.father.father) {
+      return util.getNextItem(node.father, true)
+    } else {
+      return null
+    }
+  }
+}
+util.getPrevItem = function(node) {
+  if (node.father) {
+    var folders = node.father.children.filter(item => item.type === 'folder').sort(SortLikeWin)
+    var index = folders.indexOf(node)
+    if (index > 0) {
+      return util.getLastItem(folders[index - 1])
+    } else {
+      return node.father
+    }
+  } else {
+    return null
+  }
+}
+util.getLastItem = function(node) {
+  var folders = node.children.filter(item => item.type === 'folder').sort(SortLikeWin)
+  if (node.open && folders.length) {
+    return util.getLastItem(folders[folders.length - 1])
+  } else {
+    return node;
+  }
 }

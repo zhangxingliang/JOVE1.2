@@ -83,14 +83,27 @@ const actions = {
     }
   },
   [types.EXPAND_FOLDER](context, payload) {
-    context.dispatch({
-      type: types.GET_MATERIALS,
-      source: payload.source
-    })
-    context.commit({
-      type: types.EXPAND_FOLDER,
-      target: payload.source
-    })
+    if (payload.source.guid === 1) {
+      context.dispatch({
+        type: types.GET_SEARCHMODEL,
+        source: payload.source
+      }).then(() => {
+        context.commit({
+          type: types.EXPAND_FOLDER,
+          target: payload.source
+        })
+      })
+    } else {
+      context.dispatch({
+        type: types.GET_MATERIALS,
+        source: payload.source
+      }).then(() => {
+        context.commit({
+          type: types.EXPAND_FOLDER,
+          target: payload.source
+        })
+      })
+    }
   },
   [types.UPLOAD_FILES](context, payload) {},
   [types.MOVE_MATERIALS](context, payload) {

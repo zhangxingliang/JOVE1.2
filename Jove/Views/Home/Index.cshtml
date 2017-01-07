@@ -254,7 +254,7 @@
       </div>
       <!--div class="folder_box"-->
         <vue-nice-scrollbar class="folder_box" :speed="150">
-        <ul>
+        <ul class='folder_base' style="position: relative;">
           <tree-ctrl  :data="node" v-for="node in nodes"></tree-ctrl>
         </ul>
         </vue-nice-scrollbar>
