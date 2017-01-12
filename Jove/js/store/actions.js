@@ -278,18 +278,23 @@ const actions = {
   },
   [types.UPDATE_MATERIALS](context, payload) {
     var tarr = payload.data.type.split('.')
-    if (tarr[2] === 'UPDATE') {
-      util.updateMaterial(context.state.nodes, payload.data, contenxt)
-    } else if (tarr[2] == 'CREATE' || tarr[2] == 'RECOVERED') {
-      util.getMaterialFoder(context.state.nodes, payload.data).then(res => {
-        context.dispatch({
-          type: types.REFRESH_MATERIAL,
-          source: res
+    if (tarr[0] === 'TREE' || tarr[0] === 'RESOURCE') {
+      if (tarr[2] === 'UPDATE') {
+        util.updateMaterial(context.state.nodes, payload.data, context)
+      } else if (tarr[2] == 'CREATE' || tarr[2] == 'RECOVERED') {
+        util.getMaterialFoder(context.state.nodes, payload.data).then(res => {
+          context.dispatch({
+            type: types.REFRESH_MATERIAL,
+            source: res
+          })
         })
-      })
-    } else if (tarr[2] == 'RECYCLED' || tarr[2] == 'MOVED') {
-      util.deleteMaterial(context.state.nodes, payload.data)
+      } else if (tarr[2] == 'RECYCLED' || tarr[2] == 'MOVED') {
+        util.deleteMaterial(context.state.nodes, payload.data)
+      }
+    } else {
+      util.updateMaterial(context.state.nodes, payload.data, context)
     }
+
     //for sv material
     if (context.state.previewUrl.indexOf(payload.data.guid) > 0) {
       context.dispatch({

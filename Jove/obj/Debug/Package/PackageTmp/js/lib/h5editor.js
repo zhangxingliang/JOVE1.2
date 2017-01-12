@@ -6454,6 +6454,7 @@ if (typeof global !== "undefined") {
                    _this.dispatchEvent("waiting");
                });
                v.addEventListener("canplaythrough", function () {
+                   if(!app.media.paused)
                    _this.dispatchEvent("canplaythrough");
                });
                v.addEventListener("seeked", function () {
@@ -8517,7 +8518,7 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
             this.hide = function () {
                 handlerElement.width(0);
                 //firstElement.css({ right: 0 + 'px' });
-                $('#resourceList').css({ right: 644 + 'px' });
+                $('#resourceList').css({ right: 640 + 'px' });
                 $('#player').css({ right:  -250 + 'px' });
                 //_this.dispatchEvent("resize");
             }
@@ -8526,7 +8527,7 @@ h5.define('util/H5HorizontalResizer', ["util/Object"], function (Obj) {
                 firstElement.css({ right: 250 + 'px' });
                 var width = firstElement.width();
                 handlerElement.css({ right: 0 + 'px' });
-                $('#resourceList').css({ right: 894 + 'px' });
+                $('#resourceList').css({ right: 890 + 'px' });
                 $('#player').css({ right: 0 + 'px' });
                 //_this.dispatchEvent("resize");
             }
@@ -10205,6 +10206,9 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               if (_linkedTrackEvent && app.media.isLinked) {
                   _linkedElement = _linkedTrackEvent.view.element;
               }
+              else {
+                  _linkedElement = null;
+              }
               var originalRect = element.getBoundingClientRect(),
                   originalPosition = element.offsetLeft,
                   originalWidth = element.clientWidth,
@@ -10338,6 +10342,9 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               _linkedTrackEvent = _trackEvent.track.findLinkedTrackEvent(_trackEvent);
               if (_linkedTrackEvent  && app.media.isLinked) {
                   _linkedElement = _linkedTrackEvent.view.element;
+              }
+              else {
+                  _linkedElement = null;
               }
               var originalPosition = element.offsetLeft,
                   originalWidth = element.offsetWidth,
@@ -10479,7 +10486,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
               //    element: element,
               //    pluginOptions: options.pluginOptions
               //};
-              // document.querySelector(".hoverifm").style.display = "block";
+              document.querySelector(".hoverifm").style.display = "block";
               __currentDraggingHelper = __helpers[_id];
               e.dataTransfer.effectAllowed = "all";
               var dragIcon = $('.drag_icon', e.target);
@@ -10505,7 +10512,7 @@ h5.define('util/H5DragDrop', ["util/Object", "util/H5ScrollGroup","util/util"],
           });
 
           element.addEventListener("dragend", function (e) {
-              // document.querySelector(".hoverifm").style.display = "none";
+              document.querySelector(".hoverifm").style.display = "none";
               __currentDraggingHelper = null;
               _onStop(e, __helpers[_id]);
           });
@@ -17113,10 +17120,9 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                         }
                         return trackEvent;
                     };
-
+                    var id = -1;
                     // 将一个TrackEvent从当前位置移动到 另一个项之前
                     this.moveTrackEvent = function (oldTrackEvent, newAfterTrackEvent, ignoreUndo) {
-
                         var idx = _trackEvents.indexOf(oldTrackEvent);
 
                         if (idx < 0 )
@@ -17138,7 +17144,12 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
 
 
                         if (!ignoreUndo) {
-                            app.undo.push(lang[_curLang].adjustItemLoc);
+                            if (id == -1) {
+                                id = setTimeout(function () {
+                                    app.undo.push(lang[_curLang].adjustItemLoc);
+                                    id = -1;
+                                }, 50)
+                            }
                         }
 
                     };
@@ -17234,15 +17245,19 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                             }
                         });
                     }
-                    this.findLinkedTrackEvent = function(event){
+                    this.findLinkedTrackEvent = function (event) {
                         var levent = null;
                         if (this.trackType === 'A') {
-                            levent = app.media.tracks[2].findTrackEventByTime(event.popcornOptions.start)
+                            var linkedTrack = app.media.tracks.filter(function (item) { return item.trackType === 'VA' })[0]
+                            if (linkedTrack)
+                                levent = linkedTrack.findTrackEventByTime(event.popcornOptions.start + 0.04)
                         }
                         else if (this.trackType === 'VA') {
-                            levent =  app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start)
+                            var linkedTrack = app.media.tracks.filter(function (item) { return item.trackType === 'A' })[0]
+                            if (linkedTrack)
+                                levent = linkedTrack.findTrackEventByTime(event.popcornOptions.start + 0.04)
                         }
-                        if (levent && levent.popcornOptions.start === event.popcornOptions.start) {
+                        if (levent && levent.popcornOptions.start.toFixed(3) === event.popcornOptions.start.toFixed(3) && levent.popcornOptions.end.toFixed(3) === event.popcornOptions.end.toFixed(3)) {
                             return levent
                         }
                     }
@@ -18674,6 +18689,16 @@ h5.define('core/Media', [
                           _this.currentTime = _duration - 0.04;
                       };
 
+                      this.findTracks = function (trackType) {
+                          var tracks = [];
+                          _tracks.forEach(function (item, index) {
+                              if (item.trackType == trackType) {
+                                  tracks.push(item);
+                              }
+                          })
+                          return tracks;
+                      };
+
                       this.findTrack = function (trackType) {
                           var track;
                           track = util.first(_tracks, function (track) {
@@ -19802,14 +19827,14 @@ h5.define('timeline/H5TrackContainer', ["jquery",
                   window.removeEventListener("mouseup", onTrackEventMouseUp, false);
                   window.removeEventListener("mousemove", onTrackEventDragStarted, false);
 
-                  if (!originalEvent.shiftKey) {
-                      tracks = _media.tracks;
-                      for (i = 0, length = tracks.length; i < length; i++) {
-                          tracks[i].deselectEvents(trackEvent);
-                      }
-                  } else if (trackEvent.selected && wasSelected) {
-                      trackEvent.selected = false;
-                  }
+                  //if (!originalEvent.shiftKey) {
+                  //    tracks = _media.tracks;
+                  //    for (i = 0, length = tracks.length; i < length; i++) {
+                  //        tracks[i].deselectEvents(trackEvent);
+                  //    }
+                  //} else if (trackEvent.selected && wasSelected) {
+                  //    trackEvent.selected = false;
+                  //}
               }
 
               function onTrackEventDragStarted() {
@@ -22234,11 +22259,11 @@ h5.define('plug/Dialog', ["jquery", "util/Object", "templates/DialogLayout", "ut
                     var _okbtnElement = $(_okbtnHtml)[0];
                     $(parentElement).append(_okbtnElement);
                     _okbtnElement.addEventListener("click", function () {
+                        _this.close();
                         if (typeof _options.ok === 'function') {
                             //存在且是function
                             _options.ok();
                         }
-                        _this.close();
                     })
 
                     if (_cancelbtnHtml) {
@@ -35655,8 +35680,14 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                 //_undoList.splice(0, _current);
                 name = name || lang[_curLang].operation;
                 _id++;
+
+                //每次入栈push操作时，判断_current是否为0，不为0则先删除栈中前面_current个元素，再把新元素入栈，最后把_current置0
+                if (_current > 0) {
+                    _undoList.splice(0, _current);
+                }
+
                 if (!_undoList[0] || (_undoList[0] &&(!deepCompare(_media.json.markPoints, _undoList[0].json.markPoints) || !deepCompare(_media.json.tracks, _undoList[0].json.tracks)))) {
-                    _undoList.splice(0, 0, { name: name, id: _id, json: _media.json });
+                    _undoList.splice(0, 0, { name: name, id: _id, json: JSON.parse(JSON.stringify(_media.json)) });
                 }
                 if (_undoList.length > _maxCount) {
                     _undoList.splice(_undoList.length - 1, 1);
@@ -35665,6 +35696,7 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                 _this.dispatchEvent("undochanged");
             };
 
+            //undo一次移动一次索引
             _this.undo = function (id) {
                 if (_undoList.length > 0) {
 
@@ -35672,13 +35704,14 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                         _current++;
 
                         var item = _undoList[_current];
-                        loadTimeline(item.json);
+                        loadTimeline(JSON.parse(JSON.stringify(item.json)));
                         _this.dispatchEvent("undochanged");
                     }
 
                 }
             };
 
+            //redo一次移动一次索引
             _this.redo = function (id) {
 
                 if (_undoList.length > 0) {
@@ -35687,7 +35720,7 @@ h5.define('core/Undo', ["util/util", "util/Object"], function (util, EventObject
                         _current--;
 
                         var item = _undoList[_current];
-                        loadTimeline(item.json);
+                        loadTimeline(JSON.parse(JSON.stringify(item.json)));
                         _this.dispatchEvent("undochanged");
                     }
                 }

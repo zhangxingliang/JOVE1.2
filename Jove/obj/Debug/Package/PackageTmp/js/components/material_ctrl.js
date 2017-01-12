@@ -78,7 +78,7 @@ const material_ctrl = {
           })
         })
       } else {
-        var url = this.$store.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + this.material.guid + '&uk=' + _userToken
+        var url = this.$store.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + this.material.guid + '&uk=' + _userToken + '&h=' + $('.sv_container').height()
         this.$store.commit({
           type: types.SET_PREVIEWURL,
           source: this.material,
@@ -87,11 +87,23 @@ const material_ctrl = {
         this.$store.commit({
           type: types.ACTIVE_SVPLAYER
         })
-        if (!this.$store.resourceBlockStatus) {
+        this.$store.dispatch({
+          type: types.GET_OBJECT_INFO,
+          data: {
+            clipid: this.material.guid,
+            sourceid: '32'
+          }
+        }).then((res) => {
           this.$store.commit({
-            type: types.MOVE_SVPLAYER
+            type: types.SET_SVMARKERS,
+            data: util.getMarkerList(res.data.Ext)
           })
-        }
+        })
+      /*if (!this.$store.resourceBlockStatus) {
+        this.$store.commit({
+          type: types.MOVE_SVPLAYER
+        })
+      }*/
       }
     },
     mousemove(event) {
@@ -108,6 +120,9 @@ const material_ctrl = {
     },
     editor() {
       return this.$store.state.editor
+    },
+    thumbPadding() {
+      return this.$store.state.thumbPadding
     }
   }
 }

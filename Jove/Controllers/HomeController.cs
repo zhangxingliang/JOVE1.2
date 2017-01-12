@@ -40,10 +40,12 @@ namespace Jove.Controllers
             ViewBag.SiteCode = Session["siteCode"];
             if (!string.IsNullOrEmpty(ViewBag.UserToken))
             {
-                ViewBag.SocketServer = JOVEConfig.GetSocketServer(ViewBag.UserToken);
-                ViewBag.InstalledFontCollection = JOVEConfig.GetInstalledFontCollection(ViewBag.UserToken);
-                ViewBag.GetET_LANGUAGE = JOVEConfig.GetET_LANGUAGE(ViewBag.UserToken);
-                ViewBag.transCodeTemplate = JOVEConfig.GettransCodeTemplate(ViewBag.UserToken);
+                ViewBag.SocketServer = JOVEConfig.GetSocketServer(ViewBag.UserToken, ViewBag.SiteCode);
+                ViewBag.InstalledFontCollection = JOVEConfig.GetInstalledFontCollection(ViewBag.UserToken, ViewBag.SiteCode);
+                ViewBag.GetET_LANGUAGE = JOVEConfig.GetET_LANGUAGE(ViewBag.UserToken, ViewBag.SiteCode);
+                ViewBag.transCodeTemplate = JOVEConfig.GettransCodeTemplate(ViewBag.UserToken, ViewBag.SiteCode);
+                ViewBag.preSNSPublishPath = JOVEConfig.GetPreSNSPublishPath(ViewBag.UserToken);
+                ViewBag.snsTransCodeType = JOVEConfig.GetSnsTransCodeType(ViewBag.UserToken);
             }
             if (string.IsNullOrEmpty(ViewBag.SocketServer))
             {

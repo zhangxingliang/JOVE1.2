@@ -60,7 +60,7 @@ namespace HiveENetSDK.Services
             q.Add("pathtype", "http");
             q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<List<ObjectInfo>>>(url, q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext));
+            Logger.Trace("执行结果：url:{0},siteCode:{4},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext),siteCode);
             return r;
         }
 
@@ -83,7 +83,7 @@ namespace HiveENetSDK.Services
                 q.Add("pathtype", pathtype);
             }
             r = ApiContext.Client.Get<ResponseMessage<ObjectInfo>>(url, q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext));
+            Logger.Trace("执行结果：url:{0},siteCode:{4},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext),siteCode);
             return r;
         }
 
@@ -103,7 +103,7 @@ namespace HiveENetSDK.Services
             q.Add("isCreate", "false");
             q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<List<FolderInfo>>>(url, q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2},response:{3}\n", url, r.Code, r.Msg,JsonHelper.ToJson(r.Ext));
+            Logger.Trace("执行结果：url:{0},siteCode:{4},code:{1},msg{2},response:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext),siteCode);
             return r;
         }
 
@@ -280,7 +280,7 @@ namespace HiveENetSDK.Services
             q.Add("siteCode", siteCode);
 
             res = ApiContext.Client.Post<ResponseMessage<SaveClipResponse>>(url, r, "Post", q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg:{2},json:{3}\n", url, res.Code, res.Msg,JsonHelper.ToJson(r));
+            Logger.Trace("执行结果：url:{0},siteCode:{4},code:{1},msg:{2},json:{3}\n", url, res.Code, res.Msg, JsonHelper.ToJson(r),siteCode);
             return res;
         }
 
@@ -303,7 +303,7 @@ namespace HiveENetSDK.Services
             q.Add("transCodeType", transCodeType);
             q.Add("siteCode", siteCode);
             r =  ApiContext.Client.Post<ResponseMessage>(url, JsonHelper.ToJson(requst), "Post", q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url,r.Code,r.Msg);
+            Logger.Trace("执行结果：url:{0},siteCode:{3},code:{1},msg{2}\n", url, r.Code, r.Msg,siteCode);
             return r;
         }
 
@@ -322,7 +322,7 @@ namespace HiveENetSDK.Services
             q.Add("contentid", contentid);
             q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage>(url, q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url, r.Code, r.Msg);
+            Logger.Trace("执行结果：url:{0},siteCode:{3},code:{1},msg{2}\n", url, r.Code, r.Msg,siteCode);
             return r;
         }
         
@@ -342,7 +342,7 @@ namespace HiveENetSDK.Services
             q.Add("pathtype", "http");
             q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<List<ObjectInfo>>>(url, q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext));
+            Logger.Trace("执行结果：url:{0},siteCode:{4},code:{1},msg{2},json:{3}\n", url, r.Code, r.Msg, JsonHelper.ToJson(r.Ext),siteCode);
             return r;
         }
         /// <summary>
@@ -360,7 +360,7 @@ namespace HiveENetSDK.Services
             q.Add("pefName", title);
             q.Add("siteCode", siteCode);
             r = ApiContext.Client.Post<ResponseMessage<RenderPefResponse>>(url, JsonHelper.ToJson(requst), "Post", q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url, r.Code, r.Msg);
+            Logger.Trace("执行结果：url:{0},siteCode:{3},code:{1},msg{2}\n", url, r.Code, r.Msg,siteCode);
             return r;
         }
 
@@ -378,7 +378,7 @@ namespace HiveENetSDK.Services
             q.Add("lformatid", formatID);
             q.Add("siteCode", siteCode);
             r = ApiContext.Client.Get<ResponseMessage<FileFormat>>(url, q);
-            Logger.Trace("执行结果：url:{0},code:{1},msg{2}\n", url, r.Code, r.Msg);
+            Logger.Trace("执行结果：url:{0},siteCode:{3},code:{1},msg{2}\n", url, r.Code, r.Msg,siteCode);
             return r;
         }
     }

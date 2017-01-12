@@ -333,7 +333,7 @@ namespace Jove.Controllers
             string lastPefPath = "";
             string path = "" ;
             ResponseMessage<SaveClipResponse> r = new ResponseMessage<SaveClipResponse>();
-            requst.json.videostandard = JOVEConfig.GetHivevideoStandard(usertoken);
+            requst.json.videostandard = JOVEConfig.GetHivevideoStandard(usertoken, siteCode);
             if (contentid == "")
             {
                 contentid = Guid.NewGuid().ToString("N").ToLower();
@@ -438,7 +438,7 @@ namespace Jove.Controllers
         {
             ResponseMessage<List<ObjectInfo>> r = new ResponseMessage<List<ObjectInfo>>();
             Logger.Trace("获取收藏夹素材列表:usertoken={0}\n", usertoken);
-            r = AppContext.Current.FolderService.GetFavoriteObject(usertoken, usercode);
+            r = AppContext.Current.FolderService.GetFavoriteObject(usertoken, usercode, siteCode);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);
             return Json(r.Ext, JsonRequestBehavior.AllowGet);
         }
@@ -460,7 +460,7 @@ namespace Jove.Controllers
         public ActionResult RenderPEF(RenderPEFRequest request, string usertoken, string siteCode = "")
         {
             ResponseMessage<RenderPefResponse> r = new ResponseMessage<RenderPefResponse>();
-            request.json.videostandard = JOVEConfig.GetHivevideoStandard(usertoken);
+            request.json.videostandard = JOVEConfig.GetHivevideoStandard(usertoken, siteCode);
             Logger.Trace("获取素材信息:usertoken={0},title={1},requst={2}\n", usertoken, request.title, JsonHelper.ToJson(request.json));
             r = AppContext.Current.FolderService.RenderPEF(usertoken, request.title, request.json);
             Logger.Trace("执行结果：code:{0},msg:{1}\n", r.Code, r.Msg);

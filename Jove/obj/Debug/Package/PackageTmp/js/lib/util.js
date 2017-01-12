@@ -51,13 +51,14 @@ Array.prototype.unique = function() {
   return r;
 }
 String.prototype.formatDate = function() {
+  if (/:/g.test(this)) return this.replace('/["\']/g', '')
   var sec = this.match(/\d+/g)
   var dt = new Date()
   dt.setTime(sec)
   return dt.getFullYear() + '-' + (dt.getMonth() + 1).fixZero() + '-' + dt.getDate().fixZero() + ' ' + dt.getHours().fixZero() + ':' + dt.getMinutes().fixZero() + ':' + dt.getSeconds().fixZero()
 }
 Number.prototype.fixZero = function() {
-  if (/\^d{1}$/.test(this)) {
+  if (this < 10) {
     return '0' + this
   }
   return this
@@ -192,11 +193,11 @@ const util = {
       m,
       s,
       f
-    f = (Math.round(frame % frameRate)).fixZero()
-    h = (Math.floor(frame / (frameRate * 60 * 60))).fixZero()
-    m = (Math.floor(frame / (frameRate * 60)) % 60).fixZero()
-    s = (Math.floor(frame / (frameRate)) % 60).fixZero()
-    return h + ':' + m + ':' + s + '.' + f
+    f = (Math.round(frame % frameRate))
+    h = (Math.floor(frame / (frameRate * 60 * 60)))
+    m = (Math.floor(frame / (frameRate * 60)) % 60)
+    s = (Math.floor(frame / (frameRate)) % 60)
+    return h.fixZero() + ':' + m.fixZero() + ':' + s.fixZero() + '.' + f.fixZero()
   },
   parseData: function(arr, father, option) {
     var newArr = []
@@ -261,7 +262,7 @@ const util = {
         newArr.push(item);
       })
     } else {
-      var floor = 0
+      var floor
       if (father) {
         floor = father.floor + 1
       }
@@ -285,7 +286,7 @@ const util = {
             } else if (node.type === 'video') {
               node.typeIndex = 1
               node.channel = 2
-            } else if (node.type === 'h5pgm') {
+            } else if (node.type === 'h5pgm' || node.type === 'sequence') {
               node.typeIndex = 3
             } else if (node.type === 'image') {
               node.typeIndex = 4
@@ -311,8 +312,7 @@ const util = {
           node.iconfilename = item.entity.iconfilename ? util.getIconFilename(item.entity.iconfilename) : ''
           node.subtype = item.entity.subtype
           util.extendData(item, node)
-          //try
-          {
+          try {
             if (node.type === 'video') {
               if (item.entity.item) {
                 node.duration = item.entity.item.length / 10000000
@@ -345,12 +345,17 @@ const util = {
                 }
               }
             }
-          } // catch (e) {}
-          node.floor = floor
-          node.selected = false
-          node.father = father
-          node.open = false
-          node.children = []
+          } catch (e) {}
+          if (floor) {
+            node.floor = floor
+          }
+          node.selected = node.selected || false
+          if (father) {
+            node.father = father
+          }
+          node.open = node.open || false
+          node.checked = node.checked || false
+          node.children = node.children || []
           newArr.push(node)
         })
       //may sort filter by option
@@ -471,18 +476,27 @@ const util = {
       }
     }
   },
-  updateMaterial: function(arr, data) {
+  updateMaterial: function(arr, data, store) {
     arr.forEach(item => {
       if (item.guid === data.guid) {
-        item.name = data.name
-        item.path = data.folderPath + '/' + item.name
-        if (item.children.length > 0) {
-          util.mergeChildrenPath(item.children, item.path)
-        }
-        return
+        //item.name = data.name
+        //item.path = data.folderPath + '/' + item.name
+        store.dispatch({
+          type: types.GET_OBJECT_INFO,
+          data: {
+            clipid: data.guid,
+            sourceid: '32'
+          }
+        }).then((res) => {
+          item = Object.assign(item, util.parseData([res.data.Ext])[0])
+          if (item.children.length > 0) {
+            util.mergeChildrenPath(item.children, item.path)
+          }
+          return
+        })
       }
       if (item.children.length > 0) {
-        util.updateMaterial(item.children, data)
+        util.updateMaterial(item.children, data, store)
       }
     })
   },
@@ -514,8 +528,71 @@ const util = {
 }
 function sortLikeWinBy(attr) {
   return function(str1, str2) {
-    var a = str1[attr].toUpperCase();
-    var b = str2[attr].toUpperCase();
+    try {
+      if (str1[attr] === undefined)
+        str1[attr] = '';
+      if (str2[attr] === undefined)
+        str2[attr] = '';
+      var a = str1[attr].toUpperCase();
+      var b = str2[attr].toUpperCase();
+      var reg = /[0-9]+/g;
+      var lista = a.match(reg);
+      var listb = b.match(reg);
+      if (!lista || !listb) {
+        return CommonCompare(a, b);
+      }
+      for (var i = 0, minLen = Math.min(lista.length, listb.length); i < minLen; i++) {
+        //数字所在位置序号
+        var indexa = a.indexOf(lista[i]);
+        var indexb = b.indexOf(listb[i]);
+        //数字前面的前缀
+        var prefixa = a.substring(0, indexa);
+        var prefixb = b.substring(0, indexb);
+        //数字的string
+        var stra = lista[i];
+        var strb = listb[i];
+        //数字的值
+        var numa = parseInt(stra);
+        var numb = parseInt(strb);
+        //如果数字的序号不等或前缀不等，属于前缀不同的情况，直接比较
+        if (indexa != indexb || prefixa != prefixb) {
+          return CommonCompare(a, b);
+        } else {
+          //数字的string全等
+          if (stra === strb) {
+            //如果是最后一个数字，比较数字的后缀
+            if (i == minLen - 1) {
+              return CommonCompare(a.substring(indexa + 1), b.substring(indexb + 1));
+            }
+            //如果不是最后一个数字，则循环跳转到下一个数字，并去掉前面相同的部分
+            else {
+              a = a.substring(indexa + stra.length);
+              b = b.substring(indexa + stra.length);
+            }
+          }
+          //如果数字的string不全等，但值相等
+          else if (numa == numb) {
+            //直接比较数字前缀0的个数，多的更小
+            return strb.lastIndexOf(numb + '') - stra.lastIndexOf(numa + '');
+          } else {
+            //如果数字不等，直接比较数字大小
+            return numa - numb;
+          }
+        }
+      }
+    } catch (e) {
+      return -1;
+    }
+  }
+}
+function SortLikeWin(str1, str2) {
+  try {
+    if (str1.name === undefined)
+      str1.name = '';
+    if (str2.name === undefined)
+      str2.name = '';
+    var a = str1.name.toUpperCase();
+    var b = str2.name.toUpperCase();
     var reg = /[0-9]+/g;
     var lista = a.match(reg);
     var listb = b.match(reg);
@@ -561,55 +638,8 @@ function sortLikeWinBy(attr) {
         }
       }
     }
-  }
-}
-function SortLikeWin(str1, str2) {
-  var a = str1.name.toUpperCase();
-  var b = str2.name.toUpperCase();
-  var reg = /[0-9]+/g;
-  var lista = a.match(reg);
-  var listb = b.match(reg);
-  if (!lista || !listb) {
-    return CommonCompare(a, b);
-  }
-  for (var i = 0, minLen = Math.min(lista.length, listb.length); i < minLen; i++) {
-    //数字所在位置序号
-    var indexa = a.indexOf(lista[i]);
-    var indexb = b.indexOf(listb[i]);
-    //数字前面的前缀
-    var prefixa = a.substring(0, indexa);
-    var prefixb = b.substring(0, indexb);
-    //数字的string
-    var stra = lista[i];
-    var strb = listb[i];
-    //数字的值
-    var numa = parseInt(stra);
-    var numb = parseInt(strb);
-    //如果数字的序号不等或前缀不等，属于前缀不同的情况，直接比较
-    if (indexa != indexb || prefixa != prefixb) {
-      return CommonCompare(a, b);
-    } else {
-      //数字的string全等
-      if (stra === strb) {
-        //如果是最后一个数字，比较数字的后缀
-        if (i == minLen - 1) {
-          return CommonCompare(a.substring(indexa + 1), b.substring(indexb + 1));
-        }
-        //如果不是最后一个数字，则循环跳转到下一个数字，并去掉前面相同的部分
-        else {
-          a = a.substring(indexa + stra.length);
-          b = b.substring(indexa + stra.length);
-        }
-      }
-      //如果数字的string不全等，但值相等
-      else if (numa == numb) {
-        //直接比较数字前缀0的个数，多的更小
-        return strb.lastIndexOf(numb + '') - stra.lastIndexOf(numa + '');
-      } else {
-        //如果数字不等，直接比较数字大小
-        return numa - numb;
-      }
-    }
+  } catch (e) {
+    return -1;
   }
 }
 function CommonCompare(a, b) {
@@ -857,7 +887,7 @@ util.extendData = function(sdata, node) {
     if (clipData.creator.length == 32) {
       node.creatorName = getUserNameByUserCode(clipData.creator, _userToken);
     } else {
-      nodecreatorName = clipData.creator;
+      node.creatorName = clipData.creator;
     }
   }
   //修改者
@@ -868,6 +898,11 @@ util.extendData = function(sdata, node) {
       node.modifierName = clipData.modifier;
     }
   }
+  //  Storage Status
+  if (clipData.type == "32") {
+    node.onlinstatus = (clipData.archivestatus == undefined ? "Online" : (clipData.archivestatus == "online_deleted" ? "Archived" : "Online"))
+  }
+
   //素材状态
   var clipStatus = "";
   if (clipData.item != undefined) {
@@ -939,7 +974,7 @@ util.extendData = function(sdata, node) {
   }
   node.comments = clipData.note;
   node.modificationDate = clipData.modifydate.formatDate();
-  node.clipStatus = GetClipStatus(clipData.status);
+  //node.clipStatus = GetClipStatus(clipData.status);
   node.rights = clipData.rights;
 
   if (node.type === 'image') {
@@ -1094,16 +1129,162 @@ function GetTimeStringByFrameNum(lFrameNum, lNtscTcMode, videoStandard, framerat
   return (hour < 10 ? '0' + hour : hour) + ":" + (min < 10 ? '0' + min : min) + (df ? "." : ":") + (sec < 10 ? '0' + sec : sec) + ":" + (frm < 10 ? '0' + frm : frm);
 }
 util.setCookie = function(name, value) {
-  var Days = 30;
-  var exp = new Date();
-  exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
-  document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+  if (localStorage && localStorage.setItem) {
+    localStorage.setItem(name, value);
+  } else {
+    var Days = 30;
+    var exp = new Date();
+    exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+    document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+  }
 }
 util.getCookie = function(name) {
-  var arr,
-    reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-  if (arr = document.cookie.match(reg))
-    return unescape(arr[2]);
-  else
-    return null;
+  if (localStorage && localStorage.getItem) {
+    return localStorage.getItem(name);
+  } else {
+    var arr,
+      reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg))
+      return unescape(arr[2]);
+    else
+      return null;
+  }
+}
+util.getMarkerList = function(data) {
+  var outmarkers = [];
+  var marklist = data.entity.item.markpoints || [];
+  var framerate = 25.0;
+  if (marklist && data.entity.item && data.entity.item.videostandard) {
+    var vs = ETGetVideoFrameRate(data.entity.item.videostandard);
+    framerate = vs.nTimeRate / vs.nTimeScale;
+    marklist.forEach((item, index) => {
+      if (item.color) {
+        var RedColor = (item.color & 0x0000ff);
+        var Gcolor = ((item.color & 0x00ff00) >> 8);
+        var Bcolor = ((item.color & 0xff0000) >> 16);
+        item.bgcolor = {
+          background: 'rgb(' + RedColor + "," + Gcolor + "," + Bcolor + ')'
+        };
+      } else {
+
+      }
+      if (item.type == "4") {
+        item.typeName = "Scene Mark";
+        item.tag = 'scMarker'
+        item.isSMarker = true;
+        item.inPoint = util.frameToTime(item.keyframe, framerate);
+        item.outPoint = util.frameToTime(item.endkeyframe, framerate);
+        item.name = '4';
+        item.color = 'rgb(100,100,100)';
+        item.time = item.keyframe / framerate;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+        item.intime = item.keyframe / framerate;
+        item.outtime = item.endkeyframe / framerate;
+      //var outmarker = angular.copy(item);
+      //outmarker.time = item.endkeyframe / framerate;
+      //  outmarker.guid = new Date().getTime() * 2;
+      //outmarkers.push(outmarker);
+      } else if (item.type == "8") {
+        item.typeName = "Esscene Mark";
+        item.tag = 'esMarker'
+        item.pos = util.frameToTime(item.keyframe, framerate);
+        item.name = '5';
+        item.color = 'rgb(150,150,100)';
+        item.time = item.keyframe / framerate;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+      } else if (item.type == "65536") {
+        item.typeName = "Logging Mark";
+        item.tag = 'loMarker'
+        item.pos = util.frameToTime(item.keyframe, framerate);
+        item.name = '6';
+        item.color = 'rgb(150,100,150)';
+        item.time = item.keyframe / framerate;;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+      } else if (item.type == "131072") {
+        item.typeName = "Change Mark";
+        item.flag = 'chMarker'
+        item.pos = util.frameToTime(item.keyframe, framerate);
+        item.name = '7';
+        item.color = 'rgb(250,150,200)';
+        item.time = item.keyframe / framerate;;
+        item.guid = new Date().getTime() + index;
+        item.text = item.note;
+      }
+      item.iconfilename = util.getIconFilename(item.iconfilename)
+    });
+  }
+  return marklist;
+}
+util.getPadding = function(width, itemWidth, l) {
+  var padding = 7;
+  var maxCount = Math.floor(width / itemWidth);
+  var diff = width % itemWidth;
+  if (diff < padding * 2 * (maxCount + 1)) {
+    maxCount--;
+    diff += itemWidth;
+  }
+  if (l < maxCount) {
+    return padding;
+  }
+  padding = diff / (2 * (maxCount + 1));
+  return padding;
+}
+util.getNextItem = function(node, isdeep) {
+  var closedFather = util.getClosedFather(node)
+  if (closedFather) {
+    return closedFather
+  }
+  var father = node.father
+  if (node.open && node.children.filter(item => item.type === 'folder').sort(SortLikeWin).length && !isdeep) {
+    return node.children.filter(item => item.type === 'folder').sort(SortLikeWin)[0]
+  } else if (node.father) {
+    var folders = node.father.children.filter(item => item.type === 'folder').sort(SortLikeWin)
+    var index = folders.indexOf(node)
+    if (index < folders.length - 1) {
+      return folders[index + 1]
+    } else if (node.father.father) {
+      return util.getNextItem(node.father, true)
+    } else {
+      return null
+    }
+  }
+}
+util.getPrevItem = function(node) {
+  var closedFather = util.getClosedFather(node)
+  if (closedFather) {
+    return closedFather
+  }
+  if (node.father) {
+    var folders = node.father.children.filter(item => item.type === 'folder').sort(SortLikeWin)
+    var index = folders.indexOf(node)
+    if (index > 0) {
+      return util.getLastItem(folders[index - 1])
+    } else {
+      return node.father
+    }
+  } else {
+    return null
+  }
+}
+util.getClosedFather = function(node) {
+  if (node.father) {
+    if (!node.father.open) {
+      return node.father
+    } else {
+      return util.getClosedFather(node.father)
+    }
+  } else {
+    return null
+  }
+}
+util.getLastItem = function(node) {
+  var folders = node.children.filter(item => item.type === 'folder').sort(SortLikeWin)
+  if (node.open && folders.length) {
+    return util.getLastItem(folders[folders.length - 1])
+  } else {
+    return node;
+  }
 }

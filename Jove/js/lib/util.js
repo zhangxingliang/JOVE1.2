@@ -286,7 +286,7 @@ const util = {
             } else if (node.type === 'video') {
               node.typeIndex = 1
               node.channel = 2
-            } else if (node.type === 'h5pgm') {
+            } else if (node.type === 'h5pgm' || node.type === 'sequence') {
               node.typeIndex = 3
             } else if (node.type === 'image') {
               node.typeIndex = 4
@@ -479,8 +479,8 @@ const util = {
   updateMaterial: function(arr, data, store) {
     arr.forEach(item => {
       if (item.guid === data.guid) {
-        item.name = data.name
-        item.path = data.folderPath + '/' + item.name
+        //item.name = data.name
+        //item.path = data.folderPath + '/' + item.name
         store.dispatch({
           type: types.GET_OBJECT_INFO,
           data: {
@@ -488,12 +488,12 @@ const util = {
             sourceid: '32'
           }
         }).then((res) => {
-          item = util.parseData([res.data.Ext])[0]
+          item = Object.assign(item, util.parseData([res.data.Ext])[0])
+          if (item.children.length > 0) {
+            util.mergeChildrenPath(item.children, item.path)
+          }
+          return
         })
-        if (item.children.length > 0) {
-          util.mergeChildrenPath(item.children, item.path)
-        }
-        return
       }
       if (item.children.length > 0) {
         util.updateMaterial(item.children, data, store)
@@ -1152,9 +1152,9 @@ util.getCookie = function(name) {
 }
 util.getMarkerList = function(data) {
   var outmarkers = [];
-  var marklist = data.entity.item.markpoints;
+  var marklist = data.entity.item.markpoints || [];
   var framerate = 25.0;
-  if (data.entity.item && data.entity.item.videostandard) {
+  if (marklist && data.entity.item && data.entity.item.videostandard) {
     var vs = ETGetVideoFrameRate(data.entity.item.videostandard);
     framerate = vs.nTimeRate / vs.nTimeScale;
     marklist.forEach((item, index) => {
@@ -1233,6 +1233,10 @@ util.getPadding = function(width, itemWidth, l) {
   return padding;
 }
 util.getNextItem = function(node, isdeep) {
+  var closedFather = util.getClosedFather(node)
+  if (closedFather) {
+    return closedFather
+  }
   var father = node.father
   if (node.open && node.children.filter(item => item.type === 'folder').sort(SortLikeWin).length && !isdeep) {
     return node.children.filter(item => item.type === 'folder').sort(SortLikeWin)[0]
@@ -1249,6 +1253,10 @@ util.getNextItem = function(node, isdeep) {
   }
 }
 util.getPrevItem = function(node) {
+  var closedFather = util.getClosedFather(node)
+  if (closedFather) {
+    return closedFather
+  }
   if (node.father) {
     var folders = node.father.children.filter(item => item.type === 'folder').sort(SortLikeWin)
     var index = folders.indexOf(node)
@@ -1256,6 +1264,17 @@ util.getPrevItem = function(node) {
       return util.getLastItem(folders[index - 1])
     } else {
       return node.father
+    }
+  } else {
+    return null
+  }
+}
+util.getClosedFather = function(node) {
+  if (node.father) {
+    if (!node.father.open) {
+      return node.father
+    } else {
+      return util.getClosedFather(node.father)
     }
   } else {
     return null

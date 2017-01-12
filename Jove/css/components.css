@@ -44,7 +44,7 @@
 }
 .folder_selected
 {
-  background-color: #f5a623;
+  background-color: #f89b39;
   color: #000;
 }
 .folder_container .folder_icon{
@@ -243,7 +243,7 @@
 
 .menu_container li:hover
 {
-  background-color: #f5a623;
+  background-color: #f89b39;
   color:#fff;
 }
 .menu_container a
@@ -280,7 +280,7 @@
 {
   color: #cfd2d4;
   background: #222;
-  width: 100%;
+  width: 96%;
   height: 70px;
   position: relative;
   white-space: nowrap;
@@ -599,7 +599,7 @@
 }
 .list_material_content:hover
 {
-  border: 1px solid #f5a623;
+  border: 1px solid #f89b39;
 }
 .list_header_container
 {
@@ -648,11 +648,11 @@
 }
 .btn_up:hover
 {
-  border-bottom: 5px solid #f5a623;
+  border-bottom: 5px solid #f89b39;
 }
 .btn_down:hover
 {
-  border-top: 5px solid #f5a623;
+  border-top: 5px solid #f89b39;
 }
 .drag_area
 {
@@ -738,7 +738,7 @@
   margin-bottom: 2px;
 }
 .sv_marker_container:hover{
-  border: 1px solid #f5a623;
+  border: 1px solid #f89b39;
 }
 .sv_marker_title_container
 {
@@ -763,6 +763,7 @@
   width: 100px;
   height: 56px;
   background: #2e2e2e;
+  line-height: 56px;
 }
 .sv_marker_pos
 {

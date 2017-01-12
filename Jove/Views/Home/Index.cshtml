@@ -199,7 +199,7 @@
       <div class="sv_marker_icon_box">
         <div class="sv_marker_color fl" :style="material.bgcolor"></div>
         <div class="sv_marker_icon fl">
-          <img draggable="false" class="sv_marker_img" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'" style="max-width: 100px;max-height: 56px;"/>
+          <img draggable="false" class="sv_marker_img" :src="material.iconfilename" onerror="this.src='./images/nostamp.png'" style="max-width: 100px;max-height: 56px;vertical-align: middle;"/>
         </div>
         <div class="sv_marker_pos fl">
           <div v-if="material.isSMarker">
@@ -292,7 +292,7 @@
       <div class="sv_container" v-show="svplayerStatus" :style="svplayerStyle">
          <div class="hoverifm" v-on:drop.prevent.capture="dropInSV" v-on:dragenter.prevent.stop v-on:dragover.prevent.stop.capture="dropOverSV">
          </div>
-         <iframe id="previewifm" class="sv_player" :src="previewUrl">
+         <iframe id="previewifm" class="sv_player" :src="previewUrl" onload="previewifm.focus()">
          </iframe>
          <div class="sv_marker_list">
            <div class="sv_marker_title_box">

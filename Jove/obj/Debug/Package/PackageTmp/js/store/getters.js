@@ -18,5 +18,12 @@ const getters = {
   },
   savePathTree: state => {
     return state.saveBasePath.children.filter(item => item.type == 'folder').sort(window.SortLikeWin)
+  },
+  selectedNode: (state, getters) => {
+    if (!state.selectedNode) {
+      return getters.currentNode
+    } else {
+      return state.selectedNode
+    }
   }
 }

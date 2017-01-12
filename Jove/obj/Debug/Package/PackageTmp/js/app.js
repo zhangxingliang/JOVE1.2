@@ -12,6 +12,12 @@ const app = new Vue({
     listSymbol: true,
     taskMonitorUrl: '',
     taskMonitorWindow: null,
+    svplayerStyle: {
+      right: '0'
+    },
+    esMarkerSymbol: true,
+    scMarkerSymbol: true,
+    chMarkerSymbol: true,
   },
   components: {
     'tree-ctrl': tree_ctrl,
@@ -22,8 +28,15 @@ const app = new Vue({
     'tree-ctrl2': tree_ctrl2,
     'list-material-header-ctrl': list_material_header_ctrl,
     'list-material-ctrl': list_material_ctrl,
+    'sv-marker-ctrl': sv_marker_ctrl,
   },
   computed: {
+    selectedNode() {
+      return this.$store.getters.selectedNode
+    },
+    _svMarkerList() {
+      return this.$store.state.svMarkerList.filter(item => this[item.tag + 'Symbol'])
+    },
     dict() {
       return this.$store.state.dict
     },
@@ -91,11 +104,38 @@ const app = new Vue({
     svplayerStatus() {
       return this.$store.state.svplayerStatus
     },
-    svplayerStyle() {
-      return this.$store.state.svplayerStyle
-    },
+    thumbPadding() {
+      if (this.currentCtrl == 'material-ctrl') {
+        return this.$store.state.thumbPadding
+      } else {
+        return 0
+      }
+    }
   },
   methods: {
+    dropInSV(event) {
+      var data = JSON.parse(event.dataTransfer.getData("Text"));
+      var url = this.$store.state.previewBaseUrl + '?type=32&ep=JOVE&id=' + data.data.clipid + '&uk=' + _userToken + '&h=' + $('.sv_container').height();
+      this.$store.commit({
+        type: types.SET_PREVIEWURL,
+        data: url
+      })
+      this.$store.dispatch({
+        type: types.GET_OBJECT_INFO,
+        data: {
+          clipid: data.data.clipid,
+          sourceid: '32'
+        }
+      }).then((res) => {
+        this.$store.commit({
+          type: types.SET_SVMARKERS,
+          data: util.getMarkerList(res.data.Ext)
+        })
+      })
+    },
+    dropOverSV(event) {
+      event.dataTransfer.dragEffect = 'copy';
+    },
     switchListThumb(symbol) {
       if (this.materials.length > 0 && this.materials[0].type === 'marker') {
       } else {
@@ -150,17 +190,26 @@ const app = new Vue({
     toggleInfoBlock() {
       if (this.infoBlockStatus) {
         _infoResizer.hide()
+        this.svplayerStyle.right = '-250px'
       } else {
         _infoResizer.show()
+        this.svplayerStyle.right = 0
       }
       this.infoBlockStatus = !this.infoBlockStatus
+      Vue.nextTick(() => {
+        this.$store.commit({
+          type: types.SET_THUMBPADDING
+        })
+      })
     },
     toggleResourceBlock() {
       if (this.folderBlockStatus && this.resourceBlockStatus) {
         this.folderBlockStatus = false
       }
-      this.$store.commit({
-        type: types.TOGGLE_RESOURCEBLOCKSTATUS
+      Vue.nextTick(() => {
+        this.$store.commit({
+          type: types.TOGGLE_RESOURCEBLOCKSTATUS
+        })
       })
     },
     toggleFolderBlock() {
@@ -170,11 +219,16 @@ const app = new Vue({
         })
       }
       this.folderBlockStatus = !this.folderBlockStatus
+      Vue.nextTick(() => {
+        this.$store.commit({
+          type: types.SET_THUMBPADDING
+        })
+      })
     },
     advanceSearch() {
       try {
         var _this = this
-        var template = "[{\"tabName\":\"Clip\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\note\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\creator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\createdate\"},{\"fieldName\":\"Modified by\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifier\"},{\"fieldName\":\"Modified Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifydate\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Journalist\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\journallist\"},{\"fieldName\":\"Item Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Category\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\category\"},{\"fieldName\":\"Program Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\programname\"}]},{\"tabName\":\"Folder\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"PGM\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"PGMCreator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"Marker\",\"type\":\"Mark\",\"field\":[{\"fieldName\":\"Comments\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Member\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Action\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"LMCreator\"}]}]";
+        var template = "[{\"tabName\":\"Clip\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\note\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\creator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\createdate\"},{\"fieldName\":\"Modified by\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifier\"},{\"fieldName\":\"Modified Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\modifydate\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Journalist\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\journallist\"},{\"fieldName\":\"Item Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Category\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\category\"},{\"fieldName\":\"Program Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\item\\\\programname\"},{\"fieldName\": \"Storage Status\",\"type\": \"List\",\"defaultValue\": \"All\",\"Values\": \"All,Online,Archived\",\"Key\": \"entity\\archivestatus\" }]},{\"tabName\":\"Folder\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Name\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"entity\\\\name\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"PGM\",\"type\":\"info\",\"field\":[{\"fieldName\":\"Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Right\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Comments\",\"type\":\"Text\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"PGMCreator\"},{\"fieldName\":\"Create Date\",\"type\":\"Datetime\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"}]},{\"tabName\":\"Marker\",\"type\":\"Mark\",\"field\":[{\"fieldName\":\"Comments\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Title\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Member\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Action\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"\"},{\"fieldName\":\"LM Creator\",\"type\":\"String\",\"defaultValue\":\"\",\"Values\":\"\",\"Key\":\"LMCreator\"}]}]";
         $.fn.advancedSearch.defaults.usertoken = _userToken;
         $.fn.advancedSearch.defaults.sitecode = _siteCode;
         $.fn.advancedSearch.defaults.loginname = _this.$store.state.userInfo.loginName;
@@ -209,7 +263,6 @@ const app = new Vue({
   created() {
     // init
     var _this = this;
-    // 读取cookie中保存的列信��?
     var headerArr = JSON.parse(util.getCookie('item_headers'))
     if (util.isArray(headerArr)) {
       this.$store.commit({
@@ -217,7 +270,6 @@ const app = new Vue({
         data: headerArr
       })
     }
-    // 收藏夹功��?
     if (window.golbalSetting.FAVSWITCH) {
       _this.$store.commit({
         type: types.ADD_FAVORITE
@@ -263,27 +315,68 @@ const app = new Vue({
         }).then(res => {
           if (res.data.Code === '0') {
             var entity = res.data.Ext
-            if (!entity.streammedia || !entity.streammedia[0] || !entity.entity.item.clipfile.length) {
-              util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
+            if (entity.entity.archivestatus == "online_deleted") {
+              var dialog
+              dialog = new _this.editor.Controls.Dialog({
+                title: lang[_curLang].tip,
+                content: lang[_curLang].archived,
+                style: 'question',
+                button: lang[_curLang].confirmFlag,
+                ok: function() {
+                  if (!entity.streammedia || !entity.streammedia[0] || !entity.entity.item.clipfile.length) {
+                    util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
+                  } else {
+                    // pic
+                    if (entity.entity.type == "32" && entity.entity.subtype == "32") {
+                      callback(true, {
+                        source: entity.streammedia[0].filepath,
+                        duration: 10
+                      })
+                    } else {
+                      // video
+                      if (data.in != undefined) {
+                        callback(true, {
+                          source: entity.streammedia[0].filepath,
+                          duration: data.out - data.in
+                        })
+                      } else {
+                        callback(true, {
+                          source: entity.streammedia[0].filepath,
+                          duration: entity.entity.item.length / 10000000
+                        })
+                      }
+                    }
+                  }
+                },
+                cancel: function() {
+                  callback(false, null)
+                  return
+                }
+              })
+              dialog.open()
             } else {
-              // pic
-              if (entity.entity.type == "32" && entity.entity.subtype == "32") {
-                callback(true, {
-                  source: entity.streammedia[0].filepath,
-                  duration: 10
-                })
+              if (!entity.streammedia || !entity.streammedia[0] || !entity.entity.item.clipfile.length) {
+                util.alert(_this.Dialog, _language[_curLang].tip, _language[_curLang].notGetStream, 'warn', 'OK')
               } else {
-                // video
-                if (data.in != undefined) {
+                // pic
+                if (entity.entity.type == "32" && entity.entity.subtype == "32") {
                   callback(true, {
                     source: entity.streammedia[0].filepath,
-                    duration: data.out - data.in
+                    duration: 10
                   })
                 } else {
-                  callback(true, {
-                    source: entity.streammedia[0].filepath,
-                    duration: entity.entity.item.length / 10000000
-                  })
+                  // video
+                  if (data.in != undefined) {
+                    callback(true, {
+                      source: entity.streammedia[0].filepath,
+                      duration: data.out - data.in
+                    })
+                  } else {
+                    callback(true, {
+                      source: entity.streammedia[0].filepath,
+                      duration: entity.entity.item.length / 10000000
+                    })
+                  }
                 }
               }
             }
@@ -411,8 +504,28 @@ const app = new Vue({
     document.querySelector('html').appendChild(format)
   },
   mounted() {
-    // 注册消息
     var _this = this
+    var resizeCallback = util.throttle(100, function(e) {
+      _this.$store.commit({
+        type: types.SET_THUMBPADDING,
+      })
+      var url = _this.$store.state.previewUrl
+      url = url.replace(/&h=(\d+)*/, '&h=' + $('.sv_container').height())
+      _this.$store.commit({
+        type: types.SET_PREVIEWURL,
+        source: this.material,
+        data: url
+      })
+    }, true)
+    Vue.nextTick(() => {
+      var url = this.$store.state.previewUrl + '&h=' + $('.sv_container').height()
+      _this.$store.commit({
+        type: types.SET_PREVIEWURL,
+        source: this.material,
+        data: url
+      })
+    })
+    window.addEventListener('resize', resizeCallback)
     window.addEventListener("message", function(event) {
       if (event.data.isShortCutKey) {
         switch (event.data.code) {
@@ -527,13 +640,78 @@ const app = new Vue({
         }
       });
     });
-    window.addEventListener("keyup", function(event) {
+    window.addEventListener("keydown", function(event) {
       var keycode = event.keyCode;
       var targetTag = event.target.tagName.toUpperCase();
-      if (keycode == 8 && targetTag != 'INPUT' && targetTag != 'TEXTAREA') {
-        _this.$store.commit({
-          type: types.BACK_UP
-        });
+      if (targetTag != 'INPUT' && targetTag != 'TEXTAREA') {
+        //if (keycode == 38) {
+        //  _this.$store.commit({
+        //    type: types.PREV_ITEM,
+        //    source: _this.selectedNode
+        //  })
+        //} else if (keycode == 40) {
+        //  _this.$store.commit({
+        //    type: types.NEXT_ITEM,
+        //    source: _this.selectedNode
+        //  })
+        //} else if (keycode == 39) {
+        //  _this.$store.dispatch({
+        //    type: types.EXPAND_FOLDER,
+        //    source: _this.selectedNode
+        //  });
+        //} else if (keycode == 37) {
+        //  _this.$store.commit({
+        //    type: types.CLOSE_FOLDER,
+        //    target: _this.selectedNode
+        //  })
+        //} else if (keycode == 13) {
+        //  if (_this.selectedNode.guid === 1) {
+        //    _this.$store.commit({
+        //      type: types.GET_NAVPATH,
+        //      target: _this.selectedNode,
+        //      data: []
+        //    })
+        //  } else if (_this.selectedNode.guid === 2) {
+        //    _this.$store.dispatch({
+        //      type: types.GET_SEARCHRESULT,
+        //      source: _this.selectedNode
+        //    }).then(() => {
+        //      _this.$store.commit({
+        //        type: types.GET_NAVPATH,
+        //        target: _this.selectedNode,
+        //        data: []
+        //      })
+        //    })
+        //  } else if (_this.selectedNode.guid === -1) {
+        //    _this.$store.dispatch({
+        //      type: types.GET_FAVORITERESULT,
+        //      source: _this.selectedNode
+        //    }).then(() => {
+        //      _this.$store.commit({
+        //        type: types.GET_NAVPATH,
+        //        target: _this.selectedNode,
+        //        data: []
+        //      })
+        //    })
+        //  } else {
+        //    // normal folder
+        //    _this.$store.dispatch({
+        //      type: types.GET_MATERIALS,
+        //      source: _this.selectedNode
+        //    }).then(() => {
+        //      _this.$store.commit({
+        //        type: types.GET_NAVPATH,
+        //        target: _this.selectedNode,
+        //        data: []
+        //      })
+        //    })
+        //  }
+        //} else
+        if (keycode == 8) {
+          _this.$store.commit({
+            type: types.BACK_UP
+          })
+        }
       }
     });
 
@@ -542,7 +720,14 @@ const app = new Vue({
       data: _userToken
     }).then(() => {
       var _this = this;
-      _this.taskMonitorUrl = _tkUrl + "TaskMonitor.html?UserCode=" + $.base64.encode(_this.userInfo.userCode)
+      setTimeout(() => {
+        _this.taskMonitorUrl = _tkUrl + "TaskMonitor.html?UserCode=" + $.base64.encode(_this.userInfo.userCode)
+        var H5Window = this.editor.Controls.H5Window
+        this.taskMonitorWindow = new H5Window({
+          content: $('.taskmonitorifm')[0],
+          title: this.dict.taskmonitor
+        })
+      }, 1000);
       var fulltext = document.createElement("script")
       fulltext.setAttribute("src", golbalSetting.CM + "/js/plugins/jquery.fulltextsearch.js" + version)
       document.querySelector('html').appendChild(fulltext)

@@ -18,9 +18,6 @@ const tree_ctrl = {
           target: this.node,
           data: []
         })
-        Vue.nextTick(() => {
-          editor.initDrag()
-        })
       } else if (this.node.guid === 2) {
         this.$store.dispatch({
           type: types.GET_SEARCHRESULT,
@@ -31,21 +28,16 @@ const tree_ctrl = {
             target: this.node,
             data: []
           })
-          Vue.nextTick(() => {
-            editor.initDrag()
-          })
         })
       } else if (this.node.guid === -1) {
         this.$store.dispatch({
           type: types.GET_FAVORITERESULT,
+          source: this.node
         }).then(() => {
           this.$store.commit({
             type: types.GET_NAVPATH,
             target: this.node,
             data: []
-          })
-          Vue.nextTick(() => {
-            editor.initDrag()
           })
         })
       } else {
@@ -58,9 +50,6 @@ const tree_ctrl = {
             type: types.GET_NAVPATH,
             target: this.node,
             data: []
-          })
-          Vue.nextTick(() => {
-            editor.initDrag()
           })
         })
       }

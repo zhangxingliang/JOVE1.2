@@ -276,11 +276,11 @@ namespace Jove
             }
         }
         private static String SocketServer;
-        public static String GetSocketServer(String userToken = "")
+        public static String GetSocketServer(String userToken = "", string siteCode = "S1")
         {
-            if (String.IsNullOrEmpty(SocketServer))
+            //if (String.IsNullOrEmpty(SocketServer))
             {
-                Output output = GetSysParamFormHive("SocketServer", userToken, "WEBCM");
+                Output output = GetSysParamFormHive("SocketServer", userToken,siteCode, "WEBCM");
                 if (output.code == 0 && output.ext != null)
                 {
                     SocketServer = output.ext.paramvalue;
@@ -291,11 +291,11 @@ namespace Jove
 
         private static String HivevideoStandard;
 
-        public static String GetHivevideoStandard(String userToken = "")
+        public static String GetHivevideoStandard(String userToken = "", string siteCode = "S1")
         {
-            if (String.IsNullOrEmpty(HivevideoStandard))
+            //if (String.IsNullOrEmpty(HivevideoStandard))
             {
-                Output output = GetSysParamFormHive("HivevideoStandard", userToken, "JOVE");
+                Output output = GetSysParamFormHive("HivevideoStandard", userToken,siteCode, "JOVE");
                 if (output.code == 0 && output.ext != null)
                 {
                     HivevideoStandard = output.ext.paramvalue;
@@ -307,11 +307,11 @@ namespace Jove
 
         private static String InstalledFontCollection;
 
-        public static String GetInstalledFontCollection(String userToken = "")
+        public static String GetInstalledFontCollection(String userToken = "", string siteCode = "S1")
         {
-            if (String.IsNullOrEmpty(InstalledFontCollection))
+            //if (String.IsNullOrEmpty(InstalledFontCollection))
             {
-                Output output = GetSysParamFormHive("InstalledFontCollection", userToken, "JOVE");
+                Output output = GetSysParamFormHive("InstalledFontCollection", userToken,siteCode, "JOVE");
                 if (output.code == 0 && output.ext != null)
                 {
                     InstalledFontCollection = output.ext.paramvalue;
@@ -321,13 +321,45 @@ namespace Jove
             return InstalledFontCollection;
         }
 
+        private static string PreSNSPublishPath;
+
+        public static string GetPreSNSPublishPath(String userToken = "")
+        {
+            if (String.IsNullOrEmpty(PreSNSPublishPath))
+            {
+                Output output = GetSysParamFormHive("PreSNSPublishPath", userToken, "MATERIALLIST");
+                if (output.code == 0 && output.ext != null)
+                {
+                    PreSNSPublishPath = output.ext.paramvalue;
+                }
+            }
+
+            return PreSNSPublishPath;
+        }
+
+        private static string SnsTransCodeType;
+
+        public static string GetSnsTransCodeType(String userToken = "")
+        {
+            if (String.IsNullOrEmpty(SnsTransCodeType))
+            {
+                Output output = GetSysParamFormHive("snsTransCodeType", userToken, "JOVE");
+                if (output.code == 0 && output.ext != null)
+                {
+                    SnsTransCodeType = output.ext.paramvalue;
+                }
+            }
+
+            return SnsTransCodeType;
+        }
+
         private static String ET_LANGUAGE;
 
-        public static String GetET_LANGUAGE(String userToken = "")
+        public static String GetET_LANGUAGE(String userToken = "", string siteCode = "S1")
         {
-            if (String.IsNullOrEmpty(ET_LANGUAGE))
+            //if (String.IsNullOrEmpty(ET_LANGUAGE))
             {
-                Output output = GetSysParamFormHive("ET_LANGUAGE", userToken, "MATERIALLIST");
+                Output output = GetSysParamFormHive("ET_LANGUAGE", userToken,siteCode, "MATERIALLIST");
                 if (output.code == 0 && output.ext != null)
                 {
                     ET_LANGUAGE = output.ext.paramvalue;
@@ -339,11 +371,11 @@ namespace Jove
         
         private static String transCodeTemplate;
 
-        public static String GettransCodeTemplate(String userToken = "")
+        public static String GettransCodeTemplate(String userToken = "", string siteCode = "S1")
         {
-            if (String.IsNullOrEmpty(transCodeTemplate))
+            //if (String.IsNullOrEmpty(transCodeTemplate))
             {
-                Output output = GetSysParamFormHive("transCodeTemplate", userToken, "JOVE");
+                Output output = GetSysParamFormHive("transCodeTemplate", userToken,siteCode, "JOVE");
                 if (output.code == 0 && output.ext != null)
                 {
                     transCodeTemplate = output.ext.paramvalue;
@@ -353,7 +385,7 @@ namespace Jove
             return transCodeTemplate;
         }
 
-        public static Output GetSysParamFormHive(string _paramname, String userToken = "", String _system = "JOVE")
+        public static Output GetSysParamFormHive(string _paramname, String userToken = "", string siteCode="", String _system = "JOVE")
         {
             Output output = new Output();
             try
@@ -363,6 +395,11 @@ namespace Jove
                 Input input = new Input { system = _system, tool = "DEFAULT", paramname = _paramname };
                 JavaScriptSerializer jss = new JavaScriptSerializer();
                 WebClient client = new WebClient();
+                if (String.IsNullOrEmpty(siteCode))
+                {
+                    siteCode = "S1";
+                }
+                client.Headers.Add("sobeyhive-http-site", siteCode);
 
                 String url = String.Format("{0}basic/config/getsysparam?usertoken={1}", ServiceAddress, userToken);
                 String inputData = jss.Serialize(input);

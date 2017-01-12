@@ -4,8 +4,9 @@ window.golbalSetting = {
   "CMAPI": "http://hive.sobey.com:9023",
 
   //"CM": "/CM",//nginx
+  //"CM": "http://localhost:16006/",
   "CM": "http://hive.sobey.com:9021",
-
+  
   //"TMSERVICE" : "/TMSERVICE",//nginx
   "TMSERVICE": "http://hive.sobey.com:9047",
 
@@ -161,8 +162,8 @@ window._language = {
     "shadowColor": "Shadow",
     "background": "Background",
     "backgroundColor": "Background",
-    "boldface": "Boldface",
-    "italic": "Italic",
+    "boldface": "&nbsp;&nbsp;&nbsp;&nbsp;Boldface",
+    "italic": "&nbsp;&nbsp;&nbsp;&nbsp;Italic",
     "leftMargin": "Left Margin",
     "topMargin": "Top Margin",
     "width": "Width",
@@ -230,6 +231,11 @@ window._language = {
     "isShowVideoStandard": false,
     "isShowSizes": false,
     "items": "Items",
+    "columnFilter": "Column Filter",
+    "toggleSVMV": "Toggle SV/MV",
+    "toggleInfo": "Toggle MV Info Page",
+    "toggleFolder": "Toggle Folder Page",
+    "archived": "The high-res of material is archived. Do you want to continue with low-res?"
   },
   "zh": {
     "content": "内容",
@@ -370,8 +376,8 @@ window._language = {
     "shadowColor": "阴影颜色",
     "background": "背景",
     "backgroundColor": "背景颜色",
-    "boldface": "加粗",
-    "italic": "斜体",
+    "boldface": "&nbsp;&nbsp;&nbsp;&nbsp;加粗",
+    "italic": "&nbsp;&nbsp;&nbsp;&nbsp;斜体",
     "leftMargin": "左边距",
     "topMargin": "上边距",
     "width": "宽度",
@@ -439,5 +445,10 @@ window._language = {
     "fav": "收藏夹",
     "linkTrack": "素材成组(=)",
     "items": "项",
+    "columnFilter": "筛选列",
+    "toggleSVMV": "切换SV/MV",
+    "toggleInfo": "切换MV信息",
+    "toggleFolder": "切换文件夹",
+    "archived": "The high-res of material is archived. Do you want to continue with low-res?"
   }
 }

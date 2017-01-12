@@ -14525,20 +14525,30 @@ h5.define('core/StaticTrackEventPlugin', ["core/TrackEventPluginBase", "core/Tra
                                 //addby hzr 20161117 图片第一次加载到时间线上的时候图片保持原有比例
                                 var imgwidth = $("img[src='" + dragData.helper.data.data.icon + "']").width();
                                 var imgheight = $("img[src='" + dragData.helper.data.data.icon + "']").height();
-                                var newheight = (imgheight * 16 * 0.5) / (imgwidth * 9) * 100;
-
-                                if (newheight >= 100) {
-                                    popcornOptions.width = ((imgwidth * 9) / (32 * imgheight)) * 100;
-                                    popcornOptions.height = 50;
-                                }
-
-                                else {
+                                // addby zxl  解决竖拍长图上时间线显示错误
+                                var scale = imgwidth / imgheight;
+                                if (scale > 16 / 9) {
                                     popcornOptions.width = 50;
-                                    popcornOptions.height = newheight;
+                                    popcornOptions.height = 50 / scale * (16 / 9);
                                 }
+                                else {
+                                    popcornOptions.height = 50;
+                                    popcornOptions.width = 50 * scale * (9/16);
+                                }
+                                //var newheight = (imgheight * 16 * 0.5) / (imgwidth * 9) * 100;
 
-                                popcornOptions.width = 50;
-                                popcornOptions.height = (imgheight * 16 * 0.5) / (imgwidth * 9) * 100;
+                                //if (newheight >= 100) {
+                                //    popcornOptions.width = ((imgwidth * 9) / (32 * imgheight)) * 100;
+                                //    popcornOptions.height = 50;
+                                //}
+
+                                //else {
+                                //    popcornOptions.width = 50;
+                                //    popcornOptions.height = newheight;
+                                //}
+
+                                //popcornOptions.width = 50;
+                               // popcornOptions.height = (imgheight * 16 * 0.5) / (imgwidth * 9) * 100;
                                 popcornOptions.start = dragData.helper._curStatus.start;
                                 popcornOptions.end = dragData.helper._curStatus.end;
 
@@ -15470,13 +15480,13 @@ h5.define('core/ImageTrackEventPlugin', ["core/StaticTrackEventPlugin", "util/ut
                     var ele = $(element);
                     var data = {
                         data: {
-                            source: ele.data("url"),
-                            title: ele.data("name"),
-                            icon: ele.data("icon"),
-                            clipid: ele.data("id"),
-                            sourceid: ele.data("source-id"),
-                            createdate: ele.data("createdate"),
-                            duration: +ele.data("duration") //结束位置
+                            source: ele.attr("data-url"),
+                            title: ele.attr("data-name"),
+                            icon: ele.attr("data-icon"),
+                            clipid: ele.attr("data-id"),
+                            sourceid: ele.attr("data-source-id"),
+                            createdate: ele.attr("data-createdate"),
+                            duration: +ele.attr("data-duration") //结束位置
                         }
                     };
 
@@ -17245,13 +17255,17 @@ h5.define('core/Track', ["util/Object", "core/TrackEvent", "timeline/H5TrackView
                             }
                         });
                     }
-                    this.findLinkedTrackEvent = function(event){
+                    this.findLinkedTrackEvent = function (event) {
                         var levent = null;
                         if (this.trackType === 'A') {
-                            levent = app.media.tracks[2].findTrackEventByTime(event.popcornOptions.start + 0.04)
+                            var linkedTrack = app.media.tracks.filter(function (item) { return item.trackType === 'VA' })[0]
+                            if (linkedTrack)
+                                levent = linkedTrack.findTrackEventByTime(event.popcornOptions.start + 0.04)
                         }
                         else if (this.trackType === 'VA') {
-                            levent = app.media.tracks[3].findTrackEventByTime(event.popcornOptions.start + 0.04)
+                            var linkedTrack = app.media.tracks.filter(function (item) { return item.trackType === 'A' })[0]
+                            if (linkedTrack)
+                                levent = linkedTrack.findTrackEventByTime(event.popcornOptions.start + 0.04)
                         }
                         if (levent && levent.popcornOptions.start.toFixed(3) === event.popcornOptions.start.toFixed(3) && levent.popcornOptions.end.toFixed(3) === event.popcornOptions.end.toFixed(3)) {
                             return levent

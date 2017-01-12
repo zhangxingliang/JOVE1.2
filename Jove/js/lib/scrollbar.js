@@ -441,7 +441,7 @@
                 var top = $('.folder_selected ').position().top;
                 var offsetTop = $('.folder_selected ').offset().top;
                 if (offsetTop > this.container.height + 20) {
-                  this.onChangePosition((top - 540) / this.content.height * 100, 'vertical');
+                    this.onChangePosition((top - (this.container.height - 60)) / this.content.height * 100, 'vertical');
                 } else if (offsetTop < 62) {
                   this.onChangePosition(Math.max(0, (top - 30) / this.content.height * 100), 'vertical');
                 }

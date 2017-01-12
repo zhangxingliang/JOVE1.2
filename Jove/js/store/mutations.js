@@ -29,22 +29,27 @@ const mutations = {
   [types.BACK_UP](state, payload) {
     var l = state.navPath.length
     if (l > 1) {
-      state.navPath.splice(-1, 1)[0].selected = false
-      state.navPath.splice(-1, 1)[0].checked = false
+      var lastNode = state.navPath.splice(-1, 1)[0]
+      lastNode.selected = false
+      lastNode.checked = false
     }
-    if (state.selectedNode)
-      state.selectedNode = false
-    state.histories[state.histories.length - 1].selected = true
-    state.histories[state.histories.length - 1].checked = true
-    state.selectedNode = state.histories[state.histories.length - 1]
+    if (state.selectedNode) {
+      state.selectedNode.checked = false
+      state.selectedNode.selected = false
+    }
+    state.navPath[state.navPath.length - 1].selected = true
+    state.navPath[state.navPath.length - 1].checked = true
+    state.selectedNode = state.navPath[state.navPath.length - 1]
   },
   [types.GET_NAVPATH](state, payload) {
     if (state.navPath.length) {
       state.navPath[state.navPath.length - 1].selected = false
       state.navPath[state.navPath.length - 1].checked = false
     }
-    if (state.selectedNode)
+    if (state.selectedNode) {
       state.selectedNode.checked = false
+      state.selectedNode.selected = false
+    }
     payload.target.selected = true;
     payload.target.checked = true;
     state.selectedNode = payload.target
@@ -55,7 +60,17 @@ const mutations = {
     })
     var currentNode = state.navPath[state.navPath.length - 1]
     var width = $('#resourceList').width()
-    state.thumbPadding = util.getPadding(width, 150, currentNode.children.length)
+    var len = 0
+    if (currentNode.guid !== 1 && currentNode.guid !== 2) {
+      if (currentNode.guid === -1) {
+        len = currentNode.favorites.length
+      } else {
+        len = currentNode.children.length
+      }
+    } else {
+      len = currentNode.searchResult.length
+    }
+    state.thumbPadding = util.getPadding(width, 150, len)
     if ([1, 2, -1].indexOf(currentNode.guid) > -1) {
       $(".advance_search").attr("disabled", "disabled").css("background-color", "#3e3e3e").addClass("transparentHover");
       $("#fullSearch").attr("disabled", "disabled").css("background-color", "#3e3e3e");
@@ -109,6 +124,7 @@ const mutations = {
   [types.DISACTIVE_SVPLAYER](state, payload) {
     if (state.resourceBlockStatus) {
       state.svplayerStatus = false
+      previewifm.blur()
       window.frames[0].postMessage({
         ep: "JOVE",
         operation: "pause"
@@ -191,7 +207,18 @@ const mutations = {
   [types.SET_THUMBPADDING](state, payload) {
     setTimeout(() => {
       var width = $('#resourceList').width()
-      state.thumbPadding = util.getPadding(width, 150, state.navPath[state.navPath.length - 1].children.length)
+      var currentNode = state.navPath[state.navPath.length - 1]
+      var len = 0
+      if (currentNode.guid !== 1 && currentNode.guid !== 2) {
+        if (currentNode.guid === -1) {
+          len = currentNode.favorites.length
+        } else {
+          len = currentNode.children.length
+        }
+      } else {
+        len = currentNode.searchResult.length
+      }
+      state.thumbPadding = util.getPadding(width, 150, len)
     }, 300)
   },
   [types.NEXT_ITEM](state, payload) {

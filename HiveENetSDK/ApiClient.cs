@@ -22,15 +22,19 @@ namespace HiveENetSDK
             TResponse response = null;
             try
             {
-                Logger.Debug("请求：{0}", url);
+                //Logger.Debug("请求：{0}", url);
                 string json = JsonHelper.ToJson(body);
                 string siteCode = "S1";
+
+                StringBuilder sb = new StringBuilder();
 
                 WebClient client = new WebClient();
                 if (queryString != null)
                 {
                     foreach (string key in queryString.AllKeys)
                     {
+                        sb.AppendFormat("&{0}={1}", key, queryString[key]);
+
                         if (key.ToUpper() == "SITECODE" && !String.IsNullOrEmpty(queryString[key]))
                         {
                             siteCode = queryString[key];
@@ -39,6 +43,9 @@ namespace HiveENetSDK
                         client.QueryString.Add(key, queryString[key]);
                     }
                 }
+
+                Logger.Debug("请求：{0}?{1}", url, sb.ToString());
+
                 if (String.IsNullOrEmpty(method))
                 {
                     method = "POST";
@@ -82,15 +89,19 @@ namespace HiveENetSDK
             WebClient client = null;
             try
             {
-                Logger.Debug("请求：{0}", url);
+                //Logger.Debug("请求：{0}", url);
                 client = new WebClient();
                 string siteCode = "S1";
+
+                StringBuilder sb = new StringBuilder();
 
                 if (queryString != null)
                 {
 
                     foreach (string key in queryString.AllKeys)
                     {
+                        sb.AppendFormat("&{0}={1}", key, queryString[key]);
+
                         if (key.ToUpper() == "SITECODE" && !String.IsNullOrEmpty(queryString[key]))
                         {
                             siteCode = queryString[key];
@@ -99,6 +110,8 @@ namespace HiveENetSDK
                         client.QueryString.Add(key, queryString[key]);
                     }
                 }
+
+                Logger.Debug("请求：{0}?{1}", url, sb.ToString());
 
 
                 client.Headers.Add("sobeyhive-http-system", "JOVE");

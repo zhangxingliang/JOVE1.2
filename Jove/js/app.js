@@ -644,69 +644,70 @@ const app = new Vue({
       var keycode = event.keyCode;
       var targetTag = event.target.tagName.toUpperCase();
       if (targetTag != 'INPUT' && targetTag != 'TEXTAREA') {
-        if (keycode == 38) {
-          _this.$store.commit({
-            type: types.PREV_ITEM,
-            source: _this.selectedNode
-          })
-        } else if (keycode == 40) {
-          _this.$store.commit({
-            type: types.NEXT_ITEM,
-            source: _this.selectedNode
-          })
-        } else if (keycode == 39) {
-          _this.$store.dispatch({
-            type: types.EXPAND_FOLDER,
-            source: _this.selectedNode
-          });
-        } else if (keycode == 37) {
-          _this.$store.commit({
-            type: types.CLOSE_FOLDER,
-            target: _this.selectedNode
-          })
-        } else if (keycode == 13) {
-          if (_this.selectedNode.guid === 1) {
-            _this.$store.commit({
-              type: types.GET_NAVPATH,
-              target: _this.selectedNode,
-              data: []
-            })
-          } else if (_this.selectedNode.guid === 2) {
-            _this.$store.dispatch({
-              type: types.GET_SEARCHRESULT,
-              source: _this.selectedNode
-            }).then(() => {
-              _this.$store.commit({
-                type: types.GET_NAVPATH,
-                target: _this.selectedNode,
-                data: []
-              })
-            })
-          } else if (_this.selectedNode.guid === -1) {
-            _this.$store.dispatch({
-              type: types.GET_FAVORITERESULT,
-              source: _this.selectedNode
-            }).then(() => {
-              _this.$store.commit({
-                type: types.GET_NAVPATH,
-                target: _this.selectedNode,
-                data: []
-              })
-            })
-          } else {
-            // normal folder
-            _this.$store.dispatch({
-              type: types.GET_MATERIALS,
-              source: _this.selectedNode
-            }).then(() => {
-              _this.$store.commit({
-                type: types.GET_NAVPATH,
-                target: _this.selectedNode,
-                data: []
-              })
-            })
-          }
-        } else if (keycode == 8) {
+        //if (keycode == 38) {
+        //  _this.$store.commit({
+        //    type: types.PREV_ITEM,
+        //    source: _this.selectedNode
+        //  })
+        //} else if (keycode == 40) {
+        //  _this.$store.commit({
+        //    type: types.NEXT_ITEM,
+        //    source: _this.selectedNode
+        //  })
+        //} else if (keycode == 39) {
+        //  _this.$store.dispatch({
+        //    type: types.EXPAND_FOLDER,
+        //    source: _this.selectedNode
+        //  });
+        //} else if (keycode == 37) {
+        //  _this.$store.commit({
+        //    type: types.CLOSE_FOLDER,
+        //    target: _this.selectedNode
+        //  })
+        //} else if (keycode == 13) {
+        //  if (_this.selectedNode.guid === 1) {
+        //    _this.$store.commit({
+        //      type: types.GET_NAVPATH,
+        //      target: _this.selectedNode,
+        //      data: []
+        //    })
+        //  } else if (_this.selectedNode.guid === 2) {
+        //    _this.$store.dispatch({
+        //      type: types.GET_SEARCHRESULT,
+        //      source: _this.selectedNode
+        //    }).then(() => {
+        //      _this.$store.commit({
+        //        type: types.GET_NAVPATH,
+        //        target: _this.selectedNode,
+        //        data: []
+        //      })
+        //    })
+        //  } else if (_this.selectedNode.guid === -1) {
+        //    _this.$store.dispatch({
+        //      type: types.GET_FAVORITERESULT,
+        //      source: _this.selectedNode
+        //    }).then(() => {
+        //      _this.$store.commit({
+        //        type: types.GET_NAVPATH,
+        //        target: _this.selectedNode,
+        //        data: []
+        //      })
+        //    })
+        //  } else {
+        //    // normal folder
+        //    _this.$store.dispatch({
+        //      type: types.GET_MATERIALS,
+        //      source: _this.selectedNode
+        //    }).then(() => {
+        //      _this.$store.commit({
+        //        type: types.GET_NAVPATH,
+        //        target: _this.selectedNode,
+        //        data: []
+        //      })
+        //    })
+        //  }
+        //} else
+        if (keycode == 8) {
           _this.$store.commit({
             type: types.BACK_UP
           })
@@ -721,6 +722,11 @@ const app = new Vue({
       var _this = this;
       setTimeout(() => {
         _this.taskMonitorUrl = _tkUrl + "TaskMonitor.html?UserCode=" + $.base64.encode(_this.userInfo.userCode)
+        var H5Window = this.editor.Controls.H5Window
+        this.taskMonitorWindow = new H5Window({
+          content: $('.taskmonitorifm')[0],
+          title: this.dict.taskmonitor
+        })
       }, 1000);
       var fulltext = document.createElement("script")
       fulltext.setAttribute("src", golbalSetting.CM + "/js/plugins/jquery.fulltextsearch.js" + version)
